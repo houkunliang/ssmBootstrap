@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.module.role.dao.RoleDao">
+	<!-- <select id="selectByRole" resultType="java.util.HashMap" parameterType="java.util.HashMap"> 
+		SELECT sr.*, sd.`DP_NAME` AS DP_NAME FROM stb_role sr, stb_department sd 
+		WHERE sr.IS_DELETED='N' AND sd.IS_DELETED='N' AND sr.DP_ID=sd.DP_ID <if test="ROLE_NAME 
+		!= null" > AND sr.ROLE_NAME = #{ROLE_NAME} </if> <if test="DP_ID != null" 
+		> AND sr.DP_ID = #{DP_ID} </if> <if test="PARENT_ID != null" > AND sr.PARENT_ID= 
+		#{PARENT_ID} </if> <if test="STATUS != null" > AND sr.STATUS = #{STATUS}, 
+		</if> <if test="UPDATED_BY != null" > AND sr.UPDATED_BY = #{UPDATED_BY}, 
+		</if> <if test="CREATED_DT != null" > AND sr.CREATED_DT = #{CREATED_DT}, 
+		</if> <if test="CREATED_BY != null" > AND sr.CREATED_BY = #{CREATED_BY}, 
+		</if> </select> -->
+	<select id="selectByRole" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		<!-- SELECT sr.*, sre.`NAME` AS NAME, sre.`REGION_ID` AS REGION_ID FROM 
+			stb_role sr, stb_region sre, stb_role_region srr WHERE sr.IS_DELETED='N' 
+			AND sre.IS_DELETED='N' AND sr.ROLE_ID=srr.ROLE_ID AND srr.REGION_ID = sre.REGION_ID -->
+		<!-- 注释修改 -->
+		<!-- SELECT role.*, sr.REGION_ID, sr.NAME FROM stb_role role LEFT JOIN 
+			stb_region sr ON sr.IS_DELETED = 'N' AND role.DP_ID = sr.REGION_ID WHERE 
+			role.IS_DELETED = 'N' -->
+			SELECT
+				sr.`NAME` AS PARENT_NAME,
+				tbl.*
+			FROM
+				stb_region sr,
+				(
+				SELECT
+					role.ROLE_ID,
+					role.DP_ID,
+					role.ROLE_NAME,
+					role.`STATUS`,
+					CASE role.LEVE
+				WHEN '0' THEN
+					'普通员工'
+				WHEN '1' THEN
+					'组长'
+				WHEN '2' THEN
+					'主管'
+				WHEN '3' THEN
+					'副总经理'
+				WHEN '4' THEN
+					'总经理'
+				ELSE
+					'暂无'
+				END AS LEVE,
+				role.UPDATED_DT,
+				role.UPDATED_BY,
+				role.CREATED_DT,
+				role.CREATED_BY,
+				role.IS_DELETED,
+				sr.REGION_ID,
+				sr. NAME
+				FROM
+					stb_role role
+				LEFT JOIN stb_region sr ON sr.IS_DELETED = 'N'
+				AND role.DP_ID = sr.REGION_ID
+				WHERE
+					role.IS_DELETED = 'N'
+				) AS tbl
+			WHERE
+				FIND_IN_SET(
+					sr.REGION_ID,
+					getParentList (tbl.DP_ID)
+				)
+			AND sr.TYPE = '0'
+		<if test="ROLE_NAME != null">
+			AND sr.ROLE_NAME = #{ROLE_NAME}
+		</if>
+		<if test="PARENT_ID != null">
+			AND sr.PARENT_ID= #{PARENT_ID}
+		</if>
+		<if test="STATUS != null">
+			AND sr.STATUS = #{STATUS},
+		</if>
+		<if test="UPDATED_BY != null">
+			AND sr.UPDATED_BY = #{UPDATED_BY},
+		</if>
+		<if test="CREATED_DT != null">
+			AND sr.CREATED_DT = #{CREATED_DT},
+		</if>
+		<if test="CREATED_BY != null">
+			AND sr.CREATED_BY = #{CREATED_BY},
+		</if>
+		ORDER BY tbl.CREATED_DT ASC
+	</select>
+
+	<select id="selectByRoleToMenu" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select
+		sm.*
+		from
+		stb_role sr,
+		stb_role_opt srp,
+		stbl_menu sm
+		WHERE
+		sr.IS_DELETED='N'
+		AND sm.IS_DELETED='N'
+		AND sr.ROLE_ID=srp.ROLE_ID
+		AND
+		srp.MENU_ID=sm.MENU_ID
+		<if test="ROLE_ID != null">
+			AND sr.ROLE_ID = #{ROLE_ID}
+		</if>
+		<if test="MENU_ID != null">
+			AND sm.MENU_ID = #{MENU_ID}
+		</if>
+		<if test="PARENT_ID != null">
+			AND sm.PARENT_ID= #{PARENT_ID}
+		</if>
+		<if test="MENU_NAME != null">
+			AND sm.MENU_NAME= #{MENU_NAME}
+		</if>
+	</select>
+
+
+	<delete id="deleteByRole" parameterType="java.util.HashMap">
+		delete from stb_role
+		where ROLE_ID = #{ROLE_ID}
+	</delete>
+
+
+
+	<insert id="insertByRole" parameterType="java.util.HashMap">
+		insert into stb_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ROLE_ID != null">
+				ROLE_ID,
+			</if>
+			<if test="DP_ID != null">
+				DP_ID,
+			</if>
+			<if test="NAME != null">
+				NAME,
+			</if>
+			<if test="ROLE_NAME != null">
+				ROLE_NAME,
+			</if>
+			<if test="STATUS != null">
+				STATUS,
+			</if>
+			<if test="REMARK != null">
+				REMARK,
+			</if>
+			<if test="CREATED_DT != null">
+				CREATED_DT,
+			</if>
+			<if test="CREATED_BY != null">
+				CREATED_BY,
+			</if>
+			<if test="UPDATED_DT != null">
+				UPDATED_DT,
+			</if>
+			<if test="UPDATED_BY != null">
+				UPDATED_BY,
+			</if>
+			<if test="IS_DELETED != null">
+				IS_DELETED,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ROLE_ID != null">
+				#{ROLE_ID},
+			</if>
+			<if test="DP_ID != null">
+				#{DP_ID},
+			</if>
+			<if test="NAME != null">
+				#{NAME},
+			</if>
+			<if test="ROLE_NAME != null">
+				#{ROLE_NAME},
+			</if>
+			<if test="STATUS != null">
+				#{STATUS},
+			</if>
+			<if test="REMARK != null">
+				#{REMARK},
+			</if>
+			<if test="CREATED_DT != null">
+				#{CREATED_DT},
+			</if>
+			<if test="CREATED_BY != null">
+				#{CREATED_BY},
+			</if>
+			<if test="UPDATED_DT != null">
+				#{UPDATED_DT},
+			</if>
+			<if test="UPDATED_BY != null">
+				#{UPDATED_BY},
+			</if>
+			<if test="IS_DELETED != null">
+				#{IS_DELETED},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- <insert id="updateRTD" parameterType="java.util.HashMap" > insert into 
+		stb_role_region <trim prefix="(" suffix=")" suffixOverrides="," > <if test="ROLE_ID 
+		!= null" > ROLE_ID, </if> <if test="REGION_ID != null" > REGION_ID, </if> 
+		</trim> <trim prefix="values (" suffix=")" suffixOverrides="," > <if test="ROLE_ID 
+		!= null" > #{ROLE_ID}, </if> <if test="REGION_ID != null" > #{REGION_ID}, 
+		</if> </trim> </insert> -->
+	<update id="updateRTD" parameterType="java.util.HashMap">
+		update stb_role
+		<set>
+			<if test="ROLE_ID != null">
+			ROLE_ID=#{ROLE_ID},
+			</if>
+			<if test="REGION_ID != null">
+				DP_ID=#{REGION_ID},
+			</if>
+			<if test="LEVEL != null">
+				LEVE=#{LEVEL}
+			</if>
+		</set>
+		where ROLE_ID=#{ROLE_ID}
+	</update>
+	<update id="updateByRole" parameterType="java.util.HashMap">
+		update stb_role
+		<set>
+			<if test="DP_ID != null">
+				DP_ID=#{DP_ID},
+			</if>
+			<if test="NAME != null">
+				NAME=#{NAME},
+			</if>
+			<if test="ROLE_NAME != null">
+				ROLE_NAME=#{ROLE_NAME},
+			</if>
+			<if test="STATUS != null">
+				STATUS=#{STATUS},
+			</if>
+			<if test="REMARK != null">
+				REMARK=#{REMARK},
+			</if>
+			<if test="UPDATED_DT != null">
+				UPDATED_DT=#{UPDATED_DT},
+			</if>
+			<if test="UPDATED_BY != null">
+				UPDATED_BY=#{UPDATED_BY},
+			</if>
+			<if test="IS_DELETED != null">
+				IS_DELETED=#{IS_DELETED},
+			</if>
+		</set>
+		where ROLE_ID=#{ROLE_ID}
+	</update>
+
+	<insert id="insertByRoleOpt" parameterType="java.util.HashMap">
+		insert into stb_role_opt
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ROLE_OPT_ID != null">
+				ROLE_OPT_ID,
+			</if>
+			<if test="MENU_ID != null">
+				MENU_ID,
+			</if>
+			<if test="ROLE_ID != null">
+				ROLE_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ROLE_OPT_ID != null">
+				#{ROLE_OPT_ID},
+			</if>
+			<if test="MENU_ID != null">
+				#{MENU_ID},
+			</if>
+			<if test="ROLE_ID != null">
+				#{ROLE_ID},
+			</if>
+		</trim>
+	</insert>
+
+
+	<!-- <insert id="insertRoleRegion" parameterType="java.util.HashMap" > insert 
+		into stb_role_region <trim prefix="(" suffix=")" suffixOverrides="," > <if 
+		test="id != null" > id, </if> <if test="ROLE_ID != null" > ROLE_ID, </if> 
+		<if test="DP_ID != null" > REGION_ID, </if> </trim> <trim prefix="values 
+		(" suffix=")" suffixOverrides="," > <if test="id != null" > #{id}, </if> 
+		<if test="ROLE_ID != null" > #{ROLE_ID}, </if> <if test="DP_ID != null" > 
+		#{DP_ID}, </if> </trim> </insert> -->
+
+
+	<delete id="deleteByRoleOpt" parameterType="java.util.HashMap">
+		delete from stb_role_opt
+		where ROLE_ID = #{ROLE_ID}
+	</delete>
+	<!-- <delete id="deleteRRTable" parameterType="java.util.HashMap" > delete 
+		from stb_role_region where ROLE_ID = #{ROLE_ID} </delete> -->
+</mapper>

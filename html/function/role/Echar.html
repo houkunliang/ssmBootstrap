@@ -1,0 +1,315 @@
+<meta charset="UTF-8"/>
+
+<style type="text/css">
+	.wkChart {
+		width: 600px;
+		height:400px;
+		display:none;
+		margin:10px 10px;
+		/*float:left;*/
+	}
+	.wkInput {
+		width:100px;
+		display:inline-block;
+	}
+	#charts_container {
+		overflow:auto;
+		margin:10px auto;
+		text-align:center;
+	}
+	#input_container {
+		margin:20px auto;
+		text-align:center;
+	}
+</style>
+<div id="input_container">
+	<input type="text" id="dateFrom"  class="form-control wkInput" onclick="WdatePicker()" />
+	<input type="text" id="dateTo"  class="form-control wkInput" onclick="WdatePicker()" />
+	<input type="button" value="检索" class="btn btn-success" onclick="initCharts()" />	
+</div>
+
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="charts_container">
+	<div id="charts_pie" class="wkChart"></div>
+	<div id="charts_line" class="wkChart"></div>	
+</div>
+
+
+<script type="text/javascript">
+
+	$('#dateFrom').val(showDate(-3));
+	$('#dateTo').val(showDate());
+	initCharts();
+
+
+function showDate(month){
+	var nowDate;
+	nowDate = new Date(2017,0,31);
+	var nowDay = {};
+	nowDay.year = nowDate.getFullYear();
+	nowDay.month = nowDate.getMonth();
+	nowDay.day = nowDate.getDate();
+	if(month){
+		nowDate = new Date(nowDay.year,nowDay.month+month,nowDay.day);
+		nowDay.year = nowDate.getFullYear();
+		nowDay.month = nowDate.getMonth();
+		nowDay.day = nowDate.getDate();
+	}
+	if(nowDay.month+1 < 10){
+		monthStr = '0'+(nowDay.month+1);
+	}else{
+		monthStr = nowDay.month+1;
+	}
+	if(nowDay.day < 10){
+		dayStr = '0'+ nowDay.day;
+	}else{
+		dayStr = nowDay.day;
+	}
+	var str = nowDay.year + '-' + monthStr + '-' + dayStr;
+	return str;
+}
+
+function initCharts(){
+	var dateFrom  = $('#dateFrom').val();
+	var dateTo = $('#dateTo').val();
+	
+	var param = {
+		'dateFrom':dateFrom,
+		'dateTo':dateTo
+	}
+	var echarPie=[];
+	var subJson=urlObj.getJson();
+	subJson['START_DATE']=dateFrom;
+	subJson['END_DATE']=dateTo;
+	$.ajax({  
+		url:urlObj.echarPie, 
+        type: "post",  
+        async: false,  
+        data:"data="+JSON.stringify(subJson),
+        dataType: "json",  
+        success: function(json) {
+			if(json[0].wx != null){
+				var re={};
+				re['name']='微信预约';
+				re['value']=json[0].wx;
+				echarPie.push(re);
+			}
+			if(json[0].zn != null){
+				var re={};
+				re['name']='站内新增';
+				re['value']=json[0].zn;
+				echarPie.push(re);
+			}
+			if(json[0].web != null){
+				var re={};
+				re['name']='网站预约';
+				re['value']=json[0].web;
+				echarPie.push(re);
+			}
+        },  
+        error: function(){
+		}  
+    }); 
+    var line={};
+    $.ajax({  
+		url:urlObj.echarLine, 
+        type: "post",  
+        async: false,  
+        data:"data="+JSON.stringify(subJson),
+        dataType: "json",  
+        success: function(json) {
+        	var dataJson={};
+            var lineArr=[];
+            var reArr=[];
+            var A=[];
+            var B=[];
+            var C=[];
+            var D=[];
+        	var AJson={};
+        	var BJson={};
+        	var CJson={};
+        	var DJson={};
+        	for(var i=0;i<json.length;i++){
+        		lineArr.push(json[i].name);
+        		A.push(json[i].data[0].A);
+        		B.push(json[i].data[0].B);
+        		C.push(json[i].data[0].C);
+        		D.push(json[i].data[0].D);
+        	}
+       	    AJson['name']='非常好';
+       		AJson['data']=A;
+       		reArr.push(AJson);
+       		BJson['name']='好';
+       		BJson['data']=B;
+       		reArr.push(BJson);
+       		CJson['name']='良好';
+       		CJson['data']=C;
+       		reArr.push(CJson);
+       		DJson['name']='一般';
+       		DJson['data']=D;
+       		reArr.push(DJson);
+       		line['xA']=lineArr;
+       		line['data']=reArr;
+        },  
+        error: function(){
+		}  
+    });  
+// 	var retObj1 = {
+// 		name:'访问来源',
+// 		data:[
+// 			    {value:1, name:'搜索引擎'},
+// 			    {value:4, name:'直接访问'},
+// 			    {value:5, name:'邮件营销'}
+// 		    ]
+// 	};
+	var retObj1 = {
+		name: '访问来源',
+		data:echarPie
+	};
+	var retObj2=line;
+// 	var retObj2 = {
+// 		'xA':['周一','周二','周三','周四','周五','周六','周日'],
+// 		'data':[
+// 			{
+// 				'name':'邮件营销',
+// 				'data':[120, 132, 101, 134, 90, 230, 210]
+// 			},
+// 			{
+// 				'name':'联盟广告',
+// 				'data':[220, 182, 191, 234, 290, 330, 310]
+// 			},
+// 			{
+// 				'name':'视频广告',
+// 				'data':[150, 232, 201, 154, 190, 330, 410]
+// 			},
+// 			{
+// 				'name':'直接访问',
+// 				'data':[320, 332, 301, 334, 390, 330, 320]
+// 			},
+// 			{
+// 				'name':'搜索引擎',
+// 				'data':[820, 932, 901, 934, 1290, 1330, 1320]
+// 			},
+// 		]
+// 	};
+		showCharts(retObj1,retObj2);
+}
+
+
+function showCharts(retObj1,retObj2){
+	var charts_pie = $('#charts_pie');
+	var charts_line = $('#charts_line');
+	charts_pie.css('display','inline-block');
+	charts_line.css('display','inline-block');
+	charts_pie.show();
+	charts_line.show();
+		// 基于准备好的dom，初始化echarts实例
+	var myChart1 = echarts.init(charts_pie[0]);
+	var myChart2 = echarts.init(charts_line[0]);
+	var option1 = {
+		series : [{
+			name:retObj1.name,
+			type: 'pie',
+			radius: '55%',
+		   	data:retObj1.data
+		}],
+		itemStyle: {
+		    normal: {
+		        // 阴影的大小
+		        shadowBlur: 200,
+		        // 阴影水平方向上的偏移
+		        shadowOffsetX: 0,
+		        // 阴影垂直方向上的偏移
+		        shadowOffsetY: 0,
+		        // 阴影颜色
+		        shadowColor: 'rgba(0, 0, 0, 0.5)'
+		    },
+		    emphasis: {
+		        shadowBlur: 200,
+		        shadowColor: 'rgba(0, 0, 0, 0.5)'
+		    }
+		},
+//		backgroundColor: '#2c343c',
+
+		toolbox: {
+	        feature: {
+	            saveAsImage: {}
+	        }
+	    },
+		textStyle: {
+//	        color: 'rgba(255, 255, 255, 0.3)'
+			color: 'rgba(20, 20, 20, 0.6)'
+	   	},
+	   	lineStyle: {
+	//      color: 'rgba(255, 255, 255, 0.3)'
+			color: 'rgba(255, 255, 255, 0.3)'
+	    },			
+	     title : {
+	        text: '网站预约来源',
+	        subtext: '',
+	        x:'center'
+		    },
+		tooltip : {
+	        trigger: 'item',
+	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+		}
+}
+	
+	var option2 = {
+	    title: {
+	        text: '',
+	        align:'right'
+	    },
+	    tooltip : {
+	        trigger: 'axis'
+	    },
+	    legend: {},
+	    toolbox: {
+	        feature: {
+	            saveAsImage: {}
+	        }
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    xAxis : [
+	        {
+	            type : 'category',
+	            boundaryGap : false,
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : []
+	};
+	
+	var tmp = [];
+	for(var i in retObj2.data){
+		tmp.push(retObj2.data[i].name);
+	}
+	option2.legend.data = tmp;
+	option2.xAxis[0].data = retObj2.xA;
+	
+	for(var i in retObj2.data){
+	    tmp = {
+	            name:retObj2.data[i].name,
+	            type:'line',
+	            stack: '总量',
+	            areaStyle: {normal: {}},
+	            data:retObj2.data[i].data
+	      };
+	    option2.series.push(tmp);
+	}
+	
+	
+	myChart1.setOption(option1);
+	myChart2.setOption(option2);
+}
+
+</script>

@@ -1,0 +1,69 @@
+<div class="panel-heading" style="background: none;">
+		<h2 class="panel-title" form_sub="ROLE_NAME" style="font-size: 24px;">
+			<!--	详情<span id="title-menuRoleInfo" style="font-size: 14px;margin-left:12px;"></span>-->
+		</h2>
+</div>
+<div id="contact-card" class="panel panel-default">
+  <div class="panel-body" style="padding: 0 15px;">
+	<div id="card" class="row">
+		<div class="col-md-12" style="padding: 0;">
+			<table class="table table-hover" width="100%" style="margin-bottom:0;">
+				<tbody>
+				  <tr>					
+					<td>姓名：</td>
+					<td id="card-name" class="sr" form_sub="USER_NAME">暂无</td>
+				  </tr>
+				 <tr>
+					<td>性别：</td>
+					<td form_sub="USER_SEX" id="userSex">保密</td>
+				  </tr>
+				  <tr>
+					<td>地址：</td>
+					<td form_sub="USER_ADDRESS">暂无</td>
+				  </tr>
+				  <tr>
+					<td>电话：</td>
+					<td><a href="#" id="USER_PHONE" form_sub="USER_PHONE">联系ta</a></td>
+				  </tr>
+				  <tr>
+					<td>邮件：</td>
+					<td form_sub="USER_EMAIL">暂无</td>
+				  </tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+  </div>
+</div>
+<script type="text/javascript">
+//var json=urlObj.getTokenObj();
+//initUpdateFrom();
+//修改初始化
+//function initUpdateFrom(){
+//	$("[form_sub]").each(function () {
+//		var str=$(this).attr("form_sub");
+//		for(var key in json)
+//		{
+//			if(str==key){
+//				if(str=='USER_HEADIMG'){
+//					if(json[key]!=null&&json[key]!=''){
+//						$(this).html('<img src="'+urlObj.url+json[key]+'" alt="" height="200" width="200"/>');
+//					}
+//				}else if(str=='USER_SEX'){
+//					if(json[key]!=null&&json[key]!=''){
+//						$(this).html(json[key]==1?'男':'女');
+//					}else{
+//						$(this).html('暂无');
+//					}
+//				}else{
+//					if(json[key]!=null&&json[key]!=''){
+//						$(this).html(json[key]);
+//					}else{
+//						$(this).html('暂无');
+//					}
+//				}
+//			}
+//		}
+//	});
+//}
+</script>

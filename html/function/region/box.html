@@ -1,0 +1,86 @@
+<script type="text/javascript" src="/function/region/private.js"></script>
+	<div class="box border red" style="width:97%;margin-left:1%">
+			<div class="box-title">
+				<h4><i class="fa fa-sitemap"></i><span class="hidden-inline-mobile">机构管理</span></h4>
+			</div>
+			<div class="box-body">
+				<div class="tabbable header-tabs">
+				  <ul class="nav nav-tabs">
+					<li class="boxTab-add"><a href="#box_tab2" id="add" ><i class="fa fa-plus-circle"></i> <span class="hidden-inline-mobile">机构新增</span></a></li>
+					<li class="active boxTab-remove"><a href="#box_tab1" data-toggle="tab" ><i class="fa fa-refresh" style="cursor:pointer;"></i> <span class="hidden-inline-mobile">机构预览</span></a></li>
+					<li onclick="treeviewExpandAll(true)" class="hidden treeAll-1 "><a href="#"><i class="fa fa-arrow-down"></i><span class="hidden-inline-mobile">展开菜单</span></a></li>
+					<li onclick="treeviewCollapseAll(true)" class="treeAll-2" id="boxTab-hide"><a href="#"><i class="fa fa-arrow-up"></i><span class="hidden-inline-mobile">收起菜单</span></a></li>
+				  </ul>
+				  <div class="tab-content">
+					 <div class="tab-pane fade in active" id="box_tab1">
+					 	<!--一号选项卡-->
+					 	<div class="row">
+					 		<div class="col-sm-4" style="margin-left: 10%;">
+						        <h3 class="text-left">
+						        	机构
+						        	<input type="input" class="form-control" id="input-search" placeholder="模糊查询关键字" value="" style="display: inline-block;width: 30%;margin-left: 3%;">
+						          	<!--<div class="form-group" style="display: inline-block;margin-bottom:0;">
+						              	
+						           	</div>-->
+						        </h3>
+					          <!-- <form> -->
+					          <div id="tree">
+					          		暂无
+					          </div>
+					        </div>
+					        <div class="col-sm-4" style="margin-left: 8%;">
+						        <div id="detailsInfo" style="margin-top: 10px;">
+						        	<div class="panel-heading" style="background: none;">
+										<h3 class="panel-title text-center" form_sub="USER_NAME" style="font-size: 24px;">机构管理功能介绍</h3>
+									</div>
+						        	<div id="contact-card" class="panel panel-default" style="border: none;">	 
+							        	<div style="border:1px dashed #ccc;padding:20px;margin-top: 8px;color: #999;">
+							        		<p style="line-height: 25px;font-size: 15px;">
+							        			<font color="red">帮助：&nbsp;&nbsp;</font>
+							        			机构管理功能区域会展示的所有菜单模块下对应的部门、子部门和部门以及人员，点击部门会展示当前机构的详情说明，
+							        			选中可进行新增、修改和删除等操作。在公司下面可增加子机构，如果子机构或者机构下面有人则不能删除该部门或公司。如需
+							        			该删除部门或者子机构，请到“系统设置>系统用户”模块将该部门或子公司下的系统用户进行“删除”操作。
+							        		</p>
+							        	</div>
+						        	</div>
+						        </div>
+						        <div id="detailsButton" style=""></div>
+						        <div id="treeNode">
+						        	
+						        </div>
+					        </div>
+					        <div class="clearfix"></div>
+					        <!--<div class="export btn-group">
+								<button class="btn btn-default dropdown-toggle" value="" title="导出数据" data-toggle="dropdown" type="button">
+								<i class="fa fa-cloud-upload"> 导出</i> <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+								<li data-type="excel"><a href="#" mce_href="#" onclick="download2()">MS-Excel</a></li>
+								</ul>
+							</div> -->
+					        
+
+					      </div>
+						
+					 </div>
+					 <div class="tab-pane fade" id="box_tab2">
+						<p>Content #2</p>
+						<p>当前的盒子</p>
+					 </div>
+				  </div>
+			   </div>
+			</div>
+	</div>
+<script type="text/javascript">
+	//标签
+	$(".boxTab-add").click(function(){
+		$("#boxTab-hide").addClass("hidden");
+		if($(".treeAll-1").hasClass("hidden") == false){
+			$(".treeAll-1").addClass("hidden");
+		}
+	});
+	$(".boxTab-remove").click(function(){
+		$("#boxTab-hide").removeClass("hidden");
+		$(".treeAll-1").addClass("hidden");
+	});
+</script>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.module.bulletin.dao.BulletinDao">
+
+	<select id="selectByPrimaryKey" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT
+			tb.*,
+			su.USER_NAME,
+			sr.NAME AS BY_DP
+		FROM
+			stb_user su,
+			t_bulletin tb
+			LEFT JOIN
+			stb_region sr
+			ON sr.IS_DELETED = 'N' AND sr.REGION_ID = tb.RG_ID
+		WHERE
+			tb.IS_DELETED = 'N'
+		AND su.ID = tb.CREATED_BY
+		<if test="ID != null and ID != ''">
+			AND tb.ID = #{ID}
+		</if>
+		<if test="TITLE != null and TITLE != ''">
+			AND tb.TITLE LIKE '%${TITLE}%'
+		</if>
+		<if test="TYPE != null and TYPE != ''">
+			AND tb.TYPE = #{TYPE}
+		</if>
+		 <if test="STATE != null and STATE != ''">
+			AND tb.STATE = #{STATE}
+		</if>
+		ORDER BY tb.CREATED_DT DESC
+	</select>
+
+	<insert id="insertBulletin" parameterType="java.util.HashMap" >
+    insert into t_bulletin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="ID != null and ID != ''" >
+	        ID,
+	      </if>
+	      <if test="TITLE != null and TITLE != ''" >
+	        TITLE,
+	      </if>
+	      <if test="TYPE != null and TYPE != ''" >
+	        TYPE,
+	      </if>
+	      <if test="CONTENT != null and CONTENT != ''" >
+	        CONTENT,
+	      </if>
+	      <if test="SUB_DATE != null and SUB_DATE != ''" >
+	        SUB_DATE,
+	      </if>
+	      <if test="UPDATED_DT != null and UPDATED_DT != ''" >
+	        UPDATED_DT,
+	      </if>
+	      <if test="UPDATED_BY != null and UPDATED_BY != ''" >
+	        UPDATED_BY,
+	      </if>
+	      <if test="CREATED_BY != null and CREATED_BY != ''" >
+	        CREATED_BY,
+	      </if>
+	      <if test="CREATED_DT != null and CREATED_DT != ''" >
+	        CREATED_DT,
+	      </if>
+	      <if test="IS_DELETED != null and IS_DELETED != ''" >
+	        IS_DELETED,
+	      </if>
+	      <if test="STATE != null and STATE != ''" >
+	        STATE,
+	      </if>
+	      <if test="RG_ID != null and RG_ID != ''" >
+	        RG_ID,
+	      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="ID != null and ID != ''" >
+	        #{ID},
+	      </if>
+	      <if test="TITLE != null and TITLE != ''" >
+	        #{TITLE},
+	      </if>
+	      <if test="TYPE != null and TYPE != ''" >
+	        #{TYPE},
+	      </if>
+	      <if test="CONTENT != null and CONTENT != ''" >
+	        #{CONTENT},
+	      </if>
+	      <if test="SUB_DATE != null and SUB_DATE != ''" >
+	        #{SUB_DATE},
+	      </if>
+	      <if test="UPDATED_DT != null and UPDATED_DT != ''" >
+	        #{UPDATED_DT},
+	      </if>
+	      <if test="UPDATED_BY != null and UPDATED_BY != ''" >
+	        #{UPDATED_BY},
+	      </if>
+	      <if test="CREATED_BY != null and CREATED_BY != ''" >
+	        #{CREATED_BY},
+	      </if>
+	      <if test="CREATED_DT != null and CREATED_DT != ''" >
+	        #{CREATED_DT},
+	      </if>
+	      <if test="IS_DELETED != null and IS_DELETED != ''" >
+	        #{IS_DELETED},
+	      </if>
+	      <if test="STATE != null and STATE != ''" >
+	        #{STATE},
+	      </if>
+	      <if test="RG_ID != null and RG_ID != ''" >
+	        #{RG_ID},
+	      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByBulletin" parameterType="java.util.HashMap" >
+    update t_bulletin
+    <set >
+	      <if test="TITLE != null and TITLE != ''" >
+	        TITLE = #{TITLE},
+	      </if>
+	      <if test="TYPE != null and TYPE != ''" >
+	        TYPE = #{TYPE},
+	      </if>
+	      <if test="CONTENT != null and CONTENT != ''" >
+	        CONTENT = #{CONTENT},
+	      </if>
+	      <if test="SUB_DATE != null and SUB_DATE != ''" >
+	        SUB_DATE = #{SUB_DATE},
+	      </if>
+	      <if test="UPDATED_DT != null and UPDATED_DT != ''" >
+	        UPDATED_DT = #{UPDATED_DT},
+	      </if>
+	      <if test="UPDATED_BY != null and UPDATED_BY != ''" >
+	        UPDATED_BY = #{UPDATED_BY},
+	      </if>
+	      <if test="IS_DELETED != null and IS_DELETED != ''" >
+	        IS_DELETED = #{IS_DELETED},
+	      </if>
+	      <if test="STATE != null and STATE != ''" >
+	        STATE = #{STATE},
+	      </if>
+	      <if test="RG_ID != null and RG_ID != ''" >
+	        RG_ID = #{RG_ID},
+	      </if>
+    </set>
+    where ID = #{ID}
+  </update>
+  
+    <!-- 刊物查询 -->
+  	<select id="selectByPublication" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT
+			tp.*,
+			su.USER_NAME
+		FROM
+			t_publication tp,
+			stb_user su
+		WHERE
+			tp.IS_DELETED = 'N'
+		AND su.ID = tp.CREATED_BY
+		<if test="ID != null and ID != ''">
+			AND tp.ID = #{ID}
+		</if>
+		<if test="NAME != null and NAME != ''">
+			AND tp.NAME LIKE '%${NAME}%'
+		</if>
+		<if test="TYPE != null and TYPE != ''">
+			AND tp.TYPE = #{TYPE}
+		</if>
+		<if test="CYCLE != null and CYCLE != ''">
+			AND tp.CYCLE = #{CYCLE}
+		</if>
+		<if test="FILE_TYPE != null and FILE_TYPE != ''" >
+		    AND FILE_TYPE = #{FILE_TYPE}
+		 </if>
+		ORDER BY tp.CREATED_DT DESC
+	</select>
+	
+	<insert id="insertByPublication" parameterType="java.util.HashMap" >
+	    insert into t_publication
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+		      <if test="ID != null and ID != ''" >
+		        ID,
+		      </if>
+		      <if test="COVER_IMG != null and COVER_IMG != ''" >
+		        COVER_IMG,
+		      </if>
+		      <if test="NAME != null and NAME != ''" >
+		        NAME,
+		      </if>
+		      <if test="TYPE != null and TYPE != ''" >
+		        TYPE,
+		      </if>
+		      <if test="CONTENT != null and CONTENT != ''" >
+		        CONTENT,
+		      </if>
+		      <if test="CYCLE != null and CYCLE != ''" >
+		        CYCLE,
+		      </if>
+		      <if test="ATTACHMENT_URL != null and ATTACHMENT_URL != ''" >
+		        ATTACHMENT_URL,
+		      </if>
+		      <if test="DESCRIPTION != null and DESCRIPTION != ''" >
+		        DESCRIPTION,
+		      </if>
+		      <if test="UPDATED_DT != null and UPDATED_DT != ''" >
+		        UPDATED_DT,
+		      </if>
+		      <if test="UPDATED_BY != null and UPDATED_BY != ''" >
+		        UPDATED_BY,
+		      </if>
+		      <if test="CREATED_BY != null and CREATED_BY != ''" >
+		        CREATED_BY,
+		      </if>
+		      <if test="CREATED_DT != null and CREATED_DT != ''" >
+		        CREATED_DT,
+		      </if>
+		      <if test="IS_DELETED != null and IS_DELETED != ''" >
+		        IS_DELETED,
+		      </if>
+		      <if test="FILE_TYPE != null and FILE_TYPE != ''" >
+		        FILE_TYPE,
+		      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	          <if test="ID != null and ID != ''" >
+		        #{ID},
+		      </if>
+		      <if test="COVER_IMG != null and COVER_IMG != ''" >
+		        #{COVER_IMG},
+		      </if>
+		      <if test="NAME != null and NAME != ''" >
+		        #{NAME},
+		      </if>
+		      <if test="TYPE != null and TYPE != ''" >
+		        #{TYPE},
+		      </if>
+		      <if test="CONTENT != null and CONTENT != ''" >
+		        #{CONTENT},
+		      </if>
+		      <if test="CYCLE != null and CYCLE != ''" >
+		        #{CYCLE},
+		      </if>
+		      <if test="ATTACHMENT_URL != null and ATTACHMENT_URL != ''" >
+		        #{ATTACHMENT_URL},
+		      </if>
+		      <if test="DESCRIPTION != null and DESCRIPTION != ''" >
+		        #{DESCRIPTION},
+		      </if>
+		      <if test="UPDATED_DT != null and UPDATED_DT != ''" >
+		        #{UPDATED_DT},
+		      </if>
+		      <if test="UPDATED_BY != null and UPDATED_BY != ''" >
+		        #{UPDATED_BY},
+		      </if>
+		      <if test="CREATED_BY != null and CREATED_BY != ''" >
+		        #{CREATED_BY},
+		      </if>
+		      <if test="CREATED_DT != null and CREATED_DT != ''" >
+		        #{CREATED_DT},
+		      </if>
+		      <if test="IS_DELETED != null and IS_DELETED != ''" >
+		        #{IS_DELETED},
+		      </if>
+		      <if test="FILE_TYPE != null and FILE_TYPE != ''" >
+		        #{FILE_TYPE},
+		      </if>
+	    </trim>
+	  </insert>
+  
+    <update id="updateByPublication" parameterType="java.util.HashMap" >
+	    update t_publication
+	    <set >
+	    	  <if test="COVER_IMG != null and COVER_IMG != ''" >
+		        COVER_IMG = #{COVER_IMG},
+		      </if>
+		      <if test="NAME != null and NAME != ''" >
+		        NAME = #{NAME},
+		      </if>
+		      <if test="FILE_TYPE != null and FILE_TYPE != ''" >
+		        FILE_TYPE = #{FILE_TYPE},
+		      </if>
+		      <if test="TYPE != null and TYPE != ''" >
+		        TYPE = #{TYPE},
+		      </if>
+		      <if test="CONTENT != null" >
+		        CONTENT = #{CONTENT},
+		      </if>
+		      <if test="CYCLE != null and CYCLE != ''" >
+		        CYCLE = #{CYCLE},
+		      </if>
+		      <if test="ATTACHMENT_URL != null" >
+		        ATTACHMENT_URL = #{ATTACHMENT_URL},
+		      </if>
+		      <if test="DESCRIPTION != null and DESCRIPTION != ''" >
+		        DESCRIPTION = #{DESCRIPTION},
+		      </if>
+		      <if test="UPDATED_DT != null and UPDATED_DT != ''" >
+		        UPDATED_DT = #{UPDATED_DT},
+		      </if>
+		      <if test="UPDATED_BY != null and UPDATED_BY != ''" >
+		        UPDATED_BY = #{UPDATED_BY},
+		      </if>
+		      <if test="IS_DELETED != null and IS_DELETED != ''" >
+		        IS_DELETED = #{IS_DELETED},
+		      </if>
+	    </set>
+	    where ID = #{ID}
+	</update>
+  
+</mapper>

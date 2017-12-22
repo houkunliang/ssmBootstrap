@@ -1,0 +1,31 @@
+<div class="box-body big" style="width:80%;min-width:210px;max-width:1000px;">
+	<div class="form-horizontal" role="form">
+		<input form_sub="ID" type="hidden"/>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">权限类型</label>
+			<div class="col-sm-9">
+				<select id="country_select" style="width: 100%;margin-left: 0%;" form_sub="CODE">
+					<option value='add'>新增权限</option>
+					<option value='update'>修改权限</option>
+					<option value='deleted'>删除权限</option>
+				</select>   
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">权限名称</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="disabledInput"
+					hklfrom='{"isnull":"true","txtLength":[2,8],"message":{"isnull":"菜单名称不能为空"}}'
+					form_sub="BUTTON_NAME" type="text" placeholder="请输入2-8位菜单名称">
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	.j-dialog{
+		min-width: 250px;
+		max-width: 600px;
+		max-height: 550px;
+		overflow: auto;
+	}
+</style>

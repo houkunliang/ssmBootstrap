@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.module.department.dao.DepartmentDao">
+	
+	<!-- 查询区域地址 -->
+	<select id="queryRegionADS" resultType="java.util.HashMap">
+		SELECT region_id,address FROM stb_region  WHERE address != #{ADS}
+	</select>
+	<!-- 查询区域 -->
+	<select id="queryRegionSelect" resultType="java.util.HashMap">
+		select
+		*
+		from
+		stb_region
+		WHERE
+		IS_DELETED= 'N'
+		<if test="NAME != null">
+			AND NAME = #{NAME}
+		</if>
+		<if test="REGION_ID != null">
+			AND REGION_ID = #{REGION_ID}
+		</if>
+		<if test="PARENT_ID != null">
+			AND PARENT_ID= #{PARENT_ID}
+		</if>
+		<if test="UPDATED_DT != null">
+			UPDATED_DT = #{UPDATED_DT},
+		</if>
+		<if test="UPDATED_BY != null">
+			UPDATED_BY = #{UPDATED_BY},
+		</if>
+		<if test="CREATED_DT != null">
+			CREATED_DT = #{CREATED_DT},
+		</if>
+		<if test="CREATED_BY != null">
+			CREATED_BY = #{CREATED_BY},
+		</if>
+	</select>
+	<select id="selectByDepartment" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		*
+		FROM
+		stb_department
+		WHERE
+		IS_DELETED= 'N'
+		<if test="DP_ID != null">
+			AND DP_ID = #{DP_ID}
+		</if>
+		<if test="PARENT_ID != null">
+			AND PARENT_ID= #{PARENT_ID}
+		</if>
+		<if test="NAME != null">
+			AND NAME= #{NAME}
+		</if>
+		<if test="REMARK != null">
+			AND REMARK = #{REMARK}
+		</if>
+		<if test="UPDATED_DT != null">
+			AND UPDATED_DT = #{UPDATED_DT}
+		</if>
+		<if test="UPDATED_BY != null">
+			AND UPDATED_BY= #{UPDATED_BY}
+		</if>
+		<if test="CREATED_DT != null">
+			AND CREATED_DT= #{CREATED_DT}
+		</if>
+		<if test="CREATED_BY != null">
+			AND CREATED_BY= #{CREATED_BY}
+		</if>
+	</select>
+
+
+	<delete id="deleteByDepartment" parameterType="java.util.HashMap">
+		delete from
+		stb_department
+		where DP_ID = #{DP_ID} and PARENT_ID= #{PARENT_ID}
+	</delete>
+
+
+	<insert id="insertByDepartment" parameterType="java.util.HashMap">
+		insert into stb_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="DP_ID != null">
+				DP_ID,
+			</if>
+			<if test="PARENT_ID != null">
+				PARENT_ID,
+			</if>
+			<if test="NAME != null">
+				NAME,
+			</if>
+			<if test="REMARK != null">
+				REMARK,
+			</if>
+			<if test="UPDATED_DT != null">
+				UPDATED_DT,
+			</if>
+			<if test="UPDATED_BY != null">
+				UPDATED_BY,
+			</if>
+			<if test="CREATED_BY != null">
+				CREATED_BY,
+			</if>
+			<if test="CREATED_DT != null">
+				CREATED_DT,
+			</if>
+			<if test="IS_DELETED != null">
+				IS_DELETED,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="DP_ID != null">
+				#{DP_ID},
+			</if>
+			<if test="PARENT_ID != null">
+				#{PARENT_ID},
+			</if>
+			<if test="NAME != null">
+				#{NAME},
+			</if>
+			<if test="REMARK != null">
+				#{REMARK},
+			</if>
+			<if test="UPDATED_DT != null">
+				#{UPDATED_DT},
+			</if>
+			<if test="UPDATED_BY != null">
+				#{UPDATED_BY},
+			</if>
+			<if test="CREATED_BY != null">
+				#{CREATED_BY},
+			</if>
+			<if test="CREATED_DT != null">
+				#{CREATED_DT},
+			</if>
+			<if test="IS_DELETED != null">
+				#{IS_DELETED},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByDepartment" parameterType="java.util.HashMap">
+		update stb_department
+		<set>
+			<if test="NAME != null">
+				NAME=#{NAME},
+			</if>
+			<if test="REMARK != null">
+				REMARK=#{REMARK},
+			</if>
+			<if test="UPDATED_DT != null">
+				UPDATED_DT=#{UPDATED_DT},
+			</if>
+			<if test="UPDATED_BY != null">
+				UPDATED_BY=#{UPDATED_BY},
+			</if>
+			<if test="CREATED_DT != null">
+				CREATED_DT=#{CREATED_DT},
+			</if>
+			<if test="CREATED_BY != null">
+				CREATED_BY=#{CREATED_BY},
+			</if>
+			<if test="IS_DELETED != null">
+				IS_DELETED=#{IS_DELETED},
+			</if>
+		</set>
+		where DP_ID = #{DP_ID}
+	</update>
+</mapper>

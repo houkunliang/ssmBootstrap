@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.module.region.dao.RegionDao">
+
+	<insert id="insertByRegion" parameterType="java.util.HashMap">
+		insert into stb_region
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="REGION_ID != null">
+				REGION_ID,
+			</if>
+			<if test="PARENT_ID != null">
+				PARENT_ID,
+			</if>
+			<if test="NAME != null">
+				NAME,
+			</if>
+			<if test="REMARK != null">
+				REMARK,
+			</if>
+			<if test="UPDATED_DT != null">
+				UPDATED_DT,
+			</if>
+			<if test="UPDATED_BY != null">
+				UPDATED_BY,
+			</if>
+			<if test="CREATED_DT != null">
+				CREATED_DT,
+			</if>
+			<if test="CREATED_BY != null">
+				CREATED_BY,
+			</if>
+			<if test="IS_DELETED != null">
+				IS_DELETED,
+			</if>
+			<if test="ADDRESS != null">
+				ADDRESS,
+			</if>
+			<if test="TELEPHONE != null">
+				TELEPHONE,
+			</if>
+			<if test="TYPE != null">
+				TYPE,
+			</if>
+			<if test="REGION_ORDER != null">
+				REGION_ORDER,
+			</if>
+			<if test="REGION_HEADIMG != null">
+				REGION_HEADIMG,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="REGION_ID != null">
+				#{REGION_ID},
+			</if>
+			<if test="PARENT_ID != null">
+				#{PARENT_ID},
+			</if>
+			<if test="NAME != null">
+				#{NAME},
+			</if>
+			<if test="REMARK != null">
+				#{REMARK},
+			</if>
+			<if test="UPDATED_DT != null">
+				#{UPDATED_DT},
+			</if>
+			<if test="UPDATED_BY != null">
+				#{UPDATED_BY},
+			</if>
+			<if test="CREATED_DT != null">
+				#{CREATED_DT},
+			</if>
+			<if test="CREATED_BY != null">
+				#{CREATED_BY},
+			</if>
+			<if test="IS_DELETED != null">
+				#{IS_DELETED},
+			</if>
+			<if test="ADDRESS != null">
+				#{ADDRESS},
+			</if>
+			<if test="TELEPHONE != null">
+				#{TELEPHONE},
+			</if>
+			<if test="TYPE != null">
+				#{TYPE},
+			</if>
+			<if test="REGION_ORDER != null">
+				#{REGION_ORDER},
+			</if>
+			<if test="REGION_HEADIMG != null">
+				#{REGION_HEADIMG},
+			</if>
+		</trim>
+	</insert>
+	<delete id="deleteByRegion" parameterType="java.util.HashMap">
+		delete from stb_region
+		where REGION_ID = #{REGION_ID}
+	</delete>
+
+	<update id="updateByRegion" parameterType="java.util.HashMap">
+		update stb_region
+		<set>
+			<if test="NAME != null">
+				NAME = #{NAME},
+			</if>
+			<if test="REMARK != null">
+				REMARK = #{REMARK},
+			</if>
+			<if test="PARENT_ID != null">
+				PARENT_ID= #{PARENT_ID},
+			</if>
+			<if test="UPDATED_DT != null">
+				UPDATED_DT = #{UPDATED_DT},
+			</if>
+			<if test="UPDATED_BY != null">
+				UPDATED_BY = #{UPDATED_BY},
+			</if>
+			<if test="IS_DELETED != null">
+				IS_DELETED = #{IS_DELETED},
+			</if>
+			<if test="ADDRESS != null">
+				ADDRESS=#{ADDRESS},
+			</if>
+			<if test="TELEPHONE != null">
+				TELEPHONE = #{TELEPHONE},
+			</if>
+			<if test="TYPE != null">
+				TYPE=#{TYPE},
+			</if>
+			<if test="REGION_ORDER != null">
+				REGION_ORDER=#{REGION_ORDER},
+			</if>
+			<if test="REGION_HEADIMG != null">
+				REGION_HEADIMG=#{REGION_HEADIMG},
+			</if>
+		</set>
+		where REGION_ID = #{REGION_ID}
+	</update>
+
+	<select id="selectByRegion" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select
+			*
+		from
+			stb_region
+		WHERE
+		IS_DELETED= 'N'
+		<if test="NAME != null">
+			AND NAME = #{NAME}
+		</if>
+		<if test="LIKE_NAME != null">
+			AND NAME LIKE '%#{LIKE_NAME}%'
+		</if>
+		<if test="REGION_ID != null">
+			AND REGION_ID = #{REGION_ID}
+		</if>
+		<if test="PARENT_ID != null">
+			AND PARENT_ID= #{PARENT_ID}
+		</if>
+		<if test="UPDATED_DT != null">
+			AND UPDATED_DT = #{UPDATED_DT}
+		</if>
+		<if test="UPDATED_BY != null">
+			AND UPDATED_BY = #{UPDATED_BY}
+		</if>
+		<if test="CREATED_DT != null">
+			AND CREATED_DT = #{CREATED_DT}
+		</if>
+		<if test="CREATED_BY != null">
+			AND CREATED_BY = #{CREATED_BY}
+		</if>
+		<if test="TELEPHONE != null">
+			AND TELEPHONE = #{TELEPHONE}
+		</if>
+		<if test="TYPE != null">
+			AND TYPE = #{TYPE}
+		</if>
+		order by REGION_ORDER desc
+	</select>
+	<select id="queryUser" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		<!-- SELECT
+			role.ROLE_ID AS REGION_ID,
+			role.ROLE_NAME AS NAME,
+			role.DP_ID AS PARENT_ID,
+			role.*
+		FROM
+			stb_role role
+		WHERE
+			role.IS_DELETED = 'N' -->
+			SELECT
+				su.ID AS REGION_ID,
+				role.ROLE_NAME,
+				role.DP_ID AS PARENT_ID,
+				CONCAT(
+					su.USER_NAME,
+					'[',
+					role.ROLE_NAME,
+					']'
+				) AS NAME,
+				CASE su.USER_SEX
+				WHEN '0' THEN
+					'男'
+				WHEN '1' THEN
+					'女'
+				END AS USER_SEX,
+				 su.USER_NAME,
+				 su.USER_ADDRESS,
+				 su.USER_EMAIL,
+				 su.USER_PHONE
+			FROM
+				stb_user su
+			LEFT OUTER JOIN stb_role_user sru ON su.ID = sru.USER_ID
+			LEFT OUTER JOIN stb_role role ON role.ROLE_ID = sru.ROLE_ID
+			WHERE
+				role.IS_DELETED = 'N'
+				
+			<if test="USER_NAME != null">
+			AND su.USER_NAME = #{USER_NAME}
+		</if>
+		<if test="USER_ID != null">
+			AND su.ID = #{USER_ID}
+		</if>
+	</select>
+	
+	<select id="queryRegionRoleSelect" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		
+		SELECT
+		DISTINCT
+			srru.REGION_ID,
+			srru.`NAME`,
+			srru.TYPE,
+			srru.PARENT_ID,
+			srru.REGION_ORDER
+		FROM
+			(
+				SELECT
+					T1.REGION_ID,
+					CASE
+				WHEN SUM(T2.COUNT_USER) IS NULL THEN
+					CONCAT(
+						T1.`NAME`,
+						'[',
+						T1.ADDRESS,
+						']'
+					)
+				ELSE
+					CONCAT(
+						T1.`NAME`,
+						'[',
+						T1.ADDRESS,
+						'][',
+						SUM(T2.COUNT_USER),
+						']'
+					)
+				END AS `NAME`,
+				SUM(T2.COUNT_USER),
+				T1.PARENT_ID,
+				T1.TYPE,
+				T1.REGION_ORDER
+			FROM
+				(
+					SELECT
+						SR.REGION_ID,
+						SR. NAME,
+						SR.PARENT_ID,
+						SR.ADDRESS,
+						SR.TYPE,
+						SR.REGION_ORDER
+					FROM
+						STB_REGION SR
+					WHERE
+						SR.IS_DELETED = 'N'
+					AND SR.TYPE = '0'
+					GROUP BY
+						SR. NAME
+				) T1
+			LEFT JOIN (
+				SELECT
+					SR.`NAME`,
+					COUNT(RL.USER_NAME) COUNT_USER,
+					SR.PARENT_ID
+				FROM
+					STB_REGION SR
+				LEFT JOIN (
+					SELECT
+						RL.DP_ID,
+						SU.USER_NAME
+					FROM
+						STB_ROLE RL,
+						STB_ROLE_USER SRU,
+						STB_USER SU
+					WHERE
+						RL.IS_DELETED = 'N'
+					AND RL.ROLE_ID = SRU.ROLE_ID
+					AND SU.ID = SRU.USER_ID
+				) RL ON SR.REGION_ID = RL.DP_ID
+				WHERE
+					SR.IS_DELETED = 'N'
+				AND SR.TYPE = '1'
+				AND SR.PARENT_ID IS NOT NULL
+				AND SR.PARENT_ID != 'null'
+				GROUP BY
+					SR. NAME
+				ORDER BY
+					REGION_ORDER ASC
+			) T2 ON T1.REGION_ID = T2.PARENT_ID
+			GROUP BY
+				T1.REGION_ID
+			UNION ALL
+				SELECT
+					SR.REGION_ID,
+					CONCAT(
+						SR.`NAME`,
+						'[',
+						COUNT(RL.USER_NAME),
+						']'
+					) AS `NAME`,
+					COUNT(RL.USER_NAME) COUNT_USER,
+					SR.PARENT_ID,
+					SR.TYPE,
+					SR.REGION_ORDER
+				FROM
+					STB_REGION SR
+				LEFT JOIN (
+					SELECT
+						RL.DP_ID,
+						SU.USER_NAME
+					FROM
+						STB_ROLE RL,
+						STB_ROLE_USER SRU,
+						STB_USER SU
+					WHERE
+						RL.IS_DELETED = 'N'
+					AND RL.ROLE_ID = SRU.ROLE_ID
+					AND SU.ID = SRU.USER_ID
+				) RL ON SR.REGION_ID = RL.DP_ID
+				WHERE
+					SR.IS_DELETED = 'N'
+				AND SR.TYPE = '1'
+				AND SR.PARENT_ID IS NOT NULL
+				AND SR.PARENT_ID != 'null'
+				GROUP BY
+					SR. NAME
+			) AS srru,
+			stb_region sr
+		WHERE
+			FIND_IN_SET(
+				srru.REGION_ID,
+				queryChildrenAreaInfo (sr.REGION_ID)
+			)
+			<if test="REGION_ID!=null">
+				AND sr.REGION_ID = #{REGION_ID}
+			</if>
+				<!-- AND sr.REGION_ID = 'b7a40cd982274ed88870075b09641282' -->
+		UNION ALL
+					SELECT
+						SU.ID,
+						SU.USER_NAME,
+						'' AS TYPE,
+						RL.DP_ID,
+						'' AS REGION_ORDER
+					FROM
+						STB_ROLE RL,
+						STB_ROLE_USER SRU,
+						STB_USER SU
+					WHERE
+				RL.IS_DELETED = 'N'
+			AND RL.ROLE_ID = SRU.ROLE_ID
+			AND SU.ID = SRU.USER_ID
+			order by REGION_ORDER ASC
+	</select>
+	<!-- <select id="queryRegionRoleSelect" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select sr.*,role.* ,sr.REGION_ID as PARENT_ID from stb_region sr LEFT OUTER JOIN stb_role_region srr on srr.REGION_ID=sr.REGION_ID LEFT OUTER JOIN stb_role role on role.ROLE_ID=srr.ROLE_ID
+ 		where role.IS_DELETED='N'
+		<if test="NAME != null">
+			AND sr.NAME = #{NAME}
+		</if>
+		<if test="REGION_ID != null">
+			AND sr.REGION_ID = #{REGION_ID}
+		</if>
+		<if test="PARENT_ID != null">
+			AND  sr.PARENT_ID= #{PARENT_ID}
+		</if>
+		<if test="UPDATED_DT != null">
+			AND  sr.UPDATED_DT = #{UPDATED_DT}
+		</if>
+		<if test="UPDATED_BY != null">
+			AND  sr.UPDATED_BY = #{UPDATED_BY}
+		</if>
+		<if test="CREATED_DT != null">
+			AND  sr.CREATED_DT = #{CREATED_DT}
+		</if>
+		<if test="CREATED_BY != null">
+			AND  sr.CREATED_BY = #{CREATED_BY}
+		</if>
+		<if test="TELEPHONE != null">
+			AND sr.TELEPHONE = #{TELEPHONE}
+		</if>
+		<if test="TYPE != null">
+			AND  sr.TYPE = #{TYPE}
+		</if>
+		order by sr.REGION_ORDER DESC
+	</select> -->
+		
+	<!-- <select id="queryRegionRole" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+	
+		SELECT
+	 		CONCAT(`NAME`,'[',ADDRESS,']') AS `NAME`,
+	 		REGION_ID,
+	 		ADDRESS,
+			REMARK,TELEPHONE,TYPE,PARENT_ID
+		FROM
+			stb_region 
+		WHERE
+		 	TYPE = '0' 
+		AND IS_DELETED = 'N'
+		order by REGION_ORDER ASC 
+	</select>
+	
+	<select id="queryRoleNull" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT sr.* FROM stb_region sr WHERE
+		sr.IS_DELETED = 'N' and sr.TYPE='1' AND  sr.REGION_ID NOT in(SELECT
+			sr.REGION_ID
+		FROM
+			stb_region sr
+		LEFT OUTER JOIN stb_role role ON role.DP_ID = sr.REGION_ID
+			WHERE
+		sr.IS_DELETED = 'N'
+			AND role.IS_DELETED ='N'
+		AND sr.TYPE = '1') order by REGION_ORDER ASC 
+	</select> -->
+	<!-- <select id="queryRegionRole" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select CONCAT(
+		sr.`NAME`,'[',
+		COUNT(sr.PARENT_ID),']',sr.ADDRESS
+		) AS NAME, COUNT(sr.PARENT_ID),sr.REGION_ID, sr.PARENT_ID,sr.TYPE from stb_region sr LEFT OUTER JOIN stb_role_region srr on srr.REGION_ID=sr.REGION_ID LEFT OUTER JOIN stb_role role on role.ROLE_ID=srr.ROLE_ID where sr.IS_DELETED='N' GROUP BY sr.`NAME`
+
+		<if test="NAME != null">
+			AND sr.NAME = #{NAME}
+		</if>
+		<if test="REGION_ID != null">
+			AND sr.REGION_ID = #{REGION_ID}
+		</if>
+		<if test="PARENT_ID != null">
+			AND  sr.PARENT_ID= #{PARENT_ID}
+		</if>
+		<if test="UPDATED_DT != null">
+			AND  sr.UPDATED_DT = #{UPDATED_DT}
+		</if>
+		<if test="UPDATED_BY != null">
+			AND  sr.UPDATED_BY = #{UPDATED_BY}
+		</if>
+		<if test="CREATED_DT != null">
+			AND  sr.CREATED_DT = #{CREATED_DT}
+		</if>
+		<if test="CREATED_BY != null">
+			AND  sr.CREATED_BY = #{CREATED_BY}
+		</if>
+		<if test="TELEPHONE != null">
+			AND sr.TELEPHONE = #{TELEPHONE}
+		</if>
+		<if test="TYPE != null">
+			AND  sr.TYPE = #{TYPE}
+		</if>
+		order by sr.REGION_ORDER DESC
+	</select> -->
+	
+	<!-- 根据登陆角色查询公司 -->
+	<select id="queryRegionByLogUser" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		DISTINCT
+			sre.REGION_ID,sre.REGION_HEADIMG,sre.`NAME`
+		FROM
+			stb_region sre,
+			(
+				SELECT
+					sr.REGION_ID,
+					su.USER_NAME,
+					su.ID
+				FROM
+					stb_user su,
+					stb_role role
+				LEFT JOIN stb_region sr ON role.IS_DELETED = 'N'
+				AND sr.IS_DELETED = 'N'
+				AND sr.REGION_ID = role.DP_ID,
+				stb_role_user sru
+			WHERE
+				role.IS_DELETED = 'N'
+			AND sru.IS_DELETED = 'N'
+			AND su.ID = sru.USER_ID
+			AND sru.ROLE_ID = role.ROLE_ID
+			) AS t1
+		WHERE
+			FIND_IN_SET(
+				sre.REGION_ID,
+				getParentList (t1.REGION_ID)
+			)
+		AND sre.PARENT_ID = '0'
+		<if test="USER_ID != null">
+			AND t1.ID = #{USER_ID}
+		</if>
+		ORDER BY
+			sre.REGION_ORDER ASC
+	</select>
+</mapper>

@@ -1,0 +1,75 @@
+<div class="box-body big rollingBearing" style="overflow-y:auto;height: 430px;">
+	<div class="form-horizontal" role="form"  style="width: 90%;">
+		<input form_sub="REGION_ID" type="hidden"/>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">所&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;属</label>
+			<div class="col-sm-9">
+				<select id="region_select" style="width: 100%;margin-left: 0%;" form_sub="PARENT_ID">
+				<option value='0' >无所属</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="disabledInput"
+					hklfrom='{"isnull":"true","txtLength":[2,50],"message":{"isnull":"名称不能为空"}}'
+					form_sub="NAME" type="text" placeholder="请输入名称">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
+			<div class="col-sm-9">
+				<input type="text" hklfrom='{"isnull":"true","message":{"isnull":"地址不能为空不能为空不能为空"}}' class="form-control" form_sub="ADDRESS" placeholder="当前区域地址">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="TELEPHONE"
+					hklfrom='{"isnull":"true","txtLength":[11,11],"message":{"isnull":"名称不能为空"}}'
+					form_sub="TELEPHONE" type="text" placeholder="请输入11位电话号码" maxlength='11'>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">公司排序</label>
+			<div class="col-sm-9">
+				<input type="text" id="REGION_ORDER" hklfrom='{"isnull":"true","message":{"isnull":"排序不能为空不能为空"}}' class="form-control"
+					form_sub="REGION_ORDER" placeholder="0,1,2,3...">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control"  form_sub="REMARK">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">公司图标</label>
+			<div class="col-sm-9">
+				<input type="hidden" id="upImgs" form_sub="REGION_HEADIMG">
+				<input type="file" multiple id="ssi-upload"/>请选择图片支持jpg、gif、txt、png和pdf格式文件
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	.j-dialog{
+		min-width: 250px;
+		max-width: 600px;
+		max-height: 550px;
+		/*overflow: auto;*/
+	}
+</style>
+<script>
+	//上传插件使用
+$('#ssi-upload').ssi_uploader({url:urlObj.uplod,maxFileSize:1,allowed:['jpg','gif','txt','png','pdf'],data:{"upPath":"pictureResources/photos"},
+  onEachUpload:function(fileInfo){
+  	var img=$("#upImgs").val();
+  	if(img==''){
+  		$("#upImgs").val(fileInfo.msg);
+  	}else{
+  		$("#upImgs").val(fileInfo.msg);
+  	}
+}});
+</script>

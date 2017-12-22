@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.module.menu.dao.MenuDao" >
+  <select id="selectMenuByPrimaryKey" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+    select 
+    	*
+    from 
+    	stbl_menu
+    WHERE
+    	 IS_DELETED= 'N'
+     <if test="MENU_ID != null" >
+        AND MENU_ID = #{MENU_ID}
+      </if>
+     <if test="PARENT_ID != null" >
+        AND PARENT_ID= #{PARENT_ID} 
+      </if>
+      <if test="MENU_NAME != null" >
+        AND MENU_NAME= #{MENU_NAME} 
+      </if>
+      <if test="MENU_LINK != null" >
+        AND MENU_LINK = #{MENU_LINK} 
+      </if>
+      <if test="REMARK != null" >`
+        AND REMARK= #{REMARK} 
+      </if>
+      <if test="UPDATED_DT != null" >
+        AND UPDATED_DT= #{UPDATED_DT} 
+      </if>
+      <if test="UPDATED_BY != null" >
+        AND UPDATED_BY= #{UPDATED_BY} 
+      </if>
+      <if test="CREATED_DT != null" >
+        AND CREATED_DT= #{CREATED_DT} 
+      </if>
+      <if test="CREATED_BY != null" >
+        AND CREATED_BY= #{CREATED_BY} 
+      </if>
+      <if test="UPDATE_DATE != null" >
+        AND UPDATE_DATE= #{UPDATE_DATE} 
+      </if>
+      ORDER BY MENU_ORDER
+  </select>
+  
+    <select id="buttonList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	    SELECT
+	    	spmb.BUTTON_NAME AS MENU_NAME,
+			spmb.MENU_ID AS PARENT_ID,
+			spmb.CODE,
+			spmb.ID AS MENU_ID
+		FROM
+			stbl_menu sm,
+			stb_pri_menu_button spmb
+		WHERE
+			sm.IS_DELETED='N'
+		AND	spmb.IS_DELETED='N'
+		AND sm.MENU_ID=spmb.MENU_ID
+   </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.util.HashMap" >
+  	<!-- 物理删除 -->
+    delete from stbl_menu where MENU_ID = #{MENU_ID}
+    <!-- 逻辑删除 -->
+    <!-- update stbl_menu set IS_DELETED= 'Y' where MENU_ID = #{MENU_ID}  -->
+  </delete>
+  
+  <insert id="insertSelective" parameterType="java.util.HashMap" >
+    insert into stbl_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="MENU_ID != null" >
+	        MENU_ID,
+	      </if>
+	      <if test="PARENT_ID != null" >
+	        PARENT_ID,
+	      </if>
+	      <if test="MENU_NAME != null" >
+	        MENU_NAME,
+	      </if>
+	      <if test="MENU_LINK != null" >
+	        MENU_LINK,
+	      </if>
+	      <if test="REMARK != null" >
+	        REMARK,
+	      </if>
+	      <if test="UPDATED_DT != null" >
+	        UPDATED_DT,
+	      </if>
+	      <if test="UPDATED_BY != null" >
+	        UPDATED_BY,
+	      </if>
+	      <if test="CREATED_BY != null" >
+	        CREATED_BY,
+	      </if>
+	      <if test="CREATED_DT != null" >
+	        CREATED_DT,
+	      </if>
+	      <if test="IS_DELETED != null" >
+	        IS_DELETED,
+	      </if>
+	      <if test="ICON != null" >
+	        ICON,
+	      </if>
+	      <if test="MENU_ORDER != null" >
+	        MENU_ORDER,
+	      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="MENU_ID != null" >
+       		#{MENU_ID},
+	      </if>
+	      <if test="PARENT_ID != null" >
+	        #{PARENT_ID},
+	      </if>
+	      <if test="MENU_NAME != null" >
+	        #{MENU_NAME},
+	      </if>
+	      <if test="MENU_LINK != null" >
+	        #{MENU_LINK},
+	      </if>
+	      <if test="REMARK != null" >
+	        #{REMARK},
+	      </if>
+	      <if test="UPDATED_DT != null" >
+	        #{UPDATED_DT},
+	      </if>
+	      <if test="UPDATED_BY != null" >
+	        #{UPDATED_BY},
+	      </if>
+	      <if test="CREATED_BY != null" >
+	        #{CREATED_BY},
+	      </if>
+	      <if test="CREATED_DT != null" >
+	        #{CREATED_DT},
+	      </if>
+	      <if test="IS_DELETED != null" >
+	        #{IS_DELETED},
+	      </if>
+	      <if test="ICON != null" >
+	        #{ICON},
+	      </if>
+	      <if test="MENU_ORDER != null" >
+	         #{MENU_ORDER},
+	      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="java.util.HashMap" >
+    update stbl_menu
+    <set >
+	      <if test="PARENT_ID != null" >
+	        PARENT_ID=#{PARENT_ID},
+	      </if>
+	      <if test="MENU_NAME != null" >
+	        MENU_NAME=#{MENU_NAME},
+	      </if>
+	      <if test="MENU_LINK != null" >
+	        MENU_LINK=#{MENU_LINK},
+	      </if>
+	      <if test="REMARK != null" >
+	        REMARK=#{REMARK},
+	      </if>
+	      <if test="UPDATED_DT != null" >
+	        UPDATED_DT=#{UPDATED_DT},
+	      </if>
+	      <if test="UPDATED_BY != null" >
+	        UPDATED_BY=#{UPDATED_BY},
+	      </if>
+	      <if test="CREATED_DT != null" >
+	        CREATED_DT=#{CREATED_DT},
+	      </if>
+	      <if test="CREATED_BY != null" >
+	        CREATED_BY=#{CREATED_BY},
+	      </if>
+	      <if test="IS_DELETED != null" >
+	        IS_DELETED=#{IS_DELETED},
+	      </if>
+	      <if test="ICON != null" >
+	        ICON=#{ICON},
+	      </if>
+	      <if test="MENU_ORDER != null" >
+	         MENU_ORDER = #{MENU_ORDER},
+	      </if>
+    </set>
+    where MENU_ID = #{MENU_ID}
+  </update>
+  
+  
+  
+   <insert id="insertButton" parameterType="java.util.HashMap" >
+    insert into stb_pri_menu_button
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="ID != null" >
+	        ID,
+	      </if>
+	      <if test="BUTTON_NAME != null" >
+	        BUTTON_NAME,
+	      </if>
+	      <if test="MENU_ID != null" >
+	        MENU_ID,
+	      </if>
+	      <if test="CODE != null" >
+	        CODE,
+	      </if>
+	      <if test="UPDATED_DT != null" >
+	        UPDATED_DT,
+	      </if>
+	      <if test="UPDATED_BY != null" >
+	        UPDATED_BY,
+	      </if>
+	      <if test="CREATED_DT != null" >
+	        CREATED_DT,
+	      </if>
+	      <if test="CREATED_BY != null" >
+	        CREATED_BY,
+	      </if>
+	      <if test="IS_DELETED != null" >
+	        IS_DELETED,
+	      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+         <if test="ID != null" >
+	        #{ID},
+	      </if>
+	      <if test="BUTTON_NAME != null" >
+	        #{BUTTON_NAME},
+	      </if>
+	      <if test="MENU_ID != null" >
+	        #{MENU_ID},
+	      </if>
+	      <if test="CODE != null" >
+	        #{CODE},
+	      </if>
+	      <if test="UPDATED_DT != null" >
+	        #{UPDATED_DT},
+	      </if>
+	      <if test="UPDATED_BY != null" >
+	        #{UPDATED_BY},
+	      </if>
+	      <if test="CREATED_DT != null" >
+	        #{CREATED_DT},
+	      </if>
+	      <if test="CREATED_BY != null" >
+	        #{CREATED_BY},
+	      </if>
+	      <if test="IS_DELETED != null" >
+	        #{IS_DELETED},
+	      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByButton" parameterType="java.util.HashMap" >
+    update stb_pri_menu_button
+    <set >
+	      <if test="BUTTON_NAME != null" >
+	        BUTTON_NAME=#{BUTTON_NAME},
+	      </if>
+	      <if test="MENU_ID != null" >
+	        MENU_ID=#{MENU_ID},
+	      </if>
+	      <if test="CODE != null" >
+	        CODE=#{CODE},
+	      </if>
+	      <if test="UPDATED_DT != null" >
+	        UPDATED_DT=#{UPDATED_DT},
+	      </if>
+	      <if test="UPDATED_BY != null" >
+	        UPDATED_BY=#{UPDATED_BY},
+	      </if>
+	      <if test="IS_DELETED != null" >
+	        IS_DELETED=#{IS_DELETED},
+	      </if>
+    </set>
+    where ID = #{ID}
+  </update>
+  
+  
+   <select id="buttonSelect" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	    SELECT
+	    	spmb.* 
+		FROM
+			stb_pri_menu_button spmb
+		WHERE
+			spmb.IS_DELETED='N'
+		<if test="MENU_ID != null" >
+	        AND spmb.MENU_ID=#{MENU_ID}
+	    </if>
+		<if test="ID != null" >
+	        AND spmb.ID=#{ID}
+	    </if>
+   </select>
+   
+   
+    <insert id="insertButtonRole" parameterType="java.util.HashMap" >
+    insert into stb_button_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="ID != null" >
+	        ID,
+	      </if>
+	      <if test="BUTTON_ID != null" >
+	        BUTTON_ID,
+	      </if>
+	      <if test="ROLE_ID != null" >
+	        ROLE_ID,
+	      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+         <if test="ID != null" >
+	        #{ID},
+	      </if>
+	      <if test="BUTTON_ID != null" >
+	        #{BUTTON_ID},
+	      </if>
+	      <if test="ROLE_ID != null" >
+	        #{ROLE_ID},
+	      </if>
+    </trim>
+  </insert>
+  
+  
+  <delete id="deleteButtonRole" parameterType="java.util.HashMap" >
+    delete from stb_button_role where ROLE_ID = #{ROLE_ID}
+  </delete>
+  
+   <select id="roleToButtonList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	    SELECT
+			spmb.BUTTON_NAME AS MENU_NAME,
+			spmb.MENU_ID AS PARENT_ID,
+			spmb. CODE,
+			spmb.ID AS MENU_ID
+		FROM
+			stb_button_role sbr,
+			stb_pri_menu_button spmb,
+			stb_role sr
+		WHERE
+			spmb.IS_DELETED = 'N'
+		AND sr.IS_DELETED='N'
+		AND sr.ROLE_ID=sbr.ROLE_ID
+		AND sbr.BUTTON_ID=spmb.ID
+		AND sr.ROLE_ID=#{ROLE_ID}
+   </select>
+
+
+<select id="userToRooleButton" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	SELECT
+		DISTINCT
+		spmb.*
+	FROM
+		stb_role_user sru,
+		stb_button_role sbr,
+		stb_pri_menu_button spmb,
+		stbl_menu sm
+	WHERE
+		sm.IS_DELETED='N'
+	AND spmb.IS_DELETED='N'
+	AND sru.ROLE_ID=sbr.ROLE_ID
+	AND sbr.BUTTON_ID=spmb.ID
+	AND spmb.MENU_ID = sm.MENU_ID
+	AND sru.USER_ID=#{USER_ID}
+	AND sm.MENU_ID=#{MENU_ID}
+</select>
+   
+</mapper>

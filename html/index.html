@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<title>成都双流国际机场航空服务地面有限公司</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!--CSS-->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/cloud-admin.css" >
+	<link rel="stylesheet" type="text/css" href="css/commonstyle.css"/>
+	<link rel="stylesheet" type="text/css"  href="css/themes/default.css" id="skin-switcher" >
+	<link rel="stylesheet" type="text/css"  href="css/responsive.css" >
+	<!-- ie配置 --><!--[if lt IE 9]><script src="js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/animatecss/animate.min.css" />
+	<link rel="stylesheet" type="text/css" href="plugin/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+	<link rel="stylesheet" type="text/css" href="plugin/jquery-todo/css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="plugin/fullcalendar/fullcalendar.min.css" />
+	<!--<link rel="stylesheet" type="text/css" href="plugin/fullcalendar/fullcalendar.print.min.css" />-->
+	<!--图片放大插件-->
+	<link rel="stylesheet" type="text/css" href="plugin/zoomImages/zoom.css" />
+	<link rel="stylesheet" type="text/css" href="plugin/gritter/css/jquery.gritter.css" />
+	<link rel="stylesheet" type="text/css" href="css/initSet.css" />
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-table.css">
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-editable.css">
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
+	<!--select2-->
+	<link href="plugin/select2/select2.min.css" rel="stylesheet" />
+	<link href="plugin/select2/select2-bootstrap.min.css" rel="stylesheet" />
+	<!-- 上传插件 -->
+	<link rel="stylesheet" href="css/ssi-uploader.css">
+	<!-- 弹框 -->
+	<link rel="stylesheet" href="webJs/js/jDialog/jDialog.css" type="text/css">
+	<!-- three -->
+	<link rel="stylesheet" href="css/bootstrap-treeview.css" type="text/css">
+	<!--fontIconPicker-->
+	<link rel="stylesheet" type="text/css" href="/plugin/fontIconPicker-master/css/demo/fontello-7275ca86/css/fontello.css" />
+	<link rel="stylesheet" href="/plugin/fontIconPicker-master/css/jquery.fonticonpicker.min.css" type="text/css">
+	<link rel="stylesheet" href="/plugin/fontIconPicker-master/themes/grey-theme/jquery.fonticonpicker.grey.min.css" type="text/css">
+	<link rel="stylesheet" type="text/css" href="/plugin/fontIconPicker-master/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css" />
+	<link rel="stylesheet" type="text/css" href="/plugin/fontIconPicker-master/themes/bootstrap-theme/jquery.fonticonpicker.bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="/plugin/fontIconPicker-master/themes/inverted-theme/jquery.fonticonpicker.inverted.min.css" />
+	<link rel="stylesheet" type="text/css" href="/plugin/fontIconPicker-master/css/demo/fontello-7275ca86/css/fontello.css" />
+	<link rel="stylesheet" type="text/css" href="/plugin/fontIconPicker-master/css/font-awesome.min.css" />
+	<!--fileinput-->
+	<link rel="stylesheet" href="/plugin/bootstrap-fileinput/css/fileinput.css" />
+	<!--开关控件-->
+	<link rel="stylesheet" type="text/css" href="plugin/bootstrap-switch/bootstrap-switch.min.css"/>
+</head>
+<body>
+<div  id="lodingGif" style="position:absolute;top:0px;width:100%;height:100%;background:white;z-index:10000"><center style="margin-top:10%"><img alt="" width="500"  src="/img/lll.png" /></center></div>
+	<!-- HEADER -->
+	<header class="navbar clearfix" id="header">
+		<div class="container">
+				<div class="navbar-brand dropdown" style="padding: 0px;" >
+					<ul class="nav navbar-nav" id="">
+						<li class="dropdown" style="position: relative;width:250px;height:50px;" id="changeImgs">
+							<img src="img/logoJC.png" alt="Cloud Admin Logo" style="margin-left:50px;left:0px;"  class="img-responsive" height="30" width="120"/>
+						</li>
+					</ul>
+					<div id="sidebar-collapse" class="sidebar-collapse  btn sidebar-collapse-hidden">
+						<i class="fa fa-bars" data-icon1="fa fa-bars" data-icon2="fa fa-bars" ></i>
+					</div>
+				</div>
+				<ul class="nav navbar-nav pull-right" style="min-width: 100px;">
+					<!-- /息通知 END -->
+					<li class="dropdown" id="header-notification">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<div id="appendNum"></div>
+						</a>
+						<ul id="showNotice" class="dropdown-menu notification rollingBearing">
+							<li class="dropdown-title">
+								<span><i class="fa fa-bell" id="setNotificationNum"></i></span>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown user " id="header-user">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<img alt="" width="50" id="hedaImg" src="img/avatars/avatar3.jpg" />
+							<span class="username" id="userName">暂无</span>
+							【<span style="display: inline-block;width: 60px;position: relative;">
+								<font id="roleName" class="hidden"></font>
+								<marquee id="roleNames" class="hidden" direction="left" align="top"  width="60px" behavior="scroll"  scrollamount="2" scrolldelay="1" style="position: absolute;top: -14px; left: 0;"></marquee>
+							</span>】
+							<i class="fa fa-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu" style="min-width: 190px; width: 100%">
+							<li><a href="#" id="infoXQ"><i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我的资料</a></li>
+							<li><a href="#" onclick="out();"><i class="fa fa-power-off"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出</a></li>
+						</ul>
+					</li>
+				</ul>
+				<!-- style颜色管理 -->
+				<ul class="nav navbar-nav pull-left hidden-xs" id="navbar-left">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-cog"></i>
+							<span class="name">皮肤</span>
+							<i class="fa fa-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu skins">
+							<li class="dropdown-title">
+								<span><i class="fa fa-leaf"></i>皮肤颜色管理</span>
+							</li>
+							<li><a href="#" data-skin="default">普通</a></li>
+							<li><a href="#" data-skin="night">夜晚模式</a></li>
+							<li><a href="#" data-skin="earth">地球模式</a></li>
+							<li><a href="#" data-skin="utopia">反差模式</a></li>
+							<li><a href="#" data-skin="nature">自然模式</a></li>
+							<li><a href="#" data-skin="graphite">水墨模式</a></li>
+						 </ul>
+					</li>
+				</ul>
+		</div>
+	</header>
+	<!-- 左侧栏 -->
+
+	<section class="container" id="page" style="padding: 0px">
+		<!-- /SIDEBAR -->
+		<div id="sidebar" class="sidebar" style="z-index: 1000;">
+			<div class="sidebar-menu nav-collapse">
+				<div class="divide-20"></div>
+				<!-- SEARCH BAR -->
+				<div id="search-bar" >
+					<input class="search" type="text" placeholder="搜索"><i style="cursor:pointer" class="fa fa-search search-icon"></i>
+				</div>
+				<ul id="menuRoot" >
+					<!--内容-->
+				</ul>
+			</div>
+		</div>
+		<!-- /SIDEBAR -->
+		<div id="main-content">
+			<div class="container">
+				<div class="row">
+					<div id="content" class="col-lg-12 col-xs-12 col-md-12 col-sm-12">
+						<!-- tile -->
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-xs-12">
+								<div class="page-header" style="min-height: 50px;">
+									<ul class="breadcrumb">
+										<li>
+											<i class="fa fa-home"></i>
+											<a href="index.html">首页</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!--首页内容展示区-->
+						<div class="row" id="contAppend" style="">
+							<div  style="padding-left:15px;padding-right:15px" id="AppendChar"></div>
+							<div class="row" id="mesgDiv" style="display:none;margin-left: 0;margin-right: 15px;">
+									<div class="col-md-6" id="showTaskProgress"></div>
+									<div class="col-md-6" style="min-width: 320px">
+										<div class="box border red chat-window">
+											<div class="box-title">
+												<h4><i class="fa fa-comments"></i>LAVAGame群消息</h4>
+												<div class="tools">
+													<a href="javascript:;" class="reload">
+														<i class="fa fa-refresh"></i>
+													</a>
+													<a href="javascript:;" class="collapse">
+														<i class="fa fa-chevron-up"></i>
+													</a>
+													<a href="javascript:;" class="remove">
+														<i class="fa fa-times"></i>
+													</a>
+												</div>
+											</div>
+											<div class="box-body big">
+												<div class="scroller" data-height="402px" data-always-visible="1" data-rail-visible="1"  id="sendContext">
+													<ul class="media-list chat-list">
+														<!-- message -->
+													</ul>
+												</div>
+												<div class="divide-20"></div>
+												<div class="chat-form">
+													<div class="input-group">
+														<input type="text" class="form-control" placeholder="Type something...really, it works">
+														<span class="input-group-btn"> <button class="btn btn-primary" type="button"><i class="fa fa-check"></i>发送</button> </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<!--/首页内容展示区-->
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+		<!-- 回到顶部 -->
+	<div class="footer-tools" style=" position:fixed;right:20px;bottom:20px;">
+		<span class="go-top">
+			<i class="fa fa-chevron-up"></i> 顶部
+		</span>
+	</div>
+	
+	<script type="text/javascript" src="plugin/jquery/jquery-2.1.4.min.js"></script>
+	<script src="plugin/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <!--<script src="bootstrap-dist/js/bootstrap.min.js"></script> -->
+	<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/bootstrap/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="assets/bootstrap/js/bootstrap-editable.js"></script>
+    <script type="text/javascript" src="assets/bootstrap/js/bootstrap-table-editable.js"></script>
+    <script type="text/javascript" src="assets/bootstrap/js/bootstrap-table-export.min.js"></script>
+    <script type="text/javascript" src="assets/bootstrap/js/tableExport.js"></script>
+    <script type="text/javascript" src="assets/bootstrap/js/bootstrap-table-zh-CN.js"></script>
+	<script src="plugin/bootstrap-daterangepicker/moment.min.js"></script>
+	<script src="plugin/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+	<script type="text/javascript" src="plugin/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+	<script type="text/javascript" src="plugin/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+	<script type="text/javascript" src="plugin/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+	<script type="text/javascript" src="plugin/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+	<script type="text/javascript" src="plugin/sparklines/jquery.sparkline.min.js"></script>
+	<script src="plugin/jquery-easing/jquery.easing.min.js"></script>
+	<script type="text/javascript" src="plugin/easypiechart/jquery.easypiechart.min.js"></script>
+	<script src="plugin/flot/jquery.flot.min.js"></script>
+	<script src="plugin/flot/jquery.flot.time.min.js"></script>
+    <script src="plugin/flot/jquery.flot.selection.min.js"></script>
+	<script src="plugin/flot/jquery.flot.resize.min.js"></script>
+    <script src="plugin/flot/jquery.flot.pie.min.js"></script>
+    <script src="plugin/flot/jquery.flot.stack.min.js"></script>
+    <script src="plugin/flot/jquery.flot.crosshair.min.js"></script>
+	<script type="text/javascript" src="plugin/jquery-todo/js/paddystodolist.js"></script>
+	<script type="text/javascript" src="plugin/timeago/jquery.timeago.min.js"></script>
+	<!--title插件-->
+	<script type="text/javascript" src="plugin/jQuery-tooltip/jquery.tooltip.js"></script>
+	<!--图片放大插件-->
+	<script type="text/javascript" src="plugin/zoomImages/zoom.js"></script>
+	<!--日程表控件-->
+	<script type="text/javascript" src="plugin/fullcalendar/moment.min.js"></script>
+	<!--<script type="text/javascript" src="plugin/fullcalendar/fullcalendar.js"></script>-->
+	<script type="text/javascript" src="plugin/fullcalendar/fullcalendar.min.js"></script>
+	<!--jQuery-Cookie-->
+	<script type="text/javascript" src="plugin/jQuery-Cookie/jquery.cookie.min.js"></script>
+	<script type="text/javascript" src="plugin/gritter/js/jquery.gritter.min.js"></script>
+	<!-- 按钮权限 -->
+	<script type="text/javascript" src="webJs/RootButton.js"></script>
+	<!-- icon对象 -->
+	<script type="text/javascript" src="webJs/IconObj.js"></script>
+	<!-- 上传插件 -->
+	<script type="text/javascript" src="webJs/uplode/ssi-uploader.js"></script>
+	<!-- Bas64加密 -->
+	<script type="text/javascript" src="webJs/jquery.base64.js"></script>
+	<!-- 时间控件 -->
+	<script src="webJs/My97DatePicker/WdatePicker.js"></script>
+	<!-- 弹框 -->
+	<script type="text/javascript" src="webJs/btTableAddSub.js"></script>
+	<!-- 统计 -->
+	<script type="text/javascript" src="webJs/js/echarts.min.js"></script>
+	<!-- CKeditor -->
+	<script src="webJs/configUrl.js"></script>
+	<script type="text/javascript" src="webJs/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="webJs/ckeditor/config.js"></script>
+	<script src="plugin/script.js"></script>
+	<script src="webJs/hklFromTest.js"></script>
+	<!--浏览器提示公用方法-->
+	<script src="webJs/msgBrowser.js"></script>
+	<script src="webJs/commAply.js"></script>
+	<script src="webJs/commUtil.js"></script>
+	<script src="webJs/dateUtil.js"></script>
+    <script type="text/javascript" src="webJs/js/jDialog.js"></script>
+    <!-- three -->
+	<script type="text/javascript" src="plugin/bootstrap-tree/bootstrap-treeview.js"></script>
+	<script type="text/javascript" src="plugin/bootstrap-tree/bootstrap-treeview_erp.js"></script>
+	<!--fontIconPicker-->
+    <script type="text/javascript" src="/plugin/fontIconPicker-master/jquery.fonticonpicker.min.js"></script>
+    <!--select2-->
+	<script src="plugin/select2/select2.min.js"></script>
+	<script type="text/javascript" src="plugin/select2/zh-CN.js"></script>
+	<script type="text/javascript" src="plugin/select2/select2tree.js"></script>
+	<!--fileinput-->
+	<script src="/plugin/bootstrap-fileinput/js/fileinput.js"></script>
+	<script src="/plugin/bootstrap-fileinput/js/locales/zh.js"></script>
+	<!--Gif加载事件-->
+	<script src="webJs/lodeGifUtil.js"></script>
+	<!--开关控件-->
+	<script src="plugin/bootstrap-switch/bootstrap-switch.min.js" type="text/javascript" charset="utf-8"></script>
+	<!-- 切换公司引用的js -->
+	<script type="text/javascript" src="function/region/private.js"></script>
+	<!-- webSocket.js 需要对页面加载条件是否满足决定webSocket是否被创建 -->
+	<script type="text/javascript" src="function/region/private.js"></script>
+	<!--部门工作计划安排表&&项目部、商务部任务计划安排表控件-->
+	<script type="text/javascript" src="/webJs/workCommPlugin.js"></script>
+	<!--index-->
+	<script type="text/javascript" src="webJs/index.js"></script>
+	<!-- /JAVASCRIPTS -->
+	<script type="text/javascript" src="webJs/sendWebSocket.js"></script>
+	<script type="text/javascript" src="function/messageNotify/message.js"></script>
+	<script type="text/javascript" src="webJs/ajaxfileupload.js"></script>
+	</body>
+</html>

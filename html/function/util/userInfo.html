@@ -1,0 +1,307 @@
+<div id="contact-card" class="panel panel-default" style="margin-top: 30px;position: relative" >
+	<div onclick="extInfo();" style="position: absolute;right: 90px;bottom:-78px">
+		<input type="button" id="inputvalue" style="" class="x-highlight update-btn"  value="修改">
+			<!--<div  onclick="extInfo();"><i style="cursor:pointer" class="fa fa-edit" title="修改信息"></i><input id="falgText" type="button" value="0" /></div>-->
+		<input id="falgText" type="hidden" value="0" />
+		</input>
+	</div>
+	<div onclick="changepassword()" style="position: absolute;right: 30px;top: -30px;cursor: pointer;"><i class="fa fa-cog"></i> 修改密码</div>
+
+  <div class="panel-body">
+
+	<div id="card" class="row">
+		<!--<div style="position: absolute;left:29%;top:26%" onclick="openDig();"><i style="cursor:pointer" class="fa fa-edit" title="修改头像"></i></div>-->
+		<div class="col-md-5">
+			<div class="headshot"style="200px">
+				<div form_sub="USER_HEADIMG"><img src="img/avatars/avatar3.jpg" alt=""width="200px"height="200px"></div>
+				<div  class="qwq" onclick="openDig();">修改头像</div>
+			</div>
+		</div>
+		<div class="col-md-7 " id="personaldata">
+			<table class="table table-hover" id="oneTabel">
+				<tbody>
+				  <tr>					
+					<td><div style="display: inline-block; width: 15px" ><i class="fa fa-user"></i></div> 姓名 </td>
+					<td id="card-name" form_sub="USER_NAME">-</td>
+				  </tr>
+				  <tr>
+					<td><div style="display: inline-block; width: 15px" ><img src="img/avatars/xingbie-a.png" height="13"width="13" /></div> 性别</td>
+					<td form_sub="USER_SEX">-</td>
+				  </tr>
+				  <tr>
+					<td><div style="display: inline-block; width: 15px" ><i class="fa fa-home"></i></div> 地址</td>
+					<td form_sub="USER_ADDRESS">-</td>
+				  </tr>
+				  <tr>
+					<td><div style="display: inline-block; width: 15px" ><i class="fa fa-phone"></i></div> 电话</td>
+					<td form_sub="USER_PHONE">-</td>
+				  </tr>
+				  <tr>
+					<td><div style="display: inline-block; width: 15px" ><i class="fa fa-envelope"></i></div> Email</td>
+					<td form_sub="USER_EMAIL">-</td>
+				  </tr>
+				</tbody>
+			</table>
+			   <!-- style="display:none;" -->
+			  <table class="table table-hover hidden" id="twoTabel">
+				<tbody>
+				  <tr>					
+					<td><div style="display: inline-block; width: 15px" ><i class="fa fa-user"></i></div> 姓名 </td>
+					<td id="card-name">
+					<input type="text" title="Tooltip on focus"
+					class="form-control tip-focus"
+					hklfrom='{"isnull":"true","message":{"isnull":"用户称昵不能为空"}}'
+					form_sub="USER_NAME" id="USER_NAMES" placeholder="用户的姓名"></td>
+				  </tr>
+				  <tr>
+					<td><div style="display: inline-block; width: 15px" ><img src="img/avatars/xingbie-a.png" height="13"width="13" /></div> 性别</td>
+					<td>
+					<select name="country" id="country_selectUser"
+						form_sub="USER_SEX"  placeholder="请选择性别">
+						<option value="0">男</option>
+						<option value="1">女</option>
+					</select>
+					</td>
+				  </tr>
+				  <tr>
+					<td><div style="display: inline-block; width: 15px" ><i class="fa fa-home"></i></div> 地址</td>
+					<td><input type="text"  id="USER_ADDRESSS" class="form-control" form_sub="USER_ADDRESS" placeholder="请输入您的地址"></td>
+				  </tr>
+				  <tr>
+					<td><div style="display: inline-block; width: 15px" ><i class="fa fa-phone"></i></div> 电话</td>
+					<td>
+					<input type="text" hklfrom='{"isnull":"true","phone":"true","message":{"isnull":"电话号码不能为空","phone":"请输入正确手机号码"}}' class="form-control" id="inputSuccess" form_sub="USER_PHONE" placeholder="请输入您的手机号码"></td>
+				  </tr>
+				  <tr>
+					<td><div style="display: inline-block; width: 15px" ><i class="fa fa-envelope"></i></div> Email</td>
+					<td>
+					<input type="text"   id="USER_EMAILS"   class="form-control" hklfrom='{"emali":"true","message":{"emali":"请输入正确邮箱"}}' placeholder="请输入您的邮箱" form_sub="USER_EMAIL"></td>
+				 </tr>
+				</tbody>
+			  </table>
+		</div>
+		<div class="col-md-7 hidden" id="changepasswordShow">
+			<div>
+				<label class="col-sm-3 control-label">旧的密码</label>
+				<input class="form-control" id="pasOne" 
+					hklfrom='{"isnull":"true","nochinese":"true","txtLength":[6,16],"message":{"isnull":"账号密码不能为空","nochinese":"账号密码不包含中文字符!"}}'
+					type="text" placeholder="请输入6-16位密码不包括中文">
+			</div>
+			<div>
+				<label class="col-sm-3 control-label">新的密码</label>
+				<input class="form-control" id="pasTow" 
+					hklfrom='{"isnull":"true","nochinese":"true","txtLength":[6,16],"message":{"isnull":"账号密码不能为空","nochinese":"账号密码不包含中文字符!"}}'
+					type="text" placeholder="请输入6-16位密码不包括中文"/>
+			</div>
+			<div style="text-align: center;padding: 20px;">
+				<input style="width: 45px;height: 25px;" class="x-highlight update-btn" onclick="setPas()" type="button"  value="确认">
+				<input style="width: 45px;height: 25px;" class="x-highlight update-btn" onclick="cancel()" type="button"  value="取消">
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+<style type="text/css">
+	.j-dialog{
+		min-width: 250px;
+		max-width: 800px;
+		max-height: 550px;
+		overflow: auto;
+	}
+	.update-btn{
+		color: #fff;
+	    background-position: -0 2px;
+		margin-left: 6px;
+	    cursor: pointer;
+	    border: 0;
+	    width: 60px;
+	    height: 28px;
+	    font-size: 14px;
+	    display: inline-block;
+	    color: #666;
+	    background: #e96356;
+	    border-radius:3px;
+	    color: #fff;
+	}
+	.qwq{
+		display: none;
+		width: 200px;
+		height: 40px;
+		background:rgba(0,0,0,0.3);
+		position:absolute;
+		bottom: 0px;
+		border-radius:0 0 3px 3px;
+		text-align:center;
+		line-height: 40px;
+		font-size: 16px;
+		color: #fff;
+	}
+	.qwq:hover{
+		cursor: pointer;
+	}
+	.headshot:hover .qwq{
+		display: block;
+	}
+	.select2-search__field{
+		display: none;
+	}
+</style>
+<script type="text/javascript">
+var json=urlObj.getTokenObj();
+
+initUpdateFrom();
+//修改初始化
+function initUpdateFrom(){
+	var indexSex=0;
+	$("#country_selectUser").select2({'width':'100%'});
+	$("[form_sub]").each(function () {
+		var str=$(this).attr("form_sub");
+		for(var key in json)
+		{
+			if(str==key){
+				if(str=='USER_HEADIMG'){
+					if(json[key]!=null&&json[key]!=''){
+						$(this).html('<img src="'+urlObj.url+json[key]+'" alt="" height="200" width="200"/>');
+					}
+				}else if(str=='USER_SEX'){
+					if(json[key]!=null&&json[key]!=''){
+						if(indexSex == 0){
+							$(this).html(json[key]== 0?'男':'女');
+						}else{
+							$("#country_selectUser").select2('val',json[key]);
+						}
+						indexSex++;
+					}else{
+						$(this).html('暂无');
+					}
+				}else{
+					if(json[key]!=null&&json[key]!=''){
+						$(this).html(json[key]);
+						$(this).val(json[key]);
+					}else{
+						$(this).html('暂无');
+					}
+				}
+			}
+		}
+	});
+}
+
+var dialog;
+
+function openDig(){
+	dialog =  jDialog.dialog({
+        title : '修改个人头像',
+        content : getUrl('/function/util/userImgSet.html'),
+        width : '40%',
+        buttons : [
+	            {
+	                type : 'highlight',
+	                text : '提交',
+	                handler:function(button,dialog)
+	                {
+	                	setImg();
+	                }
+	            },
+	            {
+	                type : 'highlight',
+	                text : '取消',
+	                handler:function(button,dialog)
+	                {
+	                    dialog.close();
+	                }
+	            }
+	        ]
+    	});
+}
+
+function setImg(){
+	var img=$('#upImgs').val();
+	var json = urlObj.getJson();
+	var extidUrl = urlObj.url + "/user/updateObj";
+	json['ID'] = json.token.ID;
+	json['USER_HEADIMG']=img;
+	var data = commAjaxPost(extidUrl, json);
+	if(data.result==1){
+		alert('头像上传成功!');
+		var setToken=urlObj.getJson();
+		setToken.token.USER_HEADIMG=img;
+		$.cookie("token",JSON.stringify(setToken.token));
+		dialog.close();
+		history.go(0);
+	}else{
+		alert('请点击上传过后提交!');
+	}
+
+}
+
+function extInfo(){
+    var obj = document.getElementById("inputvalue");
+        obj.value = (obj.value == "修改"?"取消":"修改");
+        $(".j-dialog-btn").val("确定");
+        if( obj.value =="修改"){
+        	$(".j-dialog-btn").val("关闭");
+        }
+	$("#falgText").val("1");
+	if($("#oneTabel").hasClass("hidden")){
+		$("#oneTabel").removeClass("hidden");
+	}else{
+		$("#oneTabel").addClass("hidden");
+	}
+	if($("#twoTabel").hasClass("hidden")){
+		$("#twoTabel").removeClass("hidden");
+	}else{
+		$("#twoTabel").addClass("hidden");
+	}
+}
+
+
+function changepassword(){
+	if($("#personaldata").hasClass("hidden")){
+		$("#personaldata").removeClass("hidden");
+	}else{
+		$("#personaldata").addClass("hidden");
+	}
+	
+	if($("#changepasswordShow").hasClass("hidden")){
+		$("#changepasswordShow").removeClass("hidden");
+	}else{
+		$("#changepasswordShow").addClass("hidden");
+	}
+	
+	if($("#inputvalue").hasClass("hidden")){
+		$("#inputvalue").removeClass("hidden");
+	}else{
+		$("#inputvalue").addClass("hidden");
+	}
+	
+	if($(".j-dialog-btn").hasClass("hidden")){
+		$(".j-dialog-btn").removeClass("hidden");
+	}else{
+		$(".j-dialog-btn").addClass("hidden");
+	}
+}
+function cancel(){
+	if($("#personaldata").hasClass("hidden")){
+		$("#personaldata").removeClass("hidden");
+	}else{
+		$("#personaldata").addClass("hidden");
+	}
+	if($("#changepasswordShow").hasClass("hidden")){
+		$("#changepasswordShow").removeClass("hidden");
+	}else{
+		$("#changepasswordShow").addClass("hidden");
+	}
+	if($("#inputvalue").hasClass("hidden")){
+		$("#inputvalue").removeClass("hidden");
+	}else{
+		$("#inputvalue").addClass("hidden");
+	}
+	
+		if($(".j-dialog-btn").hasClass("hidden")){
+		$(".j-dialog-btn").removeClass("hidden");
+	}else{
+		$(".j-dialog-btn").addClass("hidden");
+	}
+}
+</script>

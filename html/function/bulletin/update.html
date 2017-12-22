@@ -1,0 +1,74 @@
+
+<div class="box-body big" style="width:100%;max-width:1300px;">
+	<input type="hidden" form_sub="ID" >
+	<div class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">标题名称</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="USER_ACCOUNT"
+					hklfrom='{"isnull":"true","message":{"isnull":"标题名称不能为空"}}'
+					form_sub="TITLE" type="text" placeholder="请输入标题">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">公告类型</label>
+			<div class="col-sm-9">
+				<select style="width:100%;" id="country_select11" class="col-md-12 full-width-fix" form_sub="TYPE" >
+					<option value='0' selected="selected">消息</option>
+					<option value='1'>通知</option>
+					<option value='2'>表彰</option>
+					<option value='3'>批评</option>
+					<option value='4'>其他</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">公告群体</label>
+			<div class="col-sm-9">
+				<select style="width:100%;" id="country_selectDP" class="col-md-12 full-width-fix" form_sub="RG_ID" >
+					<option value='-1' selected="selected">全体</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">发布时间</label>
+			<div class="col-sm-9">
+				<input type="text" title="Tooltip on focus"
+					class="form-control tip-focus"
+					hklfrom='{"isnull":"true","message":{"isnull":"发布时间不能为空"}}'
+					form_sub="SUB_DATE" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" DT="SUB_DATE" id="date_p" placeholder="信息的发布时间">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">发布内容</label>
+			<div class="col-sm-9">
+				<textarea id="CONTENT1" class="ckeditor"  placeholder="请输入发布内容"></textarea>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label"></label>
+			<div class="col-sm-9">
+				<input type="button" onclick="subUpdate();" class="btn btn-pink" value="修改并保存"/>
+				<input type="button" onclick="subUpdateSb();" class="btn btn-pink" value="修改并发布"/>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	.j-dialog{
+		min-width: 250px;
+		max-width: 900px;
+		max-height: 550px;
+		overflow: auto;
+	}
+</style>
+<script>
+
+var editor =CKEDITOR.replace('CONTENT1', { height: '200px'});
+select2InitIdd();	
+function select2InitIdd() {
+	//初始化加载select2插件
+	$("#country_select11").select2({'width':'100%'});
+}
+</script>

@@ -1,0 +1,86 @@
+
+<div class="box-body big" style="width:50%;min-width:290px;max-width:1000px;">
+	<div class="form-horizontal" role="form">	
+		<div class="form-group">
+			<label class="col-sm-3 control-label">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="disabledInput"
+					hklfrom='{"isnull":"true","txtLength":[2,50],"message":{"isnull":"名称不能为空"}}'
+					form_sub="NAME" type="text" placeholder="请输入名称">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
+			<div class="col-sm-9">
+				<input type="text" id="ADDRESS" hklfrom='{"isnull":"true","message":{"isnull":"地址不能为空不能为空不能为空"}}' class="form-control" form_sub="ADDRESS" placeholder="当前区域地址">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="TELEPHONE"
+					hklfrom='{"isnull":"true","txtLength":[11,11],"message":{"isnull":"名称不能为空"}}'
+					form_sub="TELEPHONE" type="text" placeholder="请输入11位电话号码" maxlength='11'>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">公司排序</label>
+			<div class="col-sm-9">
+				<input type="text" id="REGION_ORDER" hklfrom='{"isnull":"true","message":{"isnull":"排序不能为空不能为空"}}' class="form-control"
+					form_sub="REGION_ORDER" placeholder="0,1,2,3...">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</label>
+			<div class="col-sm-9">
+				<textarea id="TextArea1" class="ckeditor"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">公司图标</label>
+			<div class="col-sm-9">
+				<input type="hidden" id="upImgs" form_sub="REGION_HEADIMG">
+				<input type="file" multiple id="ssi-upload"/>请选择图片支持jpg、gif、txt、png和pdf格式文件
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"></label>
+			<div class="col-sm-9">
+				<input type="button" onclick="subAdd();" class="btn btn-pink" value="提交"/>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+var editor =CKEDITOR.replace('TextArea1', { height: '200px'});
+
+function subAdd(){
+	var json=urlObj.getJson();
+	json['ADDRESS']=document.getElementById("ADDRESS").value;
+	json['REMARK']=editor.document.getBody().getText();
+	json['CREATED_BY']=json['token'].ID;
+	json['TELEPHONE']=document.getElementById("TELEPHONE").value;
+	json['TYPE']='0';
+//	console.log(json);
+	var falg=commFromAjax(subAddurl,json);
+	if(falg==1){
+		alert('新增成功！');
+		$("#box_tab2").html(getUrl(addBox));
+		$('#add').tab('show');
+	}else{
+		alert('新增失败！');
+	}
+}
+
+//上传插件使用
+$('#ssi-upload').ssi_uploader({url:urlObj.uplod,maxFileSize:1,allowed:['jpg','gif','txt','png','pdf'],data:{"upPath":"pictureResources/photos"},
+  onEachUpload:function(fileInfo){
+  	var img=$("#upImgs").val();
+  	if(img==''){
+  		$("#upImgs").val(fileInfo.msg);
+  	}else{
+  		$("#upImgs").val(fileInfo.msg);
+  	}
+}});
+</script>

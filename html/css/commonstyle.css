@@ -1,0 +1,548 @@
+/*系统用户管理按钮组*/
+/*#myButton .btn-primary{
+		border-color: #d1d1d1;
+		color: #000;
+		background-color:#f2f2f2;
+		padding: 6px 19px;
+		background-image:none;
+}*/
+/*#myButton .active{
+		color: #000;
+		background-color:#a8bc7b;
+		box-shadow: none;
+}
+#myButton .btn-primary:hover, .btn-primary:focus{
+		background-position: 0 0;
+		color: #000;
+		background-color:#a8bc7b;
+}*/
+#sidebar{
+	min-height: 879px;
+	border-bottom: none !important;
+}
+.bg-f3f3{
+	background-color:#f3f3f3;
+}
+.bor-dada{
+	border: 1px solid #dadada;
+}
+.font-18{
+	font-size: 18px !important;
+}
+.pd-lr0{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+/*#j-dialog-body{
+	overflow-y: auto !important;
+	overflow-x: hidden !important;
+}*/
+.dianlogAddClass{
+	background:#f5f5f5 !important;
+}
+.tab-pane{
+	position: relative;
+}
+/*公司切换下拉框控制*/
+.qwer li{
+	background: #5e87b0;
+	border-bottom: 1px solid #FFFFFF;
+	display: block;
+	line-height: 40px;
+	padding: 0 10px;
+	cursor: pointer;
+	height: 40px;
+	width: 200px;
+}
+.navbar .navbar-brand .qwer li img{
+	position:static;
+	max-width: 180px;
+}
+.qwer li:hover{
+	background-color: #e8e8e8;
+	background-image: -webkit-linear-gradient(top,#f5f5f5 0,#e8e8e8 100%);
+	background-image: linear-gradient(to bottom,#f5f5f5 0,#e8e8e8 100%);
+	background-repeat: repeat-x;
+}
+
+.bs-checkbox{
+	text-align:center;
+	vertical-align:middle;
+}
+
+/*表格日期筛选插件*/
+.tableTool{
+	width: 100%;
+	position: absolute;
+	top: 0%;
+}
+/*日期工具*/
+.timeTools{
+	margin-top: 10px;
+	margin-right: 1%;
+	display: inline-block;
+}
+/*日期工具按钮组*/
+.timeTools .btn-primary{
+	border-color: #d1d1d1;
+	color: #000;
+	background-color:#f2f2f2;
+	padding: 6px 19px;
+	background-image:none;
+}
+.timeTools .btn-group .active{
+	color: #000;
+	background-color:#a8bc7b;
+	box-shadow: none;
+	border-color: #a8bc7b;
+}
+.timeTools .btn-group .btn-primary:hover, .btn-primary:focus{
+	background-position: 0 0;
+	color: #000;
+	background-color:#a8bc7b;
+	border-color:#a8bc7b;
+}
+
+/*状态按钮组*/
+.stateButton .btn{
+	border-radius: 4px 0 0 4px;
+}
+.stateButton .active{
+	color: #fff;
+	border: 1px solid #a8bc7b !important;
+    background: #a8bc7b !important;
+    box-shadow: none !important;
+}
+.stateButton .btn-primary:hover, .btn-primary:focus{
+	border: 1px solid #a8bc7b;
+	background-position: 0 0;
+	color: #fff;
+}
+#myButton{
+	margin-left: 0px;
+}
+#myButton .btn{
+	border-radius: 0;
+}
+#myButton .btn-primary{
+	border: 1px solid #DDDDDD;
+	color: #000;
+	background-color:#fff;
+	padding: 6px 19px;
+	background-image:none;
+}
+#myButton .active{
+	color: #333;
+    background-color: #f1f1f1;
+    box-shadow: none;
+	border: 1px solid #56a8e7;
+	-webkit-box-shadow:0 0 2px  #56a8e7;
+}
+#myButton .btn-primary:hover, .btn-primary:focus{
+	background-position: 0 0;
+	box-shadow: none;.
+	color: #333;
+    background-color: #f4f4f4;
+    border: 1px solid #56a8e7;
+	-webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;
+	-webkit-box-shadow:0 0 3px  #56a8e7;
+}
+#myButton label{
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+#myButton{
+	margin-top: 8px !important;
+}
+
+
+/*部门统计模块按钮组*/
+#statistics #myButton{
+	margin: 0 !important;
+	color: #333;
+	padding: 17px 0 0 9px;
+}
+#statistics #myButton .btn-primary ,#taskButton .btn-primary,#taskBusButton .btn-primary{
+	border: 1px solid #f4f4f4;
+    background: #f4f4f4;
+    margin-right: 10px;
+    border-radius: 5px;
+    height: 30px;
+}
+#statistics {
+	width: 99%;
+	display: flex;
+	border: 1px solid #dddddd;
+	background: white;
+	border-radius: 4px;
+	height: 70px;
+}
+#statistics #myButton,#taskButton,#taskBusButton{
+	z-index: 100;
+	width: 100%;
+	overflow-x: auto;
+	display: flex;
+}
+#statistics .statisticsDefault{
+	height: 100%;
+	width: 100px;
+	font-weight: bold;
+	background: #f4f4f4;
+	border-right: 1px solid #dddddd;
+	text-align: center;
+    line-height: 70px;
+}
+#taskButton .btn-primary,#taskBusButton .btn-primary{
+	color: #333;
+}
+#statistics #myButton .active ,#taskButton .active,#taskBusButton .active{
+	color: #fff;
+    background: #56a8e7;
+	border:1px solid #56a8e7;
+	box-shadow: none;
+}
+#statistics #myButton .active:hover,#taskButton .active:hover,#taskBusButton .active:hover{
+	color: #fff;
+    background: #56a8e7;
+	border:1px solid #56a8e7;
+}
+#taskButton .btn-primary:hover,#taskBusButton .btn-primary:hover{
+	background-position: 0 0;
+	box-shadow: none;.
+	
+    background-color: #f4f4f4;
+    border: 1px solid #56a8e7;
+	-webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;
+	-webkit-box-shadow:0 0 3px  #56a8e7;
+}
+
+/*时间按钮组*/
+#tDate{
+	border-radius:0;
+}
+.TimeButton{
+	margin-left: 1px;
+}
+.TimeButton button{
+	color: #fff;
+	border: 1px solid #a8bc7b;
+    background: #a8bc7b;
+    box-shadow: none;
+    text-shadow: none;
+    margin-right: 2px;
+    border-radius: 0;
+}
+.TimeButton .active{
+	color: #fff;
+	border: 1px solid #a8bc7b;
+    background: #a8bc7b;
+    box-shadow: none;
+}
+.TimeButton button:hover{
+	border: 1px solid #a8bc7b;
+	background-position: 0 0;
+	color: #fff;
+	background-color:#a8bc7b;
+}
+.TimeButton .active:hover, .active:focus{
+	border: 1px solid #a8bc7b;
+	background-position: 0 0;
+	color: #fff;
+	background-color:#a8bc7b;
+}
+.dropdown-toggle.btn-default:focus, .open > .dropdown-toggle.btn-default:hover{
+    color: #2f2f2f;
+    background-color: #a8bc7b;
+    border-color: #a8bc7b;
+    box-shadow:none;
+}
+#myTimeButton .btn input{
+	display: none;
+}
+#myTimeButton .btn-primary{
+	color: #2f2f2f;
+   	background:none;
+    border:none;
+}
+#myTimeButton .active{
+	background: #a8bc7b !important;
+	color: #2f2f2f !important;
+}
+#myTimeButton li label{
+	width: 100%;
+	border-radius:0;
+}
+#myTimeButton .btn-primary:hover, .btn-primary:focus{
+	border:none;
+	background: #a8bc7b ;
+	box-shadow:none;
+}
+/*时间筛选控件*/
+.timeData{
+	margin-top: 10px;
+	margin-right: 0%;
+}
+.timeData .timeData-ts{
+	font-size: 16px;
+}
+.timeData .wkInput{
+	display: inline-block;
+	width: 40%;
+	max-width: 196px;
+}
+
+
+/*用户资料卡*/
+#userDatum ol{
+	padding-left: 0;
+}
+#userDatum ol li{
+	padding: 5px 0px 5px 10px;
+	list-style: none;
+}
+.logoli{
+	top:51px !important;
+}
+.logoli li{
+	display: block;
+	cursor: pointer;
+	height: auto;
+	height: 50px;
+	width: 100%;
+    margin-bottom: 1px;
+}
+.logoli li a {
+    background-color: #f4f4f4;
+    border-bottom: 1px solid  #5e87b0 !important;
+    border-top: 1px solid  #5e87b0 !important;
+    display: block;
+    height: 50px;
+    background: #5e87b0 !important;
+    line-height: 40px;
+    padding: 10px 10px 1px !important;
+}
+.navbar .navbar-brand .logoli li img{
+	position:static;
+	max-width: 180px;
+}
+.logoli li:hover{
+	height: 50px;
+	background: #5e87b0 !important;
+}
+
+/*公司切换logo*/
+
+.navbar .navbar-brand img {
+  position: absolute !important;
+  left:10px !important;
+  top:10px !important;
+  }
+  
+#changeImg{
+	padding: 10px !important; 
+	margin-left: 50px !important;
+	width: 200px;
+	height: 50px;
+	background: none;
+}
+/*统计日期筛选*/
+/*日期筛选*/
+.timeDelayWeek,.timeDelayMonth{
+	z-index: 9999;
+	padding-left: 10px;
+	border: 1px solid #c4c4c4;
+	background: #fff;
+	border-radius: 4px;
+	color: #000;
+}
+.timeDelayWeeks{
+	border: 1px solid #DDDDDD;
+	color: #000;
+	height: 23px;
+	background-color:#fff;
+	background-image:none;
+	border-radius: 4px;
+	font-size: 12px;
+	display: inline-block;
+}
+
+
+
+/*日程表统计按钮组*/
+
+#dpButton .active{
+	color: #333 !important;
+	background-color: #f4f4f4 !important;
+	box-shadow: none !important;
+	border: 1px solid #56a8e7 !important;
+	-webkit-box-shadow:0 0 2px  #56a8e7 !important;
+	border-right: 1px solid #56a8e7 !important;
+	border-left: 1px solid #56a8e7 !important;
+}
+
+#dpButton .btn{
+    border-radius: 0;
+    color: #2f2f2f;
+    border: 1px solid #a8bc7b;
+    background: none;
+}
+
+#dpButton .btn-primary{
+	border: 1px solid #DDDDDD;
+	color: #000;
+	background-color:#fff;
+	padding: 6px 19px;
+	background-image:none;
+}
+#dpButton .btn-primary:hover,.btn-primary:focus {
+	background-position: 0 0;
+	box-shadow: none;.
+	color: #333;
+	background-color: #f4f4f4;
+	border: 1px solid #56a8e7;
+	-webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;
+	-webkit-box-shadow:0 0 3px  #56a8e7;
+	border-right: 1px solid #56a8e7;
+	border-left: 1px solid #56a8e7;
+}
+
+
+/*表格的选中样式*/
+.selected{
+	opacity: 1 !important;
+	background: #faf9f9 !important;
+}
+.selected td{
+	background: #faf9f9 !important;
+	color: #bfbfbf!important;
+}
+
+
+/*滚动条*/
+.rollingBearing::-webkit-scrollbar {
+	width:7px;
+	height:7px;
+}
+.rollingBearing::-webkit-scrollbar-button    {
+	/*左右箭头*/
+	background-color:#ebebeb;
+	width: 0;
+	height: 0;
+}
+.rollingBearing::-webkit-scrollbar-track     {
+	background:#fff;
+}
+ .rollingBearing::-webkit-scrollbar-track-piece {
+/*	箭头内背景*/
+	background:#ebebeb;
+}
+ .rollingBearing::-webkit-scrollbar-thumb{
+	/*拖动条*/
+	background:#cdd4d9;
+	border-radius:4px;
+}
+.rollingBearing::-webkit-scrollbar-corner {
+	background:#82AFFF;
+}
+ .rollingBearing::-webkit-scrollbar-resizer  {
+	background:#FF0BEE;
+}
+
+
+/*项目工作管理*/
+#management .fc-view-container{
+	background: white;
+    border-radius: 0;
+    padding: 20px;
+}
+#management .fc-header-toolbar{
+	padding-left: 45%;
+    padding-right: 70px;
+}
+#management h2{
+	font-size: 26px;
+}
+
+/*工作进度管理*/
+.appendLine{
+	/*height: 12px !important;*/
+	line-height: 12px !important;
+	cursor: pointer;
+}
+#progressChart li{
+	cursor:default
+}
+#referenceSize{
+	font-size: 16px;
+}
+.clearOver{
+	position: initial !important;
+	overflow: initial !important;
+}
+.progress{
+	height: 12px !important;
+}
+.arrow-in-right{
+	padding-top: 2.5px !important;
+	padding-bottom: 2.5px !important;
+}
+
+/*消息通知*/
+#showNotice{
+	max-height: 400px;
+    overflow-y: auto;
+}
+
+/*计划表*/
+.fc-content{
+	color: #fff;
+}
+
+/*项目 商务 管理 时间插件*/
+.searchI{
+	display: inline-block;
+	position: absolute;
+	right: 5px;
+	color: cornflowerblue;
+	cursor: pointer;
+	opacity:0.6;
+	top:3px
+}
+/*.fc-past{
+	background: #f4f4f4;
+   -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: no-drop;
+}*/
+
+/*.fc-past{
+	background: '#f4f4f4',
+   -webkit-touch-callout: 'none',
+    -webkit-user-select: 'none',
+    -khtml-user-select: 'none',
+    -moz-user-select: 'none',
+    -ms-user-select: 'none',
+    user-select: 'none',
+    cursor: 'no-drop'
+}*/
+.fc-day-header{
+	color: gray;
+    height: 20px;
+    line-height: 20px;
+}
+
+/*.fc-past:hover ,.fc-future:hover{
+	background: #ebf8fb;
+}*/
+/*图片预览*/
+.img-responsive-copy{
+	display: block;
+	width:auto;
+	height:auto;
+	max-width:100%;
+	max-height:100%;
+}

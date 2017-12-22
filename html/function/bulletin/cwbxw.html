@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta content="telephone=no" name="format-detection">
+    <title>格式预览</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body{
+            background: #000;
+        }
+        .header{
+            height: 2.8rem;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            background-color: #fff0c8;
+            z-index: 999;
+        }
+        .body_div {
+            font-size: 16px;
+            padding: 0;
+            margin: 0;
+            padding-top: 4rem;
+            width: 100%;
+            margin: 0 auto;
+            background: #fff;
+
+        }
+
+        div {
+            display: block;
+        }
+
+        .content {
+            width: 96%;
+            margin-left: 2%;
+            font-size: 13px;
+            /*height: 48rem;*/
+            /*overflow-y: scroll;*/
+            overflow:hidden;
+        }
+
+        .imgBox {
+            width: 100%;
+            height: 11rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header {
+            line-height: 2.8rem;
+        }
+
+        .header a {
+            text-decoration: none;
+            color: #2e383c;
+        }
+
+        .header_nav {
+            width: 100%;
+            height: 2.8rem;
+            /*padding-left: 3%;*/
+            /*float: left;*/
+            /*background-color: #ff2400;*/
+            color: #333;
+            text-align: center;
+            font-size: 16px;
+            line-height: 2.8rem;
+        }
+        .back > img{width: .8rem;height: 1.5rem;}
+        .triangle_r {
+            height: 0;
+            width: 0;
+            border: 8px solid transparent;
+            border-right: 8px solid #fff0c8;
+            margin-top: 0.9rem;
+            float: right;
+        }
+
+        h3 {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        h4 {
+            text-align: right;
+            font-size: 18px;
+        }
+
+
+        p {
+            text-indent: 2em
+            line-height: 21px;
+        }
+
+        .date {
+            font-size: 12px;
+            color: grey;
+            float: right;
+            margin-right: 10px;
+        }
+
+        .line {
+            display: inline-block;
+            width: 100%;
+            background: grey;
+            height: 1px;
+        }
+
+        .writer {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            float: right;
+        }
+    </style>
+</head>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<body>
+<div class="body_div">
+<div class="header">
+    <div class="header_nav">
+        <!--<div class="triangle_r"></div>-->
+        <span class="floatL lineH28r margin-left-10 margin-top-5 back"><img src="image/fanhui.png" alt=""></span>
+        页面预览
+    </div>
+    <!--<span class="floatR lineH28r margin-right-10 back">返回上一级</span>-->
+</div>
+<div class="content">
+    <h3 id="title_p"></h3>
+
+    <div class="date" id="date_p"></div>
+    <span class="line"></span>
+    <!-- <h3 id="type_p"></h3> -->
+    <div id="content_p">
+        
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <h4 id="userName"></h4>
+</div>
+</div>
+<script>
+    var json = window.opener.openJson;
+    console.log(json)
+    loadWrtie();
+    function loadWrtie(){
+        document.getElementById('title_p').innerHTML=yz(json.title);
+        document.getElementById('date_p').innerHTML=yz("公告时间："+json.time);
+        document.getElementById('userName').innerHTML=yz("公告人:"+json.userName);
+        /*document.getElementById('type_p').innerHTML = yz(json.type);*/
+        document.getElementById('content_p').innerHTML=yz(json.content);
+    }
+
+    function yz(str){
+        return (str == undefined || str ==null || str == '') ? "暂无" : str;
+    }
+
+</script>
+</body>
+</html>

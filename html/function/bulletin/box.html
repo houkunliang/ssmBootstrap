@@ -1,0 +1,65 @@
+<script type="text/javascript" src="/function/bulletin/private.js"></script>
+<!--<link rel="stylesheet" type="text/css" href="../../plugin/bootstrap-switch/bootstrap-switch.min.css"/>-->
+<div class="box border green" style="width:98%;margin-left:1%">
+	<div class="box-title">
+		<h4><i class="fa fa-columns"></i><span class="hidden-inline-mobile">公告管理</span></h4>
+	</div>
+	<div class="box-body">
+		<div class="tabbable header-tabs">
+			<ul class="nav nav-tabs">
+				<!--<li><a href="#box_tab4" data-toggle="tab"><i class="fa fa-bar-chart-o"></i> <span class="hidden-inline-mobile">用户统计</span></a></li> -->
+				<li rootButton='update' class="hidden">
+					<a href="#box_tab3" id="update"><i class="fa fa-wrench"></i> <span class="hidden-inline-mobile">公告修改</span></a>
+				</li>
+				<li rootButton='add'>
+					<a href="#box_tab2" id="add"><i class="fa fa-plus-circle"></i> <span class="hidden-inline-mobile">公告新增</span></a>
+				</li>
+				<li class="active">
+					<a href="#box_tab1" id="initTable" data-toggle="tab"><i class="fa fa-refresh" style="cursor:pointer;"></i> <span class="hidden-inline-mobile">公告预览</span></a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="box_tab1">	
+						<!--表格工具栏-->
+					<div class="clearfix"></div>
+					<div class="tableTool" style="position:static">
+						<div class="timeData text-left pull-left" style="margin-left: 2px;margin-bottom: 10px">
+							<input class="form-control wkInput " search="TITLE" placeholder="公告名称" />
+							<select search="TYPE" id="country_select01" class="col-md-12 full-width-fix"  placeholder="公告类型">
+								<option value='' selected="selected">请选择公告类型</option>
+								<option value='0'>消息</option>
+								<option value='1'>通知</option>
+								<option value='2'>表彰</option>
+								<option value='3'>批评</option>
+								<option value='4'>其他</option>
+							</select>
+							<select id="country_STATE" class="col-md-12 full-width-fix"  placeholder="公告状态">
+								<option value='' selected="selected">请选择状态</option>
+								<option value='0'>拟稿</option>
+								<option value='1'>发布</option>
+							</select>
+							<input type="button"  class="btn btn-pink search" value="搜索">
+							<input type="button"  class="btn btn-blue clear" value="清空">
+						</div>
+					</div>
+					<div id="appenTools" style="	display:none"></div>
+					<table id="mytable-s"></table>
+				</div>
+				<div class="tab-pane fade" id="box_tab2">
+					<p>Content #2</p>
+					<p>当前的盒子</p>
+				</div>
+				<div class="tab-pane fade" id="box_tab3">
+					<div class="alert alert-info"><strong>Hello!</strong> I'm a cool tabbed box.</div>
+					<p>Content #3</p>
+					<p>三号盒子</p>
+				</div>
+				<!-- 						  <div class="tab-pane fade" id="box_tab4"> -->
+				<!-- 							<div class="alert alert-info"><strong>Hello!</strong> I'm a cool tabbed box.</div> -->
+				<!-- 							<p>Content #3</p> -->
+				<!-- 							<p>4号盒子</p> -->
+				<!-- 						 </div> -->
+			</div>
+		</div>
+	</div>
+</div>

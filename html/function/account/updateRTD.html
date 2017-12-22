@@ -1,0 +1,45 @@
+<div class="box-body big" style="margin-top: -5%">
+	<div class="form-horizontal" role="form">
+		<input form_sub="ROLE_ID" type="hidden"/>
+		<div class="form-group" style="margin-top: 14%; margin-right:10% ;">
+			<label class="col-sm-3 control-label">所属角色</label>
+			<div class="col-sm-9">
+				<!-- multiple="multiple" -->
+				<select name="country1" id="country_select4" class="col-md-12 full-width-fix" form_sub="ROLE_ID" placeholder="请选择角色">
+					<option value='0' disabled="">列表展示</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	.j-dialog{
+		min-width: 250px;
+		max-width: 600px;
+		max-height: 550px;
+		overflow: auto;
+	}
+	.select2{
+		min-width: 230px;!important;
+	}
+</style>
+<!--<script type="text/javascript">
+initSelect();
+function initSelect(){
+	//初始化加载select2插件
+//  $("#country_select").select2({'width':'100%'});
+//  $("#country_select3").select2({'width':'100%'});
+	var json=urlObj.getJson();
+	var initSJSON=commAjaxPost(urlObj.roleList,json);
+	if(initSJSON==null||initSJSON==''||initSJSON==undefined){
+		console.log('检查输入正确的json格式：方法错误！（select2Init）');
+		return false;
+	}
+	$("#country_select4").select2({
+		width:'100%',
+		placeholder:'可选项',
+		closeOnSelect: false,
+		data: select2Tofromatt(initSJSON,'ROLE_ID','ROLE_NAME')
+	});
+}
+</script>-->

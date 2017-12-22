@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.module.msg.dao.MsgDao">
+	<select id="selectByMsg" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			tm.ID,
+			tm.TITLE,
+			tm.COVER_URL,
+			date_format(from_unixtime(tm.SUB_DATE),'%Y-%m-%d %H:%i:%s') AS SUB_DATE,
+			tm.VIDEO_URL,
+			sr.NAME AS DP_NAME
+		FROM
+			t_msg tm
+			LEFT JOIN stb_region sr ON sr.IS_DELETED = 'N' AND tm.DP_ID = sr.REGION_ID
+		WHERE
+			tm.IS_DELETED='N'
+		<if test="ID != null and ID != ''">
+			AND tm.ID = #{ID}
+		</if>
+		ORDER BY tm.CREATED_DT DESC
+	</select>
+	
+	<select id="selectByMsgInfo" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			tm.*,
+			sr.NAME AS DP_NAME
+		FROM
+			t_msg tm
+			LEFT JOIN stb_region sr ON sr.IS_DELETED = 'N' AND tm.DP_ID = sr.REGION_ID
+		WHERE
+			tm.IS_DELETED='N'
+		<if test="ID != null and ID != ''">
+			AND tm.ID = #{ID}
+		</if>
+		ORDER BY tm.CREATED_DT DESC
+	</select>
+
+	<insert id="insertTmsg" parameterType="java.util.HashMap" >
+    insert into t_msg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="ID != null" >
+	        ID,
+	      </if>
+	      <if test="TITLE != null" >
+	        TITLE,
+	      </if>
+	      <if test="CONTENT != null" >
+	        CONTENT,
+	      </if>
+	      <if test="VIDEO_URL != null" >
+	        VIDEO_URL,
+	      </if>
+	      <if test="SUB_DATE != null" >
+	        SUB_DATE,
+	      </if>
+	      <if test="REMARK != null" >
+	        REMARK,
+	      </if>
+	      <if test="UPDATED_DT != null" >
+	        UPDATED_DT,
+	      </if>
+	      <if test="UPDATED_BY != null" >
+	        UPDATED_BY,
+	      </if>
+	      <if test="CREATED_BY != null" >
+	        CREATED_BY,
+	      </if>
+	      <if test="CREATED_DT != null" >
+	        CREATED_DT,
+	      </if>
+	      <if test="IS_DELETED != null" >
+	        IS_DELETED,
+	      </if>
+	      <if test="DP_ID != null" >
+	        DP_ID,
+	      </if>
+	      <if test="COVER_URL != null" >
+	        COVER_URL,
+	      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="ID != null" >
+	        #{ID},
+	      </if>
+	      <if test="TITLE != null" >
+	        #{TITLE},
+	      </if>
+	      <if test="CONTENT != null" >
+	        #{CONTENT},
+	      </if>
+	      <if test="VIDEO_URL != null" >
+	        #{VIDEO_URL},
+	      </if>
+	      <if test="SUB_DATE != null" >
+	        #{SUB_DATE},
+	      </if>
+	      <if test="REMARK != null" >
+	        #{REMARK},
+	      </if>
+	      <if test="UPDATED_DT != null" >
+	        #{UPDATED_DT},
+	      </if>
+	      <if test="UPDATED_BY != null" >
+	        #{UPDATED_BY},
+	      </if>
+	      <if test="CREATED_BY != null" >
+	        #{CREATED_BY},
+	      </if>
+	      <if test="CREATED_DT != null" >
+	        #{CREATED_DT},
+	      </if>
+	      <if test="IS_DELETED != null" >
+	        #{IS_DELETED},
+	      </if>
+	      <if test="DP_ID != null" >
+	        #{DP_ID},
+	      </if>
+	      <if test="COVER_URL != null" >
+	        #{COVER_URL},
+	      </if>
+    </trim>
+  </insert>
+
+<update id="updateByTmsg" parameterType="java.util.HashMap" >
+    update t_msg
+    <set >
+	      <if test="TITLE != null" >
+	        TITLE = #{TITLE},
+	      </if>
+	      <if test="CONTENT != null" >
+	        CONTENT = #{CONTENT},
+	      </if>
+	      <if test="VIDEO_URL != null" >
+	        VIDEO_URL = #{VIDEO_URL},
+	      </if>
+	      <if test="SUB_DATE != null" >
+	        SUB_DATE = #{SUB_DATE},
+	      </if>
+	      <if test="REMARK != null" >
+	        REMARK = #{REMARK},
+	      </if>
+	      <if test="UPDATED_DT != null" >
+	        UPDATED_DT = #{UPDATED_DT},
+	      </if>
+	      <if test="UPDATED_BY != null" >
+	        UPDATED_BY = #{UPDATED_BY},
+	      </if>
+	      <if test="IS_DELETED != null" >
+	        IS_DELETED = #{IS_DELETED},
+	      </if>
+	      <if test="DP_ID != null" >
+	        DP_ID = #{DP_ID},
+	      </if>
+	      <if test="COVER_URL != null" >
+	        COVER_URL = #{COVER_URL},
+	      </if>
+	      <if test="BANNER != null" >
+	        BANNER = #{BANNER},
+	      </if>
+    </set>
+    where ID = #{ID}
+  </update>
+
+	<select id="selectHomeDpMsg" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT 
+			A.*,
+			sr.`NAME` AS DP_NAME
+		FROM 
+			t_msg A,
+		(SELECT
+			MAX(tm.SUB_DATE) AS max_day,
+			tm.DP_ID
+		FROM
+			t_msg tm
+		WHERE
+			tm.SUB_DATE <![CDATA[ <= ]]> unix_timestamp()
+		AND	tm.IS_DELETED = 'N'
+		GROUP BY tm.DP_ID) B,
+			stb_region sr
+		WHERE
+			A.DP_ID = B.DP_ID
+		AND	A.IS_DELETED = 'N'
+		AND A.SUB_DATE = B.max_day
+		AND sr.REGION_ID = A.DP_ID
+		ORDER BY sr.REGION_ORDER
+	</select>
+
+	<select id="selectHomeDpMsgInfo" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			tm.*,
+			tr.`NAME` AS DP_NAME
+		FROM
+			t_msg tm,
+			stb_region tr
+		WHERE
+			tm.IS_DELETED = 'N'
+		AND	tr.REGION_ID = tm.DP_ID
+		AND tm.SUB_DATE <![CDATA[ <= ]]> unix_timestamp()
+		AND tm.DP_ID = #{DP_ID}
+		<if test="ID != null and ID != ''">
+			AND tm.ID = #{ID}
+		</if>
+		<if test="TITLE != null and TITLE != ''">
+			AND tm.TITLE LIKE '%${TITLE}%'
+		</if>
+		ORDER BY tm.SUB_DATE DESC
+	</select>
+
+	<select id="selectBannerList" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			tm.*,
+			tr.`NAME` AS DP_NAME
+		FROM
+			t_msg tm,
+			stb_region tr
+		WHERE
+			tm.IS_DELETED = 'N'
+		AND	tr.REGION_ID = tm.DP_ID
+		AND tm.BANNER <![CDATA[ <> ]]> '0'
+		ORDER BY tm.BANNER ASC
+	</select>
+
+
+	<update id="updateByMsgBanner" parameterType="java.util.HashMap" >
+	    update t_msg
+	    <set >
+			  BANNER = '0'
+	    </set>
+	    where BANNER <![CDATA[ <> ]]> '0'
+	</update>
+  
+  	<insert id="insertFroDiv" parameterType="java.util.HashMap" >
+	    insert into for_div
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+		      <if test="ID != null" >
+		        ID,
+		      </if>
+		      <if test="TITLE != null" >
+		        TITLE,
+		      </if>
+		      <if test="COVER_URL != null" >
+		        COVER_URL,
+		      </if>
+		      <if test="CREATED_BY != null" >
+		        CREATED_BY,
+		      </if>
+		      <if test="CREATED_DT != null" >
+		        CREATED_DT,
+		      </if>
+		      <if test="IS_DELETED != null" >
+		        IS_DELETED,
+		      </if>
+		      <if test="ORDER_BY != null" >
+		        ORDER_BY,
+		      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	          <if test="ID != null" >
+		        #{ID},
+		      </if>
+		      <if test="TITLE != null" >
+		        #{TITLE},
+		      </if>
+		      <if test="COVER_URL != null" >
+		        #{COVER_URL},
+		      </if>
+		      <if test="CREATED_BY != null" >
+		        #{CREATED_BY},
+		      </if>
+		      <if test="CREATED_DT != null" >
+		        #{CREATED_DT},
+		      </if>
+		      <if test="IS_DELETED != null" >
+		        #{IS_DELETED},
+		      </if>
+		      <if test="ORDER_BY != null" >
+		        #{ORDER_BY},
+		      </if>
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateFroDiv" parameterType="java.util.HashMap" >
+    update for_div
+    <set >
+	      <if test="TITLE != null" >
+	        TITLE = #{TITLE},
+	      </if>
+	      <if test="COVER_URL != null" >
+	        COVER_URL = #{COVER_URL},
+	      </if>
+	      <if test="IS_DELETED != null" >
+	        IS_DELETED = #{IS_DELETED},
+	      </if>
+	      <if test="ORDER_BY != null" >
+		    ORDER_BY = #{ORDER_BY},
+		  </if>
+    </set>
+    where ID = #{ID}
+  </update>
+  
+   <insert id="insertFroDivMsg" parameterType="java.util.HashMap" >
+	    insert into for_div_msg
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+		      <if test="FOR_DIV_ID != null" >
+		        FOR_DIV_ID,
+		      </if>
+		      <if test="MSG_ID != null" >
+		        MSG_ID,
+		      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	          <if test="FOR_DIV_ID != null" >
+		        #{FOR_DIV_ID},
+		      </if>
+		      <if test="MSG_ID != null" >
+		        #{MSG_ID},
+		      </if>
+	    </trim>
+   </insert>
+  
+  <delete id="delFroDivMsg">
+  	DELETE FROM for_div_msg WHERE FOR_DIV_ID = #{FOR_DIV_ID}
+  </delete>
+  
+  <select id="selectFroDiv" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			*
+		FROM
+			for_div
+		WHERE
+			IS_DELETED = 'N'
+		<if test="ID != null" >
+	        AND ID = #{ID}
+	   </if>
+		ORDER BY ORDER_BY ASC
+   </select>
+   
+   <select id="selectMsgToforDiv" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			tm.*,
+			sr.NAME AS DP_NAME,
+			if(fd.ID IS NULL OR fd.ID = '','0','1') AS checkbox
+		FROM
+			t_msg tm
+			LEFT JOIN for_div_msg fdm ON fdm.MSG_ID = tm.ID
+			LEFT JOIN for_div fd ON fd.IS_DELETED = 'N' AND fdm.FOR_DIV_ID = fd.ID AND fd.ID = #{FD_ID}
+			LEFT JOIN stb_region sr ON sr.IS_DELETED = 'N' AND tm.DP_ID = sr.REGION_ID
+		WHERE
+			tm.IS_DELETED = 'N'
+		ORDER BY tm.CREATED_DT DESC
+	</select>
+	
+   <select id="selectMsgToforDivInfor" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			tm.*,
+			sr.REGION_ID AS DP_ID,
+			sr. NAME AS DP_NAME
+		FROM
+			t_msg tm
+			LEFT JOIN stb_region sr ON sr.IS_DELETED = 'N' AND tm.DP_ID = sr.REGION_ID,
+			for_div_msg fdm,
+			for_div fd
+		WHERE
+			tm.IS_DELETED = 'N'
+		AND fd.IS_DELETED = 'N'
+		AND tm.ID = fdm.MSG_ID
+		AND fdm.FOR_DIV_ID = fd.ID
+		AND fd.ID = #{FD_ID}
+		<if test="ID != null and ID != ''">
+			AND tm.ID = #{ID}
+		</if>
+		<if test="TITLE != null and TITLE != ''">
+			AND tm.TITLE LIKE '%${TITLE}%'
+		</if>
+		ORDER BY tm.CREATED_DT DESC
+	</select>
+	
+</mapper>

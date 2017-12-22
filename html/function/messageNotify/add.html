@@ -1,0 +1,50 @@
+﻿<div class="box-body big"   style="width:90%;min-width:250px;max-width:1000px;">
+	<div class="form-horizontal" role="form">
+	<div class="form-group">
+		<label class="col-sm-3 control-label">TITLE</label>
+		<div class="col-sm-9">
+			<input class="form-control" id="MSG_TITLE" hklfrom='{"isnull":"true","txtLength":[0,20],"message":{"isnull":"请输入正确类型的数据类型代码"}}' form_sub="MSG_TITLE" type="text" placeholder="请输入2-10个字符的数据类型代码" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<!--<div class="col-sm-9">
+			<input class="form-control" id="MSG_BODY" hklfrom='{"isnull":"true","txtLength":[2,20],"message":{"isnull":"请输入正确数据类型名称"}}' form_sub="MSG_BODY" type="text" placeholder="请输入2-10个字符." />
+		</div>-->
+			<label class="col-sm-3 control-label">内容</label>
+			<div class="col-sm-9">
+				<textarea id="TextArea1" class="ckeditor"></textarea>
+			</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label"></label>
+		<div class="col-sm-9">
+			<input type="button" onclick="add();" class="btn btn-pink" value="发送" />
+		</div>
+	</div>
+	</div>
+</div>
+
+<script>
+var editor =CKEDITOR.replace('TextArea1', { height: '200px'});
+function add() { // 添加并发送消息
+	var msgTitle = $("#MSG_TITLE").val();
+	var msgBody = editor.document.getBody().getText();
+	var msgObj ={};
+	var userObj=urlObj.getJson();
+	var idJson = userObj.token.ID;
+	msgObj['MSG_TITLE'] = msgTitle;
+	msgObj['MSG_BODY'] = msgBody;
+	msgObj['CREATED_BY']=idJson;
+	var falg = commFromAjax(msgAdd,msgObj);
+	if(falg == 1) {
+		$("#box_tab2").html(getUrl(addUrl));
+		$('#add').tab('show');
+		socket.send(JSON.stringify(msgObj)); // 推送
+	} else {
+		alert('新增失败！');
+	}
+}
+
+</script>
+

@@ -1,0 +1,34 @@
+<script type="text/javascript" src="/function/menu/private.js"></script>
+<div class="box border red" style="width:97%;margin-left:1%">
+	<div class="box-title">
+		<h4>
+			<i class="fa fa-sitemap"></i><span class="hidden-inline-mobile">菜单管理</span>
+		</h4>
+		<!--</div>-->
+		<!--功能图标-->
+
+	</div>
+	<div class="box-body">
+		<div class="tools  header-tabs">
+			<!--<a href="#box-config" title="收展菜单" data-toggle="modal" class="config  hidden treeAll-1" title="" id="treeAll-1" style="margin-right:30px;" onclick="treeviewExpandAll(true)">-->
+			<!--<i class="fa fa-arrow-down"></i>-->
+			<!--</a>-->
+			<!--<a href="#box-config" title="收展菜单" data-toggle="modal" class="config treeAll-2" id="treeAll-2" title="" style="margin-right:30px;" onclick="treeviewCollapseAll(true)">-->
+			<!--<i class="fa fa-arrow-up"></i>-->
+			<!--</a>-->
+			<!--<a href="#box-config" title="添加菜单" data-toggle="modal" class="config" id="fatherAdd" style="margin-right: 30px">-->
+			<!--<i class="fa fa-plus-circle"></i>-->
+			<!--</a>-->
+			<ul class="nav nav-tabs">
+				<li><a href="#" id="fatherAdd"><i class="fa fa-plus-circle"></i><span class="hidden-inline-mobile">添加菜单</span></a></li>
+				<li class="active boxTab-remove" ><a  data-toggle="modal" class="config"><i class="fa fa-refresh"></i> <span class="hidden-inline-mobile">菜单预览</span></a></li>
+				<li onclick="treeviewExpandAll(true)" class="hidden treeAll-1 "><a href="#"><i class="fa fa-arrow-down"></i><span class="hidden-inline-mobile">展开菜单</span></a></li>
+				<li onclick="treeviewCollapseAll(true)" class="treeAll-2" id="boxTab-hide"><a href="#"><i class="fa fa-arrow-up"></i><span class="hidden-inline-mobile">收起菜单</span></a></li>
+			</ul>
+			<div style="margin-top: -2%; margin-bottom: 1%;text-align:right" >
+				<input type="input" class="form-control" id="input-search"  placeholder="模糊查询关键字" value="" style="display: inline-block;width: 25%;margin-right:0%;">
+			</div>
+		</div>
+		<div id="tree"></div>
+	</div>
+</div>

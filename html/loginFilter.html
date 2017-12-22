@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta charset="UTF-8">
+<title>LavaGame</title>
+</head>
+<body>
+<center></center>
+<script src='canvas/js/jquery.min.js'></script>
+<script type="text/javascript">
+window.onload = function(){
+	//浏览器内核判断
+function getOs(){ 
+    var OsObject = ""; 
+   if(navigator.userAgent.indexOf("MSIE")>0) { 
+        return "MSIE"; 
+   } 
+   else if(isFirefox=navigator.userAgent.indexOf("Firefox")>0){ 
+        return "Firefox"; 
+   } 
+   else if(isMozilla=navigator.userAgent.indexOf("Opera")>0){ //这个也被判断为chrome
+        return "Opera"; 
+   } 
+   else if(isFirefox=navigator.userAgent.indexOf("Chrome")>0){ 
+        return "Chrome"; 
+   } 
+   else if(isSafari=navigator.userAgent.indexOf("Safari")>0) { 
+        return "Safari"; 
+   }  
+   else if(isCamino=navigator.userAgent.indexOf("Camino")>0){ 
+        return "Camino"; 
+   } 
+   else if(isMozilla=navigator.userAgent.indexOf("Gecko/")>0){ 
+        return "Gecko"; 
+   }  
+}
+//alert(getOs());
+		//移动端判断
+	var MobileUA = (function() {  
+        var ua = navigator.userAgent.toLowerCase();  
+        var mua = {  
+            IOS: /ipod|iphone|ipad/.test(ua), //iOS  
+            IPHONE: /iphone/.test(ua), //iPhone  
+            IPAD: /ipad/.test(ua), //iPad  
+            ANDROID: /android/.test(ua), //Android Device  
+            WINDOWS: /windows/.test(ua), //Windows Device  
+            TOUCH_DEVICE: ('ontouchstart' in window) || /touch/.test(ua), //Touch Device  
+            MOBILE: /mobile/.test(ua), //Mobile Device (iPad)  
+            ANDROID_TABLET: false, //Android Tablet  
+            WINDOWS_TABLET: false, //Windows Tablet  
+            TABLET: false, //Tablet (iPad, Android, Windows)  
+            SMART_PHONE: false //Smart Phone (iPhone, Android)  
+        };  
+  
+        mua.ANDROID_TABLET = mua.ANDROID && !mua.MOBILE;  
+        mua.WINDOWS_TABLET = mua.WINDOWS && /tablet/.test(ua);  
+        mua.TABLET = mua.IPAD || mua.ANDROID_TABLET || mua.WINDOWS_TABLET;  
+        mua.SMART_PHONE = mua.MOBILE && !mua.TABLET;  
+        return mua;  
+    }());  
+// alert(getOs());
+
+/***目前系统限制浏览器登陆，仅允许火狐和谷歌浏览器登陆***/
+    //SmartPhone   
+	if(MobileUA.SMART_PHONE){
+				//移动端跳过动画
+//		alert("暂时仅PC端火狐浏览器和谷歌浏览器登陆系统,移动端不支持登陆系统！\n建议使用电脑登陆");
+	   		window.location.href="login.html"; 
+//	   		 alert(MobileUA.SMART_PHONE);
+	}else if(document.createElement('canvas').getContext && getOs()== "Chrome"||document.createElement('canvas').getContext && getOs()== "Firefox"){
+	    	/*仅允许火狐和谷歌浏览器登陆系统且支持canvas的登陆*/
+	   		//window.location.href="logins.html";
+			window.location.href="login.html";
+	}else if(!document.createElement('canvas').getContext && getOs()== "Chrome"||!document.createElement('canvas').getContext && getOs()== "Firefox"){
+				/*仅允许火狐和谷歌浏览器登陆系统,不支持canvas的普通登陆*/
+			window.location.href="login.html";
+	}else{
+			alert("暂时仅支持火狐浏览器和谷歌浏览器登陆系统,您的浏览器不支持登陆系统！\n建议下载（谷歌浏览器）");
+	    window.location.href="https://www.baidu.com/link?url=Wv2qMEl82-LR947oXdsZ-_XFyk0A71iH0D_y0n5hSzlHqQiHGnwSOutBNrKFmFrVneRA1madx80Gi3ml_-qADhrAuYIb9LcaVrosNhOxm-y&wd=&eqid=e27c4ce600022d470000000558ee0d65";
+		} 
+	}
+</script>
+</body>
+</html>
+

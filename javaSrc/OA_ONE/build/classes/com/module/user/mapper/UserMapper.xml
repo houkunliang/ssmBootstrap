@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.module.user.dao.UserDao">
+	<select id="selectByPrimaryKey" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		CASE su.USER_SEX
+		WHEN '0' THEN
+		'男'
+		WHEN '1'
+		THEN '女'
+		ELSE
+		'暂无'
+		END,
+		su.*,
+		group_concat(roleTb.ROLE_NAME separator ',') AS ROLES
+		FROM
+		stb_user su
+		LEFT JOIN
+		(SELECT
+		sr.*,
+		sru.USER_ID
+		FROM
+		stb_role_user sru,
+		stb_role sr
+		WHERE
+		sr.IS_DELETED='N'
+		AND sru.ROLE_ID = sr.ROLE_ID) roleTb
+		on roleTb.USER_ID = su.ID
+		WHERE
+		su.IS_SUPER != '1'
+		<if test="ID != null">
+			AND su.ID = #{ID}
+		</if>
+		<if test="USER_NAME != null">
+			AND su.USER_NAME= #{USER_NAME}
+		</if>
+		<if test="USER_ACCOUNT != null">
+			AND su.USER_ACCOUNT= #{USER_ACCOUNT}
+		</if>
+		<if test="USER_PASS != null">
+			AND su.USER_PASS = #{USER_PASS}
+		</if>
+		<if test="USER_SEX != null">
+			AND su.USER_SEX = #{USER_SEX}
+		</if>
+		<if test="USER_PHONE != null">
+			AND su.USER_PHONE= #{USER_PHONE}
+		</if>
+		<if test="USER_ADDRESS != null">
+			AND su.USER_ADDRESS= #{USER_ADDRESS}
+		</if>
+		<if test="USER_EMAIL != null">
+			AND su.USER_EMAIL= #{USER_EMAIL}
+		</if>
+		<if test="USER_HEADIMG != null">
+			AND su.USER_HEADIMG= #{USER_HEADIMG}
+		</if>
+		<if test="USER_EXPLAIN != null">
+			AND su.USER_EXPLAIN= #{USER_EXPLAIN}
+		</if>
+		<if test="CREATE_DATE != null">
+			AND su.CREATE_DATE= #{CREATE_DATE}
+		</if>
+		<if test="UPDATE_DATE != null">
+			AND su.UPDATE_DATE= #{UPDATE_DATE}
+		</if>
+		<if test="IS_SUPER != null">
+			AND su.IS_SUPER = #{IS_SUPER}
+		</if>
+		<if test="STATE != null">
+			AND su.STATE= #{STATE}
+		</if>
+		<if test="WX_NUMBER != null">
+			AND su.WX_NUMBER= #{WX_NUMBER}
+		</if>
+		<if test="NO_IS != null">
+			AND su.IS_SUPER <![CDATA[ <> ]]>
+			'0'
+		</if>
+		GROUP BY su.ID
+		ORDER BY CREATE_DATE DESC
+	</select>
+
+	<select id="userToRoleInfo" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		sr.*
+		FROM
+		stb_user su,
+		stb_role_user sru,
+		stb_role sr
+		WHERE
+		sr.IS_DELETED='N'
+		AND su.ID=sru.USER_ID
+		AND sru.ROLE_ID=sr.ROLE_ID
+		AND su.ID=#{USER_ID}
+	</select>
+
+
+	<select id="Login" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT
+		su.*,sr.ROLE_NAME,sr.ROLE_ID
+		FROM
+		stb_user su
+		LEFT JOIN (
+		SELECT
+		sru.USER_ID,
+		sr.ROLE_NAME,
+		sr.ROLE_ID
+		FROM
+		stb_role sr,
+		stb_role_user sru
+		WHERE
+		sr.IS_DELETED = 'N'
+		AND sru.IS_DELETED = 'N'
+		AND sr.ROLE_ID =
+		sru.ROLE_ID
+		) sr ON su.ID = sr.USER_ID
+		WHERE
+		su.STATE = '1'
+		AND
+		su.USER_ACCOUNT = #{USER_ACCOUNT}
+		AND su.USER_PASS =
+		#{USER_PASS}
+	</select>
+
+	<select id="Logins" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			sre.REGION_ID as imgRegionId,sre.REGION_ORDER,sre.REGION_HEADIMG,
+			userloginregion.*
+		FROM
+		stb_region sre,
+		(
+			SELECT
+				su.*, userlogin.ROLE_NAME,
+				userlogin.ROLE_ID,
+				userlogin.DP_ID
+			FROM
+				stb_user su
+				LEFT JOIN (
+					SELECT
+					sru.USER_ID,
+					role.ROLE_NAME,
+					role.ROLE_ID,
+					role.DP_ID
+				FROM
+					stb_role role,
+					stb_role_user sru
+					WHERE
+					role.IS_DELETED = 'N'
+					AND sru.IS_DELETED = 'N'
+					AND role.ROLE_ID = sru.ROLE_ID
+				) userlogin ON su.ID = userlogin.USER_ID
+			WHERE
+				su.STATE = '1'
+				AND su.USER_ACCOUNT = #{USER_ACCOUNT}
+				AND su.USER_PASS = #{USER_PASS}
+			<!--AND su.IS_SUPER <![CDATA[  <> ]]> '' -->
+		) AS userloginregion
+		WHERE
+			sre.IS_DELETED = 'N'
+			AND FIND_IN_SET(sre.REGION_ID,getParentList (userloginregion.DP_ID))
+			AND sre.PARENT_ID = '0'
+			ORDER BY
+			sre.REGION_ORDER ASC
+	</select>
+
+
+	<select id="userRootToMenu" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		DISTINCT
+		sm.*
+		FROM
+		stb_user su,
+		stb_role_user sru,
+		stb_role sr,
+		stb_role_opt sro,
+		stbl_menu sm
+		WHERE
+		sm.IS_DELETED = 'N'
+		AND
+		sr.IS_DELETED = 'N'
+		AND su.ID=sru.USER_ID
+		AND
+		sru.ROLE_ID=sr.ROLE_ID
+		AND
+		sr.ROLE_ID=sro.ROLE_ID
+		AND
+		sro.MENU_ID=sm.MENU_ID
+		AND su.ID=#{USER_ID}
+		ORDER BY sm.MENU_ORDER
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.util.HashMap">
+		delete from
+		stb_user
+		where ID = #{ID}
+	</delete>
+
+
+
+
+	<insert id="insertSelective" parameterType="java.util.HashMap">
+		insert into stb_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				ID,
+			</if>
+			<if test="USER_NAME != null">
+				USER_NAME,
+			</if>
+			<if test="USER_ACCOUNT != null">
+				USER_ACCOUNT,
+			</if>
+			<if test="USER_PASS != null">
+				USER_PASS,
+			</if>
+			<if test="USER_SEX != null">
+				USER_SEX,
+			</if>
+			<if test="USER_PHONE != null">
+				USER_PHONE,
+			</if>
+			<if test="USER_ADDRESS != null">
+				USER_ADDRESS,
+			</if>
+			<if test="USER_EMAIL != null">
+				USER_EMAIL,
+			</if>
+			<if test="USER_HEADIMG != null">
+				USER_HEADIMG,
+			</if>
+			<if test="USER_EXPLAIN != null">
+				USER_EXPLAIN,
+			</if>
+			<if test="CREATE_DATE != null">
+				CREATE_DATE,
+			</if>
+			<if test="UPDATE_DATE != null">
+				UPDATE_DATE,
+			</if>
+			<if test="IS_SUPER != null">
+				IS_SUPER,
+			</if>
+			<if test="STATE != null">
+				STATE,
+			</if>
+			<if test="WX_NUMBER != null">
+				WX_NUMBER,
+			</if>
+			<if test="USER_NATION != null">
+				USER_NATION,
+			</if>
+			<if test="USER_BIRTHDAY != null">
+				USER_BIRTHDAY,
+			</if>
+			<if test="JOIN_DAY != null">
+				JOIN_DAY,
+			</if>
+			<if test="REFULAR_DAY != null">
+				REFULAR_DAY,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				#{ID},
+			</if>
+			<if test="USER_NAME != null">
+				#{USER_NAME},
+			</if>
+			<if test="USER_ACCOUNT != null">
+				#{USER_ACCOUNT},
+			</if>
+			<if test="USER_PASS != null">
+				#{USER_PASS},
+			</if>
+			<if test="USER_SEX != null">
+				#{USER_SEX},
+			</if>
+			<if test="USER_PHONE != null">
+				#{USER_PHONE},
+			</if>
+			<if test="USER_ADDRESS != null">
+				#{USER_ADDRESS},
+			</if>
+			<if test="USER_EMAIL != null">
+				#{USER_EMAIL},
+			</if>
+			<if test="USER_HEADIMG != null">
+				#{USER_HEADIMG},
+			</if>
+			<if test="USER_EXPLAIN != null">
+				#{USER_EXPLAIN},
+			</if>
+			<if test="CREATE_DATE != null">
+				#{CREATE_DATE},
+			</if>
+			<if test="UPDATE_DATE != null">
+				#{UPDATE_DATE},
+			</if>
+			<if test="IS_SUPER != null">
+				#{IS_SUPER},
+			</if>
+			<if test="STATE != null">
+				#{STATE},
+			</if>
+			<if test="WX_NUMBER != null">
+				#{WX_NUMBER},
+			</if>
+			<if test="USER_NATION != null">
+				#{USER_NATION},
+			</if>
+			<if test="USER_BIRTHDAY != null">
+				#{USER_BIRTHDAY},
+			</if>
+			<if test="JOIN_DAY != null">
+				#{JOIN_DAY},
+			</if>
+			<if test="REFULAR_DAY != null">
+				#{REFULAR_DAY},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.HashMap">
+		update stb_user
+		<set>
+			<if test="USER_NAME != null  and USER_NAME != '' ">
+				USER_NAME = #{USER_NAME},
+			</if>
+			<if test="USER_ACCOUNT != null  and USER_ACCOUNT != '' ">
+				USER_ACCOUNT = #{USER_ACCOUNT},
+			</if>
+			<if test="USER_PASS != null and USER_PASS != '' ">
+				USER_PASS = #{USER_PASS},
+			</if>
+			<if test="USER_SEX != null and USER_SEX != '' ">
+				USER_SEX = #{USER_SEX},
+			</if>
+			<if test="USER_PHONE != null and USER_PHONE != '' ">
+				USER_PHONE = #{USER_PHONE},
+			</if>
+			<if test="USER_ADDRESS != null and USER_ADDRESS != '' ">
+				USER_ADDRESS = #{USER_ADDRESS},
+			</if>
+			<if test="USER_EMAIL != null and USER_EMAIL != '' ">
+				USER_EMAIL = #{USER_EMAIL},
+			</if>
+			<if test="USER_HEADIMG != null and USER_HEADIMG != '' ">
+				USER_HEADIMG = #{USER_HEADIMG},
+			</if>
+			<if test="USER_EXPLAIN != null and USER_EXPLAIN != '' ">
+				USER_EXPLAIN = #{USER_EXPLAIN},
+			</if>
+			<if test="CREATE_DATE != null and CREATE_DATE != '' ">
+				CREATE_DATE = #{CREATE_DATE},
+			</if>
+			<if test="UPDATE_DATE != null and isSuper != '' ">
+				UPDATE_DATE = #{UPDATE_DATE},
+			</if>
+			<if test="IS_SUPER != null and IS_SUPER != '' ">
+				IS_SUPER = #{IS_SUPER},
+			</if>
+			<if test="STATE != null and STATE != '' ">
+				STATE = #{STATE},
+			</if>
+			<if test="WX_NUMBER != null and STATE != '' ">
+				WX_NUMBER = #{WX_NUMBER},
+			</if>
+			<if test="USER_NATION != null">
+				USER_NATION = #{USER_NATION},
+			</if>
+			<if test="USER_BIRTHDAY != null">
+				USER_BIRTHDAY = #{USER_BIRTHDAY},
+			</if>
+			<if test="JOIN_DAY != null">
+				JOIN_DAY = #{JOIN_DAY},
+			</if>
+			<if test="REFULAR_DAY != null">
+				REFULAR_DAY = #{REFULAR_DAY},
+			</if>
+		</set>
+		where ID = #{ID}
+	</update>
+
+	<!-- 验证login 是否登录以及重复登录DAO -->
+	<select id="querValidate" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select
+			*
+		from
+		 	stb_validate
+		<where>
+			<if test="ID != null">
+				ID = #{ID}
+			</if>
+			<if test="USER_ID != null">
+				AND USER_ID= #{USER_ID}
+			</if>
+			<if test="CODE_VALIDATE != null">
+				AND CODE_VALIDATE= #{CODE_VALIDATE}
+			</if>
+			<if test="CHARE_DT != null">
+				AND CHARE_DT = #{CHARE_DT}
+			</if>
+			<if test="WX_NUMBER != null">
+				AND WX_NUMBER= #{WX_NUMBER}
+			</if>
+		</where>
+	</select>
+
+	<delete id="deleteByValidate" parameterType="java.util.HashMap">
+		delete from
+		stb_validate
+		where USER_ID = #{USER_ID}
+	</delete>
+
+
+	<insert id="insertValidate" parameterType="java.util.HashMap">
+		insert into stb_validate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				ID,
+			</if>
+			<if test="USER_ID != null">
+				USER_ID,
+			</if>
+			<if test="CODE_VALIDATE != null">
+				CODE_VALIDATE,
+			</if>
+			<if test="CHARE_DT != null">
+				CHARE_DT,
+			</if>
+			<if test="TOKEN != null">
+				TOKEN,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				#{ID},
+			</if>
+			<if test="USER_ID != null">
+				#{USER_ID},
+			</if>
+			<if test="CODE_VALIDATE != null">
+				#{CODE_VALIDATE},
+			</if>
+			<if test="CHARE_DT != null">
+				#{CHARE_DT},
+			</if>
+			<if test="TOKEN != null">
+				#{TOKEN},
+			</if>
+		</trim>
+	</insert>
+
+
+	<update id="updateByValidate" parameterType="java.util.HashMap">
+		update stb_validate
+		<set>
+			<if test="USER_ID != null  and USER_ID != '' ">
+				USER_ID = #{USER_ID},
+			</if>
+			<if test="CODE_VALIDATE != null and CODE_VALIDATE != '' ">
+				CODE_VALIDATE = #{CODE_VALIDATE},
+			</if>
+			<if test="CHARE_DT != null and CHARE_DT != '' ">
+				CHARE_DT = #{CHARE_DT},
+			</if>
+			<if test="TOKEN != null and TOKEN != '' ">
+				TOKEN = #{TOKEN},
+			</if>
+		</set>
+		where ID = #{ID}
+	</update>
+
+
+	<insert id="insertSRU" parameterType="java.util.HashMap">
+		insert into stb_role_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				ID,
+			</if>
+			<if test="ROLE_ID != null">
+				ROLE_ID,
+			</if>
+			<if test="USER_ID != null">
+				USER_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				#{ID},
+			</if>
+			<if test="ROLE_ID != null">
+				#{ROLE_ID},
+			</if>
+			<if test="USER_ID != null">
+				#{USER_ID},
+			</if>
+		</trim>
+	</insert>
+
+
+	<delete id="deleteBySRU" parameterType="java.util.HashMap">
+		delete from stb_role_user
+		where USER_ID = #{USER_ID}
+	</delete>
+
+	<update id="updateByOnLine" parameterType="java.util.HashMap">
+		update stb_user set
+		IS_ONLINE=#{IS_ONLINE} where ID=#{ID}
+	</update>
+
+
+	<!-- 用户咨询师中间表的增删改查 -->
+	<insert id="insertOrdUser" parameterType="java.util.HashMap">
+		insert into stb_ord_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ORD_USER_ID != null">
+				ORD_USER_ID,
+			</if>
+			<if test="FK_USER_ID != null">
+				FK_USER_ID,
+			</if>
+			<if test="UPDATED_DT != null">
+				UPDATED_DT,
+			</if>
+			<if test="UPDATED_BY != null">
+				UPDATED_BY,
+			</if>
+			<if test="CREATED_DT != null">
+				CREATED_DT,
+			</if>
+			<if test="CREATED_BY != null">
+				CREATED_BY,
+			</if>
+			<if test="REMARK != null">
+				REMARK,
+			</if>
+			<if test="IS_DELETED != null">
+				IS_DELETED,
+			</if>
+			<if test="VERSION != null">
+				VERSION,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ORD_USER_ID != null">
+				#{ORD_USER_ID},
+			</if>
+			<if test="FK_USER_ID != null">
+				#{FK_USER_ID},
+			</if>
+			<if test="UPDATED_DT != null">
+				#{UPDATED_DT},
+			</if>
+			<if test="UPDATED_BY != null">
+				#{UPDATED_BY},
+			</if>
+			<if test="CREATED_DT != null">
+				#{CREATED_DT},
+			</if>
+			<if test="CREATED_BY != null">
+				#{CREATED_BY},
+			</if>
+			<if test="REMARK != null">
+				#{REMARK},
+			</if>
+			<if test="IS_DELETED != null">
+				#{IS_DELETED},
+			</if>
+			<if test="VERSION != null">
+				#{VERSION},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 过滤不在线的咨询师 -->
+	<select id="queryByNotOnLine" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		su.ID,
+		su.USER_NAME
+		FROM
+		stb_user su,
+		stb_role_user
+		sru,
+		stb_role sr
+		WHERE
+		su.STATE = '1'
+		AND sr.IS_DELETED = 'N'
+		AND su.ID =
+		sru.USER_ID
+		AND sr.ROLE_ID = sru.ROLE_ID
+		AND su.ID NOT IN (
+		SELECT
+		DISTINCT
+		smu.FK_USER_ID
+		FROM
+		stb_message_notify smn,
+		stb_message_user smu
+		WHERE
+		smn.MSG_ID = smu.FK_MSG_ID
+		AND smn.IS_DELETED = 'N'
+		AND
+		smu.IS_DELETED = 'N'
+		AND smn.IS_COMPLETE = '1'
+		)
+		AND su.IS_ONLINE = '0'
+		AND sr.ROLE_NAME LIKE '%咨询%'
+	</select>
+
+	<select id="queryByNotOnLine1" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select
+		sr.ROLE_NAME,sr.ROLE_ID,su.ID,su.USER_NAME,su.USER_ACCOUNT,bou.ORD_ID
+		from stb_user su
+		left join stb_role_user sru on sru.USER_ID = su.ID
+		left join stb_role sr on
+		sr.ROLE_ID = sru.ROLE_ID
+		left join stb_ord_user
+		bou on bou.FK_USER_ID =
+		su.ID
+		left join stb_message_user smu on
+		smu.FK_USER_ID = su.ID
+		left join
+		stb_message_notify smn on
+		smn.MSG_ID=smu.FK_MSG_ID
+		where
+		su.IS_ONLINE='0' and sr.ROLE_NAME like
+		'%咨询%'
+		order
+		by bou.ORD_ID ASC
+	</select>
+
+	<select id="queryByRoleName" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select sr.ROLE_NAME from stb_role sr where
+		sr.ROLE_ID=#{ROLE_ID}
+	</select>
+
+	<!-- 公司切换左边菜单栏 -->
+	<select id="switchByMenu" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		<!-- SELECT DISTINCT sur.USER_NAME, sr.ROLE_NAME, sr.ROLE_ID, sur.ID, sr.DP_ID, 
+			slm.PARENT_ID, slm.MENU_NAME, slm.MENU_ID, slm.MENU_LINK, slm.MENU_ORDER, 
+			slm.PARENT_ID, slm.ICON, slm.CREATED_BY, srg.PARENT_ID AS C_PARENT_ID FROM 
+			stb_user sur, stb_role_user sru, stb_role sr, stb_region srg, stb_role_opt 
+			sro, stbl_menu slm <where> sr.IS_DELETED = 'N' AND sru.IS_DELETED = 'N' AND 
+			sur.STATE = '1' AND sur.ID = sru.USER_ID AND sru.ROLE_ID = sr.ROLE_ID AND 
+			srg.IS_DELETED = 'N' AND sr.DP_ID = srg.REGION_ID AND sro.ROLE_ID = sr.ROLE_ID 
+			AND sro.MENU_ID = slm.MENU_ID AND slm.IS_DELETED = 'N' <if test="ROLE_ID 
+			!= null and ROLE_ID != ''"> AND sr.ROLE_ID = #{ROLE_ID} </if> <if test="USER_ID 
+			!= null and USER_ID != ''"> AND sur.ID = #{USER_ID} </if> <if test="PARENT_ID 
+			!= null and PARENT_ID != ''"> AND srg.PARENT_ID=#{PARENT_ID} </if> </where> -->
+		SELECT
+		DISTINCT
+		RoleRegionUser.*, slm.PARENT_ID,
+		slm.MENU_NAME,
+		slm.MENU_ID,
+		slm.MENU_LINK,
+		slm.MENU_ORDER,
+		slm.PARENT_ID,
+		slm.ICON,
+		slm.CREATED_BY
+		FROM
+		stb_role_opt sro,
+		stbl_menu slm,
+		(
+		SELECT
+		sr.REGION_ID,
+		sr.`NAME`,
+		UserRole.*
+		FROM
+		stb_region sr
+		LEFT JOIN (
+		SELECT
+		su.USER_NAME,
+		role.ROLE_NAME,
+		role.DP_ID,
+		role.ROLE_ID,
+		su.ID AS USER_ID
+		FROM
+		stb_user
+		su,
+		stb_role_user sru,
+		stb_role role
+		WHERE
+		sru.IS_DELETED = 'N'
+		AND
+		role.IS_DELETED = 'N'
+		AND su.ID = sru.USER_ID
+		AND sru.ROLE_ID =
+		role.ROLE_ID
+		) AS UserRole ON sr.IS_DELETED = 'N'
+		AND sr.REGION_ID =
+		UserRole.DP_ID
+		WHERE
+		sr.IS_DELETED = 'N'
+		<if test="REGION_ID != null and REGION_ID != ''">
+			AND FIND_IN_SET(
+			sr.REGION_ID,
+			queryChildrenAreaInfo
+			(#{REGION_ID}))
+		</if>
+
+		<if test="USER_ID != null and USER_ID != ''">
+			AND UserRole.USER_ID= #{USER_ID}
+		</if>
+
+		) AS RoleRegionUser
+		WHERE
+		slm.IS_DELETED = 'N'
+		AND RoleRegionUser.ROLE_ID
+		= sro.role_id
+		AND sro.MENU_ID =
+		slm.MENU_ID
+		GROUP BY slm.MENU_ID
+		ORDER BY slm.MENU_ORDER ASC
+	</select>
+
+
+	<select id="selectByRegionUser" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		sr.REGION_ID,
+		sr.`NAME`,
+		UserRole.*
+		FROM
+		stb_region sr
+		LEFT JOIN (
+		SELECT
+		su.USER_NAME,
+		role.ROLE_NAME,
+		role.DP_ID,
+		role.ROLE_ID,
+		su.ID AS
+		USER_ID
+		FROM
+		stb_user su,
+		stb_role_user sru,
+		stb_role role
+		WHERE
+		sru.IS_DELETED = 'N'
+		AND role.IS_DELETED = 'N'
+		AND su.ID = sru.USER_ID
+		AND sru.ROLE_ID = role.ROLE_ID
+		) AS UserRole ON sr.IS_DELETED = 'N'
+		AND
+		sr.REGION_ID = UserRole.DP_ID
+		WHERE
+		sr.IS_DELETED = 'N'
+		<if test="REGION_ID != null and REGION_ID != ''">
+			AND FIND_IN_SET(
+			sr.REGION_ID,
+			queryChildrenAreaInfo
+			(#{REGION_ID}))
+		</if>
+
+		<if test="USER_ID != null and USER_ID != ''">
+			AND UserRole.USER_ID= #{USER_ID}
+		</if>
+		GROUP BY UserRole.ROLE_NAME
+	</select>
+	<!-- 查询所有公司对应的 -->
+	<select id="selectAllDp" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		sr.NAME,
+		sr.REGION_ID AS ID,
+		sr.PARENT_ID AS
+		PARENT_ID,
+		'1' AS falg
+		FROM
+		stb_region sr
+		WHERE
+		sr.IS_DELETED='N'
+		UNION ALL
+		SELECT
+		sr.ROLE_NAME AS NAME,
+		sr.ROLE_ID AS ID,
+		sr.DP_ID AS PARENT_ID,
+		'0'
+		AS falg
+		FROM
+		stb_role sr
+		WHERE
+		sr.IS_DELETED='N'
+	</select>
+
+	<!-- 查询所有咨询师 -->
+	<select id="selectAllConsult" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		sus.ID,
+		sus.USER_NAME,
+		sus.IS_ONLINE,
+		sr.ROLE_NAME
+		FROM
+		stb_user sus,
+		stb_role_user sru,
+		stb_role sr
+		WHERE
+		1 = 1
+		AND sus.STATE = '1'
+		AND sru.USER_ID = sus.ID
+		AND sr.ROLE_ID = sru.ROLE_ID
+		AND sr.IS_DELETED = 'N'
+		AND (sr.ROLE_NAME LIKE '%咨询%'
+		OR sr.ROLE_NAME LIKE '%运营%')
+	</select>
+	
+	<select id="queryByUserObj" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT
+			su.ID,
+			su.USER_NAME,
+			su.WX_NUMBER,
+			su.USER_EMAIL,
+			su.USER_SEX,
+			su.USER_PHONE,
+			srg.REGION_ID AS DP_ID,
+			srg.`NAME` AS DP_NAME,
+			su.IS_SUPER
+		FROM
+			stb_user su,
+			stb_role_user sru,
+			stb_role sr,
+			stb_region srg
+		WHERE
+			su.STATE = '1'
+		AND sru.IS_DELETED = 'N'
+		AND sr.IS_DELETED = 'N'
+		AND srg.IS_DELETED = 'N'
+		AND sr.`STATUS` = '1'
+		AND su.IS_SUPER != '1'
+		AND su.ID = sru.USER_ID
+		AND sru.ROLE_ID = sr.ROLE_ID
+		AND sr.DP_ID = srg.REGION_ID
+		AND	su.USER_ACCOUNT = #{USER_ACCOUNT}
+		AND	su.USER_PASS = #{USER_PASS}
+		LIMIT 0,1
+	</select>
+	
+	<select id="partyMemberSearch" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			t1.*,
+			COUNT(tul.ID) AS ACHIEVEMENT
+		FROM
+		(SELECT
+			su.ID,
+			su.USER_NAME,
+			su.USER_SEX,
+			su.USER_PHONE,
+			su.USER_ADDRESS,
+			su.USER_EMAIL,
+			su.USER_HEADIMG,
+			su.WX_NUMBER,
+			su.IS_SUPER,
+			srg.`NAME` AS DP_NAME,
+			srg.REGION_ID AS DP_ID
+		FROM
+			stb_user su,
+			stb_role_user sru,
+			stb_role sr,
+			stb_region srg
+		WHERE
+			su.IS_SUPER  <![CDATA[<>]]>  '1'
+		AND su.ID = sru.USER_ID
+		AND sru.ROLE_ID = sr.ROLE_ID
+		AND sr.DP_ID = srg.REGION_ID
+		<if test="USER_NAME != null and USER_NAME != ''">
+			AND su.USER_NAME LIKE '%${USER_NAME}%'
+		</if>
+		<if test="USER_PHONE != null and USER_PHONE != ''">
+			AND su.USER_PHONE LIKE '%${USER_PHONE}%'
+		</if>
+		<if test="WX_NUMBER != null and WX_NUMBER != ''">
+			AND su.WX_NUMBER LIKE '%${WX_NUMBER}%'
+		</if>
+		<if test="IS_SUPER != null and IS_SUPER != ''">
+			AND su.IS_SUPER = #{IS_SUPER}
+		</if>
+		<if test="DP_ID != null and DP_ID != ''">
+			AND srg.REGION_ID = #{DP_ID}
+		</if>) AS t1
+		LEFT JOIN  t_user_log tul ON tul.CREATED_BY = t1.ID
+		GROUP BY t1.ID
+	</select>
+	
+		<!-- 党员追踪管理时间轴新增操作  -->
+	<insert id="insertUserLog" parameterType="java.util.HashMap">
+		insert into t_user_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				ID,
+			</if>
+			<if test="TYPE != null">
+				TYPE,
+			</if>
+			<if test="OPTION_NAME != null">
+				OPTION_NAME,
+			</if>
+			<if test="PK_ID != null">
+				PK_ID,
+			</if>
+			<if test="FRACTION != null">
+				FRACTION,
+			</if>
+			<if test="CREATED_DT != null">
+				CREATED_DT,
+			</if>
+			<if test="CREATED_BY != null">
+				CREATED_BY,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				#{ID},
+			</if>
+			<if test="TYPE != null">
+				#{TYPE},
+			</if>
+			<if test="OPTION_NAME != null">
+				#{OPTION_NAME},
+			</if>
+			<if test="PK_ID != null">
+				#{PK_ID},
+			</if>
+			<if test="FRACTION != null">
+				#{FRACTION},
+			</if>
+			<if test="CREATED_DT != null">
+				#{CREATED_DT},
+			</if>
+			<if test="CREATED_BY != null">
+				#{CREATED_BY},
+			</if>
+		</trim>
+	</insert>
+	
+	<select id="achievementToMonth" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			date_format(FROM_UNIXTIME(tul.CREATED_DT,'%Y-%m-%d %H:%i:%S'), '%Y-%m') AS DATES,
+			SUM(tul.FRACTION) AS ACHIEVEMENT
+		FROM
+			t_user_log tul
+		WHERE
+			tul.CREATED_BY = #{USER_ID}
+		GROUP BY FROM_UNIXTIME(tul.CREATED_DT,'%Y-%m')
+	</select>
+	
+	<select id="achievementToMonthInfo" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+			tul.*
+		FROM
+			t_user_log tul
+		WHERE
+			tul.CREATED_BY = #{USER_ID}
+		AND	date_format(FROM_UNIXTIME(tul.CREATED_DT,'%Y-%m-%d %H:%i:%S'), '%Y-%m') LIKE '%#{DATE}%'
+	</select>
+
+	<select id="queryLogUtil" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT
+			tul.*
+		FROM
+			t_user_log tul
+		WHERE
+			tul.CREATED_BY = #{USER_ID}
+		AND tul.PK_ID = #{PK_ID}
+	</select>
+	
+	<select id="queryLogLogin" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT
+			tul.*
+		FROM
+			t_user_log tul
+		WHERE
+			tul.CREATED_BY = #{USER_ID}
+		AND to_days(from_unixtime(tul.CREATED_DT)) = to_days(now())
+	</select>
+	
+	<insert id="insertProcessNode" parameterType="java.util.HashMap">
+		insert into t_process_node
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				ID,
+			</if>
+			<if test="DIC_CODE != null">
+				DIC_CODE,
+			</if>
+			<if test="USER_ID != null">
+				USER_ID,
+			</if>
+			<if test="NODE_DATE != null">
+				NODE_DATE,
+			</if>
+			<if test="CREATED_DT != null">
+				CREATED_DT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				#{ID},
+			</if>
+			<if test="DIC_CODE != null">
+				#{DIC_CODE},
+			</if>
+			<if test="USER_ID != null">
+				#{USER_ID},
+			</if>
+			<if test="NODE_DATE != null">
+				#{NODE_DATE},
+			</if>
+			<if test="CREATED_DT != null">
+				#{CREATED_DT},
+			</if>
+		</trim>
+	</insert>
+	
+	<select id="selectProcessNode" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT
+			sd.TYPE_NAME,
+			sd.`NAME`,
+			sd.`CODE`,
+			IF(tpn.NODE_DATE IS NULL OR tpn.NODE_DATE = '',"",tpn.NODE_DATE) AS NODE_DATE
+		FROM
+			stb_dictionary sd
+			LEFT JOIN	t_process_node tpn ON tpn.DIC_CODE = sd.CODE AND tpn.USER_ID = #{USER_ID}
+		WHERE
+			sd.TYPE_CODE = 'JOIN_THE_PRETY'
+		ORDER BY cast(sd.`CODE` as SIGNED INTEGER) ASC
+	</select>
+	
+</mapper>

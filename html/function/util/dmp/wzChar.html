@@ -1,0 +1,445 @@
+<div class="row" style="padding-bottom:15px;padding-left:15px;margin-top: -15px;width: 100%;margin: 0;">
+     	<div id="statistics">
+     		<div class="statisticsDefault">部门成员</div>
+     		<div class="btn-group pull-left rollingBearing" data-toggle="buttons" id="myButton">
+     			<label class="btn btn-primary active"  onclick="queryAllChar();">
+				    	<input type="radio" name="options" autocomplete="off" checked value="default"  style="display: none;">全部
+				</label>
+			</div>
+		</div>
+</div> 
+
+<div style="margin: 0" class="row">
+<!-- 第一行显示模块 -->
+	<!-- COLUMN 1 -->
+	<div class="col-md-6" rootChar="leftCharts">
+		<div class="row">
+		  <div class="col-lg-6">
+			 <div class="dashbox panel panel-default">
+				<div class="panel-body">
+				   <div class="panel-left red"  style="padding-left:0;padding-right: 0 ">
+						<!-- <i class="fa fa-instagram fa-3x"></i> -->
+						<img alt="" width="35" id="hedaImg" src="img/resume.png" />
+				   </div>
+				   <div class="panel-right">
+
+						<div class="number" id="resumeNum"></div>
+						<div class="title">简历录入</div>
+					<!-- <span class="label label-success">
+							26% <i class="fa fa-arrow-up"></i>
+						</span> -->
+				   </div>
+				</div>
+			 </div>
+		  </div>
+		  <div class="col-lg-6">
+			 <div class="dashbox panel panel-default">
+				<div class="panel-body">
+				   <div class="panel-left blue"  style="padding-left:0;padding-right: 0 ">
+						<!-- <i class="fa fa-twitter fa-3x"></i> -->
+						<!-- <img alt="" width="35" id="hedaImg" src="img/invitation.png" /> -->
+						<img alt="" width="35" id="hedaImg" src="img/distribution.png" />
+				   </div>
+				   <div class="panel-right">
+						<div class="number" id="invitation"></div>
+						<!-- <div class="title">电话邀约</div> -->
+						<div class="title">简历分配</div>
+					<!--<span class="label label-warning">
+							5% <i class="fa fa-arrow-down"></i>
+						</span> -->
+				   </div>
+				</div>
+			 </div>
+		  </div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="quick-pie panel panel-default">
+					<div class="panel-body" id="leftPicChar">
+							<div class="col-md-4 text-center">
+							<div id="pir_yl_1" class="piechart" data-percent="0">
+								<span class="percent"></span>
+							</div>
+							<a href="#" class="title">暂无</a>
+						</div>
+						<div class="col-md-4 text-center">
+							<div id="pir_yl_2" class="piechart" data-percent="0">
+								<span class="percent"></span>
+							</div>
+							<a href="#" class="title">暂无</i></a>
+						</div>
+						<div class="col-md-4 text-center">
+							<div id="pir_yl_3" class="piechart" data-percent="0">
+								<span class="percent"></span>
+							</div>
+							<a href="#" class="title">暂无</a>
+						</div>
+					</div> 
+				</div>
+			</div>
+	   </div>
+	</div>
+	<!-- /COLUMN 1 -->
+	
+	<!-- COLUMN 2 -->
+	<div class="col-md-6" rootChar="column" style="min-width: 325px">
+		<div class="box solid " >
+			<div class="box-title">
+				<h4><i class="fa fa-bar-chart-o"></i>条形统计</h4>
+				<div class="tools">
+<!-- 					<span class="label label-danger">
+						20% <i class="fa fa-arrow-up"></i>
+					</span> -->
+					<!--<a href="javascript:;" class="reload">
+						<i class="fa fa-refresh"></i>
+					</a>
+					<a href="javascript:;" class="remove">
+						<i class="fa fa-times"></i>
+					</a>-->
+				</div>
+			</div>
+			<div class="box-body">
+				<div style="height:330px;overflow-x: auto;">
+					<div id="shadowOption" style="width:100%;height:90%;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /COLUMN 2 -->
+</div>
+<!-- 第二块统计图 自适应 -->
+<div style="margin: 0" class="row" rootChar="line">
+	<div class="col-md-12">
+		<!-- BOX -->
+		<div class="box border green">
+			<div class="box-title">
+				<h4>
+					<!--<i class="fa fa-bars"></i> <span class="hidden-inline-mobile"></span>-->
+					<i class="glyphicon glyphicon-indent-left"></i>线性统计图
+					
+				</h4>
+			</div>
+			<div class="box-body">
+				<div class="tabbable header-tabs">
+					<ul class="nav nav-tabs" style="visibility: hidden;">
+						 <li class="active"><a href="#box_tab1" data-toggle="tab"><i class="fa fa-bar-chart-o"></i> <span class="hidden-inline-mobile">线性统计图</span></a></li>
+					 </ul>
+					 <div class="tab-content">
+						 <div class="tab-pane fade in active" id="box_tab1">
+							<!-- TAB 1 -->
+							<div id="chart-dash" style="height:400px;overflow-x: auto" class="chart">
+								<div id="lineChar" style="width:100%;height:90%;min-width: 600px"></div>
+							</div>
+							<hr class="margin-bottom-0">
+						   <!-- TAB 1 -->
+						 </div>
+					 </div>
+				</div>
+			</div>
+		</div>
+		<!-- /BOX -->
+	</div>
+</div>
+<style type="text/css">
+
+</style>
+
+
+<script src="/webJs/charUtil.js"></script>
+<script type="text/javascript">
+var sqlUrl = urlObj.url+"/statistics/queryStaic"
+var querySqlAction= urlObj.url+"/statistics/queryDpStats"
+var userId='';
+initCharRoot();
+initButton();
+function queryAllChar(){
+	initCharRoot();
+	
+}
+
+function initButton(){
+	var url=urlObj.url+"/resumeInvitation/selectRegionToUser"
+	var setDom='';
+	var json=urlObj.getJson();
+	json['SRG_NAME'] = "网络,网咨";
+	var setUserList=commAjaxPost(url,json);
+	if(setUserList != null && setUserList !='' && setUserList != undefined){
+		for(c in setUserList){
+			setDom+=addUserList(setUserList[c].ID,setUserList[c].USER_NAME,setUserList[c].STATE);
+		}
+	}
+	$("#myButton").append(setDom);
+}
+
+function addUserList(id,name,state){
+	var dom='<label class="btn btn-primary" title="'+state+'"  onclick="subQueryMe(this);">'
+		dom+='<input type="radio" name="options"  value="'+id+'" checked > '+name
+		dom+='</label>'
+	return dom;
+}
+
+function subQueryMe(obj){
+	userId=$(obj).children('input').val();
+	querySqlAction=urlObj.setCharUtileAction;
+	var json={};
+	json['CODE']="WZ_DEPARTMENT";
+	var resuleJson=commAjaxPost(sqlUrl,json);
+	leftCharTest(resuleJson);
+	redyLineOption(eCharUtil,resuleJson).lineEchar('lineChar');
+	var eCharUtil2=new ECharUtil();
+	redyShadowOption(eCharUtil2,resuleJson).shadowEchar('shadowOption');
+
+}
+
+function initCharRoot(){
+	querySqlAction= urlObj.url+"/statistics/queryDpStats";
+	userId='';
+	var json={};
+	json['CODE']="WZ_DEPARTMENT";
+	var resuleJson=commAjaxPost(sqlUrl,json);
+	leftCharTest(resuleJson);
+	redyLineOption(eCharUtil,resuleJson).lineEchar('lineChar');
+	var eCharUtil2=new ECharUtil();
+	redyShadowOption(eCharUtil2,resuleJson).shadowEchar('shadowOption');
+
+}
+
+function leftCharTest(resuleJson){
+		var leftChartsJson=urlObj.getJson();
+			leftChartsJson['USER_ID']=userId;
+		if(resuleJson != null && resuleJson != undefined && resuleJson != 'list is null'){
+			for(c in resuleJson){
+				if(resuleJson[c].TYPE=='leftCharts'){
+					leftChartsJson['ID']=resuleJson[c].ID;
+				}
+			}
+		}
+		var resuleLeftCharJson=commAjaxPost(querySqlAction,leftChartsJson);
+		/*var resuleLeftCharJson=commAjaxPost(urlObj.leftCharsUrl,leftChartsJson);*/
+		var contentNumber=0;
+		if(resuleLeftCharJson != null && resuleLeftCharJson != undefined && resuleLeftCharJson!='list is null'){
+			for(c in resuleLeftCharJson){
+				contentNumber+=parseInt(resuleLeftCharJson[c].counts);
+			}
+		}
+		$('#resumeNum').html(contentNumber);
+		if(resuleLeftCharJson != undefined){
+			return false;
+		}
+		if(resuleLeftCharJson[0] == undefined || resuleLeftCharJson[0] == '' || resuleLeftCharJson[0] == null){
+			$('#invitation').html(0);
+		}else{
+			$('#invitation').html(resuleLeftCharJson[0].nuber);
+		}
+												
+		if(resuleLeftCharJson != null && resuleLeftCharJson != undefined && resuleLeftCharJson != 'list is null'){
+			$('#leftPicChar').html("");
+			for(x in resuleLeftCharJson){
+				var percent=0;
+				if(parseInt(contentNumber) != 0){
+					percent=(parseInt(resuleLeftCharJson[x].counts)/parseInt(contentNumber))*100;
+				}
+				var setPercent=isNaN(percent)?0:percent;
+				var domChar='<div class="col-md-4 text-center">';
+					domChar+='<div id="dash_pie_'+x+'" class="piechart" data-percent="'+setPercent+'">';
+					domChar+='<span class="percent"></span>';												
+					domChar+='</div>';											
+					domChar+='<a href="#" class="title">'+resuleLeftCharJson[x].NAME+'('+resuleLeftCharJson[x].counts+')</a>';														
+					domChar+='</div>';	
+				$('#leftPicChar').append(domChar);
+			}
+			var index=resuleLeftCharJson.length;
+			for(var c=0;c<index;c++){
+				var strId='#dash_pie_'+c
+				var mathNumber=Math.ceil(Math.random()*ThemeArr.colors.length);
+				$(strId).easyPieChart({
+					easing: 'easeOutBounce',
+					onStep: function(from, to, percent) {
+						$(this.el).find('.percent').text(Math.round(percent)+"%");
+					},
+					lineWidth: 6,
+					barColor: ThemeArr.colors[mathNumber]
+				});
+				window.chart = $(strId).data('easyPieChart');
+			}
+		}										
+}
+
+
+function redyShadowOption(eCharUtil,resuleJson){
+	var dateJs=dateArr();
+	eCharUtil.shadowOption.xAxis.data=dateArrDelay();//周显示
+	eCharUtil.shadowOption.title={text:TitleYears()};//周显示
+	eCharUtil.shadowOption.legend.data=["简历录入","简历分配","简历被操作"];
+	var showChar=urlObj.getJson();
+		showChar['USER_ID']=userId;
+	if(resuleJson != null && resuleJson != undefined && resuleJson != 'list is null'){
+			for(s in resuleJson){
+				if(resuleJson[s].TYPE=='column'){
+					showChar['ID']=resuleJson[s].ID;
+				}
+			}
+	}
+	var data=commAjaxPost(querySqlAction,showChar);
+	var setDataArr=[];
+	var setJson={};
+	var contetNumberArrs=[];
+	var distNumberArrs=[];
+	var optionNumberArrs=[];
+	if(data != null && data != '' && data != undefined){
+		for(m in dateJs){
+			var flag=true;
+			for(h in data){
+				if(dateJs[m] == data[h].date){
+					contetNumberArrs.push(data[h].contetNumber);
+					distNumberArrs.push(data[h].distNumber);
+					optionNumberArrs.push(data[h].optionNumber);
+					flag=false;
+				}
+			}
+			if(flag){
+				contetNumberArrs.push(0);
+				distNumberArrs.push(0);
+				optionNumberArrs.push(0);
+			}
+		}
+	}
+	setJson['name']='简历录入';
+	setJson['type']='bar';
+	setJson['smooth']='smooth';
+	setJson['data']=contetNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	setJson['name']='简历分配';
+	setJson['type']='bar';
+	setJson['smooth']='smooth';
+	setJson['data']=distNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	setJson['name']='简历被操作';
+	setJson['type']='bar';
+	setJson['smooth']='smooth';
+	setJson['data']=optionNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	eCharUtil.shadowOption.series=setDataArr;
+	return eCharUtil;
+}
+
+/*
+dateArrDelay();//周显示
+dateArrtDelay(); //月显示
+Title();//年月
+TitleYears()
+*/
+function redyLineOption(eCharUtil,resuleJson){
+	var dateJs=dateArrt();
+	eCharUtil.lineOption.xAxis.data=dateArrtDelay(); //月显示
+	eCharUtil.lineOption.title={text:Title()}; 
+	eCharUtil.lineOption.legend.data=["简历录入","简历分配","简历被操作"];
+	var showChar=urlObj.getJson();
+		showChar['USER_ID']=userId;
+	if(resuleJson != null && resuleJson != undefined && resuleJson != 'list is null'){
+			for(s in resuleJson){
+				if(resuleJson[s].TYPE=='line'){
+					showChar['ID']=resuleJson[s].ID;
+				}
+			}
+	}
+	var data=commAjaxPost(querySqlAction,showChar);
+	var setDataArr=[];
+	var setJson={};
+	var contetNumberArrs=[];
+	var distNumberArrs=[];
+	var optionNumberArrs=[];
+
+	if(data != null && data != '' && data != undefined){
+		for(m in dateJs){
+			var flag=true;
+			for(h in data){
+				if(dateJs[m] == data[h].date){
+					contetNumberArrs.push(data[h].contetNumber);
+					distNumberArrs.push(data[h].distNumber);
+					optionNumberArrs.push(data[h].optionNumber);
+					flag=false;
+				}
+			}
+			if(flag){
+				contetNumberArrs.push(0);
+				distNumberArrs.push(0);
+				optionNumberArrs.push(0);
+			}
+		}
+	}
+	setJson['name']='简历录入';
+	setJson['type']='line';
+	setJson['smooth']='smooth';
+	setJson['data']=contetNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	setJson['name']='简历分配';
+	setJson['type']='line';
+	setJson['smooth']='smooth';
+	setJson['data']=distNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	setJson['name']='简历被操作';
+	setJson['type']='line';
+	setJson['smooth']='smooth';
+	setJson['data']=optionNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	eCharUtil.lineOption.series=setDataArr;
+	return eCharUtil;
+}
+
+function dateArr(){
+	var dateArr=[];
+	for(var i=5;i>=0;i--){
+		if(i == 0){
+			var date = new Date();
+		}else{
+			var date = new Date(new Date().getTime() - i*86400000);
+		}
+		var year = date.getFullYear();
+		var month = date.getMonth() + 1;
+		var day = date.getDate();
+		if(month<10){
+			month='0'+month
+		}
+		if(day<10){
+			day='0'+day
+		}
+		var dateStr=(year + '-' + month + '-' + day);
+		dateArr.push(dateStr);
+	}
+	return dateArr;
+/*	var yesterdsay = new Date(new Date().getTime() - 86400000);
+	var year = yesterdsay.getFullYear();
+	var month = yesterdsay.getMonth() + 1;
+	var day = yesterdsay.getDate();
+	alert(year + '-' + month + '-' + day);*/
+}
+function dateArrt(){
+    var dateArrt=[];
+    for(var i=30;i>=0;i--){
+        if(i == 0){
+            var date = new Date();
+        }else{
+            var date = new Date(new Date().getTime() - i*86400000);
+        }
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        if(month<10){
+            month='0'+month
+        }
+        if(day<10){
+            day='0'+day
+        }
+        var dateStr=( year+'-'+month + '-' + day);
+        dateArrt.push(dateStr);
+    }
+    return dateArrt;
+}
+</script>

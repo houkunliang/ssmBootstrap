@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+						http://www.springframework.org/schema/beans  
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+                        http://www.springframework.org/schema/context  
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+                        http://www.springframework.org/schema/mvc  
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.module.*" >
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	
+	<mvc:interceptors>  
+        <mvc:interceptor>  
+            <mvc:mapping path="/user/*"/>
+            <mvc:mapping path="/stayMsg/*"/>
+            <mvc:mapping path="/menu/*"/> 
+            <mvc:mapping path="/role/*"/>         
+            <bean class="com.module.interceptor.SystemInitInterceptor"/>
+        </mvc:interceptor>  
+        
+<!--   <mvc:interceptor>  
+                <mvc:mapping path="/html5Resources/*"/>  
+                <mvc:mapping path="/html5Template/*"/>
+                <mvc:mapping path="/Html5Mailbox/*"/>
+                <mvc:mapping path="/html5User/*"/>
+                <bean class="com.module.interceptor.SystemInitInterceptorHtml5" />
+        </mvc:interceptor>   -->
+    </mvc:interceptors> 
+    
+            
+    <!-- 全局异常处理 -->
+	<bean id="exceptionHandler" class="com.module.interceptor.MappingException" />  
+    
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+				<value>application/json;charset=UTF-8</value>  
+			</list>
+		</property>
+	</bean>
+	<mvc:resources mapping="/css/*" location="/css/"/>
+	<mvc:resources mapping="/js/*" location="/js/"/>
+	<mvc:resources mapping="/*" location="/"/>
+	
+	<bean id = "stringHttpMessageConverter" class = "org.springframework.http.converter.StringHttpMessageConverter"/>
+	
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				 <ref bean="mappingJacksonHttpMessageConverter" /> <!-- JSON转换器 -->
+			</list>
+		</property>
+	</bean>
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<!--  		<property name="prefix" value="/WEB-INF/" /> -->
+<!-- 		<property name="suffix" value=".jsp" /> -->
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 默认编码 -->
+		<property name="defaultEncoding" value="utf-8" />
+		<!-- 文件大小最大值 -->
+		<property name="maxUploadSize" value="10485760000" />
+		<!-- 内存中的最大值 -->
+		<property name="maxInMemorySize" value="40960" />
+	</bean>
+</beans>

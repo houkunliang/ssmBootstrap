@@ -1,0 +1,61 @@
+<div class="box-body big" style="width:80%;min-width:210px;max-width:1000px;">
+	<div class="form-horizontal" role="form">
+		<input form_sub="MENU_ID" type="hidden"/>
+		<div class="form-group" id="upIcon">
+			<label class="col-sm-3 control-label">ICON图标</label>
+			<div class="col-sm-9">
+				<input type="text" form_sub="ICON" id="jquery_icon"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">父级菜单</label>
+			<div class="col-sm-9">
+				<select id="country_select" style="width: 100%;margin-left: 0%;" form_sub="PARENT_ID">
+					<option value='0'>无父级菜单</option>
+				</select>   
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">菜单名称</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="disabledInput"
+					hklfrom='{"isnull":"true","txtLength":[2,30],"message":{"isnull":"菜单名称不能为空"}}'
+					form_sub="MENU_NAME" type="text" placeholder="请输入2-8位菜单名称">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">菜单链接</label>
+			<div class="col-sm-9">
+				<input type="text" title="Tooltip on focus"
+					class="form-control tip-focus"
+					hklfrom='{"isnull":"true","message":{"isnull":"菜单链接不能为空"}}'
+					form_sub="MENU_LINK" placeholder="请输入菜单链接">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label">菜单排序</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" form_sub="MENU_ORDER" placeholder="0,1,2,3...">
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-3 control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control"  form_sub="REMARK">
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	.j-dialog{
+		min-width: 250px;
+		max-width: 600px;
+		max-height: 550px;
+		overflow: auto;
+	}
+</style>

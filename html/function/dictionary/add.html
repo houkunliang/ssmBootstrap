@@ -1,0 +1,61 @@
+﻿<div class="box-body big"   style="width:90%;min-width:250px;max-width:800px;">
+	<div class="form-horizontal" role="form">
+	<div class="form-group">
+		<label class="col-sm-3 control-label">数据类型代码</label>
+		<div class="col-sm-9">
+			<input class="form-control" id="TYPE_CODE" hklfrom='{"isnull":"true","txtLength":[2,20],"message":{"isnull":"请输入正确类型的数据类型代码"}}' form_sub="TYPE_CODE" type="text" placeholder="请输入2-10个字符的数据类型代码" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">数据类型名称</label>
+		<div class="col-sm-9">
+			<input class="form-control" id="TYPE_NAME" hklfrom='{"isnull":"true","txtLength":[2,20],"message":{"isnull":"请输入正确数据类型名称"}}' form_sub="TYPE_NAME" type="text" placeholder="请输入2-10个字符." />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">数据代码</label>
+		<div class="col-sm-9">
+			<input class="form-control" id="CODE" hklfrom='{"isnull":"true","txtLength":[0,20],"message":{"isnull":"数据代码"}}' form_sub="CODE" type="text" placeholder="输入正确的数据代码" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">数据名称</label>
+		<div class="col-sm-9">
+			<input class="form-control" id="NAME" hklfrom='{"isnull":"true","txtLength":[1,20],"message":{"isnull":"请输入正确的数据名称"}}' form_sub="NAME" type="text" placeholder="输入正确的数据名称" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">数据描述</label>
+		<div class="col-sm-9">
+			<input class="form-control" id="DESCRIPTION" hklfrom='{"isnull":"true","txtLength":[0,255],"message":{"isnull":"请对该数据进行描述"}}' form_sub="DESCRIPTION" type="text" placeholder="对该数据进行描述" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">排序</label>
+		<div class="col-sm-9">
+			<input class="form-control" id="ORD_NO" hklfrom='{"isnull":"true","txtLength":[0,3],"message":{"isnull":"排序"}}' form_sub="ORD_NO" type="text" placeholder="排序" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">备注</label>
+		<div class="col-sm-9">
+			<input class="form-control" id="REMARK" hklfrom='{"isnull":"true","txtLength":[0,20],"message":{"isnull":"备注....."}}' form_sub="REMARK" type="text" placeholder="备注...." />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label"></label>
+		<div class="col-sm-9">
+			<input type="button" onclick="add();" class="btn btn-pink" value="提交" />
+		</div>
+	</div>
+	</div>
+</div>
+<style>
+	.j-dialog{
+		min-width: 250px;
+		max-width: 900px;
+		max-height: 550px;
+		overflow: auto;
+	}
+</style>

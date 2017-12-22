@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.module.messageNotify.dao.MessageNotifyDao">
+
+	<!-- 查询消息通知 -->
+	<select id="selectByMessageNotify" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		<!-- SELECT smn.*,smu.* FROM stb_message_notify smn left join stb_message_user 
+			smu on smu.FK_MSG_ID=smn.MSG_ID -->
+		SELECT
+		smn.MSG_ID,
+		smn.MSG_BODY,
+		CASE smn.MSG_TYPE
+		WHEN '0' THEN
+		'系统'
+		WHEN
+		'1'
+		THEN '通知'
+		WHEN '2'
+		THEN '公告'
+		ELSE
+		'暂无'
+		END AS MSG_TYPE,
+		smn.MSG_TITLE,
+		smn.MSG_STATUS,
+		smn.UPDATED_DT,
+		smn.CREATED_BY,
+		smn.CREATED_DT,
+		smn.REMARK,
+		smn.IS_COMPLETE,
+		smu.MSG_USER_ID,
+		smu.FK_MSG_ID,
+		smu.FK_USER_ID,
+		smu.CREATED_DT AS
+		SMU_CREATED_DT
+		FROM
+		stb_message_notify
+		smn
+		LEFT JOIN stb_message_user smu ON smu.FK_MSG_ID = smn.MSG_ID
+		<where>
+			<if test="FK_USER_ID != null">
+				AND smu.FK_USER_ID=#{FK_USER_ID}
+			</if>
+			<if test="MSG_ID != null">
+				AND smn.MSG_ID =#{MSG_ID}
+			</if>
+			<if test="MSG_STATUS == 'NO'">
+				AND smn.MSG_STATUS='NO'
+			</if>
+			AND smn.IS_DELETED='N'
+			AND smu.IS_DELETED='N'
+		</where>
+		ORDER BY smn.CREATED_DT DESC
+	</select>
+	<!-- 添加消息表 -->
+	<insert id="insertMessageNotify" parameterType="java.util.HashMap">
+		INSERT INTO
+		stb_message_notify(
+		MSG_ID,
+		MSG_BODY,
+		MSG_TYPE,
+		MSG_TITLE,
+		MSG_STATUS,
+		UPDATED_DT,
+		UPDATED_BY,
+		CREATED_DT,
+		CREATED_BY,
+		REMARK,
+		IS_DELETED,
+		VERSION,
+		IS_COMPLETE
+		)VALUES(
+		#{MSG_ID},
+		#{MSG_BODY},
+		#{MSG_TYPE},
+		#{MSG_TITLE},
+		#{MSG_STATUS},
+		#{UPDATED_DT},
+		#{UPDATED_BY},
+		#{CREATED_DT},
+		#{CREATED_BY},
+		#{REMARK},
+		#{IS_DELETED},
+		#{VERSION},
+		#{IS_COMPLETE}
+		)
+	</insert>
+	<!-- 添加中间表 -->
+	<insert id="insertMessageUser" parameterType="java.util.HashMap">
+		INSERT INTO
+		stb_message_user(
+		MSG_USER_ID,
+		FK_MSG_ID,
+		FK_USER_ID,
+		UPDATED_DT,
+		UPDATED_BY,
+		CREATED_DT,
+		CREATED_BY,
+		REMARK,
+		IS_DELETED,
+		VERSION
+		)VALUES(
+		#{MSG_USER_ID},
+		#{FK_MSG_ID},
+		#{FK_USER_ID},
+		#{UPDATED_DT},
+		#{UPDATED_BY},
+		#{CREATED_DT},
+		#{CREATED_BY},
+		#{REMARK},
+		#{IS_DELETED},
+		#{VERSION}
+		)
+	</insert>
+	<!-- 修改消息通知 -->
+	<update id="updateByMessageNotify" parameterType="java.util.HashMap">
+		UPDATE stb_message_notify
+		<set>
+			<if test="MSG_ID != null">
+				MSG_ID=#{MSG_ID},
+			</if>
+			<if test="MSG_BODY != null">
+				MSG_BODY=#{MSG_BODY},
+			</if>
+			<if test="MSG_TYPE != null">
+				MSG_TYPE=#{MSG_TYPE},
+			</if>
+			<if test="CREATED_DT != null">
+				CREATED_DT=#{CREATED_DT},
+			</if>
+			<if test="MSG_TITLE != null">
+				MSG_TITLE=#{MSG_TITLE},
+			</if>
+			<if test="MSG_STATUS != null">
+				MSG_STATUS=#{MSG_STATUS},
+			</if>
+			<if test="UPDATED_DT != null">
+				UPDATED_DT=#{UPDATED_DT},
+			</if>
+			<if test="IS_COMPLETE != null">
+				IS_COMPLETE=#{IS_COMPLETE}
+			</if>
+		</set>
+		where MSG_ID=#{MSG_ID}
+	</update>
+
+	<!-- 查询在线的咨询师 -->
+	<select id="selectIsComplete" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select smu.FK_USER_ID,smn.IS_COMPLETE,smn.MSG_ID from
+		stb_message_notify smn
+		left join stb_message_user smu on smu.FK_MSG_ID
+		= smn.MSG_ID
+		where smu.FK_USER_ID=#{FK_USER_ID}
+	</select>
+
+	<!-- 逻辑删除消息通知 -->
+	<delete id="deleteByMessageNotify" parameterType="java.util.HashMap">
+		<!-- delete from stb_message_notify where MSG_ID = #{MSG_ID} -->
+		<!-- UPDATE stb_message_notify SET IS_DELETED='Y' WHERE MSG_ID=#{MSG_ID} -->
+		UPDATE stb_message_notify smn,
+		stb_message_user smu
+		SET smn.IS_DELETED = 'Y',
+		smu.IS_DELETED = 'Y'
+		WHERE
+		smn.MSG_ID = #{MSG_ID}
+		AND smu.FK_MSG_ID = #{MSG_ID}
+	</delete>
+
+</mapper>

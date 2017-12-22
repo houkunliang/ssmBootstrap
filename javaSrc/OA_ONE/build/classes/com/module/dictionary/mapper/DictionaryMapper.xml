@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.module.dictionary.dao.DictionaryDao">
+	<select id="selectByDictionary" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT * from stb_dictionary
+		<where>
+			<if test="SD_ID != null">
+				and SD_ID=#{SD_ID}
+			</if>
+			<if test="TYPE_CODE != null">
+				and TYPE_CODE=#{TYPE_CODE}
+			</if>
+			<if test="CODE != null">
+				and CODE=#{CODE}
+			</if>
+		</where>
+		order by TYPE_CODE,ORD_NO asc
+	</select>
+	
+	<select id="selectByCondition" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select * from stb_dictionary <!-- where type_code=#{type_code} and code=#{code}  -->
+		<where>
+			<if test="TYPE_CODE != null and CODE != null">
+				and TYPE_CODE=#{TYPE_CODE} and CODE=#{CODE}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertDictionary" parameterType="java.util.HashMap">
+		insert into stb_dictionary(
+		SD_ID,
+		TYPE_CODE,
+		TYPE_NAME,
+		CODE,
+		NAME,
+		DESCRIPTION,
+		ORD_NO,
+		REMARK,
+		CREATED_DT
+		)values(
+		#{SD_ID},
+		#{TYPE_CODE},
+		#{TYPE_NAME},
+		#{CODE},
+		#{NAME},
+		#{DESCRIPTION},
+		#{ORD_NO} + 0,
+		#{REMARK},
+		#{CREATED_DT}
+		)
+		<!-- <trim prefix="(" suffix=")" suffixOverrides="," > <if test="T_ID != 
+			null" > T_ID, </if> <if test="T_NAME != null" > T_NAME, </if> <if test="T_AGE 
+			!= null" > T_AGE, </if> </trim> <trim prefix="values (" suffix=")" suffixOverrides="," 
+			> <if test="T_ID != null" > T_ID, </if> <if test="T_NAME != null" > T_NAME, 
+			</if> <if test="T_AGE != null" > T_AGE, </if> </trim> -->
+	</insert>
+
+	<update id="updateByDictionary" parameterType="java.util.HashMap">
+		update stb_dictionary
+		<set>
+			<if test="SD_ID != null">
+				SD_ID=#{SD_ID},
+			</if>
+			<if test="TYPE_CODE != null">
+				TYPE_CODE=#{TYPE_CODE},
+			</if>
+			<if test="TYPE_NAME != null">
+				TYPE_NAME=#{TYPE_NAME},
+			</if>
+			<if test="CODE != null">
+				CODE=#{CODE},
+			</if>
+			<if test="NAME != null">
+				NAME=#{NAME},
+			</if>
+			<if test="DESCRIPTION != null">
+				DESCRIPTION=#{DESCRIPTION},
+			</if>
+			<if test="ORD_NO != null">
+				ORD_NO=#{ORD_NO},
+			</if>
+			<if test="REMARK != null">
+				REMARK=#{REMARK},
+			</if>
+			<if test="UPDATED_DT != null">
+				UPDATED_DT=#{UPDATED_DT}
+			</if>
+		</set>
+		where SD_ID=#{SD_ID}
+	</update>
+
+
+	<delete id="deleteByDictionary" parameterType="java.util.HashMap">
+		delete from stb_dictionary
+		where SD_ID = #{SD_ID}
+	</delete>
+
+</mapper>

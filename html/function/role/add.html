@@ -1,0 +1,92 @@
+
+<div class="box-body big" style="width:50%;min-width:280px;max-width:1000px;">
+	<div class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">所在部门</label>
+			<div class="col-sm-9">
+				<select name="country" id="country_select2"
+					class="form-control"
+					form_sub="REGION_ID"  placeholder="请选择所在部门">
+					<option value='0' disabled="">列表展示</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">角色名称</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="disabledInput"
+					hklfrom='{"isnull":"true","message":{"isnull":"角色名称不能为空"}}'
+					form_sub="ROLE_NAME" type="text" placeholder="请输入角色名称">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">是否禁用</label>
+			<div class="col-sm-9">
+				<select name="country" id="country_select3"
+					class="form-control"
+					form_sub="STATUS" placeholder="">
+					<option value="1">否</option>
+					<option value="0">是</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">备注</label>
+			<div class="col-sm-9">
+				<textarea id="TextArea1" class="ckeditor"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"></label>
+			<div class="col-sm-9">
+				<input type="button" onclick="add();" class="btn btn-pink" value="提交"/>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var editor =CKEDITOR.replace('TextArea1', { height: '200px'});
+
+select2Init();
+
+function select2Init(){
+	var json=urlObj.getJson();
+	//加载表单基本数据
+	var json2=urlObj.getJson();
+	var data=commAjaxPost(regionList,json2);
+	//console.log(data);
+	//设置表单数据
+	initUpdateFrom(data);
+	//初始化加载select2插件
+	var initSJSON=commAjaxPost(regionList,json);
+	//console.log(initSJSON);
+	//console.log(initSJSON);
+	if(	initSJSON==null||initSJSON==''||initSJSON==undefined){
+		console.log('检查输入正确的json格式：方法错误！（select2Init）');
+		return false;
+	}else{
+		//console.log(initSJSON);
+		selectTreeInit(initSJSON,'REGION_ID','NAME','#country_select2',null);
+	}
+	$("#country_select2").select2tree({'width':'100%'});
+	$("#country_select3").select2({'width':'100%'});
+}
+
+function add(){
+	var json = urlObj.getJson();
+	json['REMARK']=editor.document.getBody().getText();
+	json['CREATED_BY']=json['token'].ID;
+	json['DP_ID']=$('#country_select2').val();
+	json['STATUS']=$('#country_select3').val();
+	json['ROLE_NAME']=$('#disabledInput').val();
+	var falg=commFromAjax(subAddurl,json);
+	//alert(falg);
+	if(falg==1){
+		initTable('load');
+		alert('新增成功！');
+	}else{
+		alert('新增失败！');
+	}
+}
+
+</script>

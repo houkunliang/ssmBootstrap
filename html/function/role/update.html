@@ -1,0 +1,95 @@
+
+<div class="box-body big" style="width:50%;min-width:550px;max-width:1000px;">
+	<div class="form-horizontal" role="form">
+		<input form_sub="ID" type="hidden"/>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">用户账号</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="focusedInput"
+					hklfrom='{"isnull":"true","nochinese":"true","txtLength":[4,10],"message":{"isnull":"账号名称不能为空","nochinese":"用户账号不包含中文字符!"}}'
+					form_sub="USER_ACCOUNT" type="text" placeholder="账号4-10位的英文数字不包括中文">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">用户密码</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="disabledInput"
+					hklfrom='{"isnull":"true","nochinese":"true","txtLength":[6,16],"message":{"isnull":"账号密码不能为空","nochinese":"账号密码不包含中文字符!"}}'
+					form_sub="USER_PASS" type="text" placeholder="请输入6-16位密码不包括中文">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">用户称昵</label>
+			<div class="col-sm-9">
+				<input type="text" title="Tooltip on focus"
+					class="form-control tip-focus"
+					hklfrom='{"isnull":"true","message":{"isnull":"用户称昵不能为空"}}'
+					form_sub="USER_NAME" placeholder="用户的姓名">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</label>
+			<div class="col-sm-9">
+				<select name="country" id="country_select"
+					class="col-md-12 full-width-fix"
+					hklfrom='{"isnull":"true","message":{"isnull":"性别不能为 空"}}'
+					form_sub="USER_SEX" placeholder="请选择性别">
+					<option value=""></option>
+					<option value="0">男</option>
+					<option value="1">女</option>
+				</select>
+			</div>
+		</div>
+		<!-- 	  <div class="form-group has-success"> -->
+		<div class="form-group">
+			<label class="col-sm-3 control-label">电话号码</label>
+			<div class="col-sm-9">
+				<input type="text"  hklfrom='{"phone":"true","message":{"phone":"请输入正确手机号码"}}'  class="form-control" id="inputSuccess"
+					form_sub="USER_PHONE">
+			</div>
+		</div>
+		<!-- 	  <div class="form-group has-warning"> -->
+		<div class="form-group">
+			<label class="col-sm-3 control-label">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" hklfrom='{"emali":"true","message":{"emali":"请输入正确邮箱"}}' form_sub="USER_EMAIL">
+			</div>
+		</div>
+		<!-- 	  <div class="form-group has-error"> -->
+		<div class="form-group">
+			<label class="col-sm-3 control-label">家庭地址</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" form_sub="USER_ADDRESS">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">更换头像</label>
+			<div class="col-sm-9">
+				<input type="hidden" id="upImgs" form_sub="USER_HEADIMG">
+				<input type="file" multiple id="ssi-upload"/>请选择图片支持jpg、gif、txt、png和pdf格式文件
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"></label>
+			<div class="col-sm-9">
+				<input type="button" onclick="subUpdate();" class="btn btn-pink" value="确认修改"/>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+		//初始化加载select2插件
+		$("#country_select").select2();
+		//上传插件使用
+		$('#ssi-upload').ssi_uploader({url:urlObj.uplod,maxFileSize:1,allowed:['jpg','gif','txt','png','pdf'],data:{"upPath":"pictureResources/photos"},
+		  onEachUpload:function(fileInfo){
+		  	var img=$("#upImgs").val();
+		  	if(img==''){
+		  		$("#upImgs").val(fileInfo.msg);
+		  	}else{
+		  		var subImgName=fileInfo.msg+","+img;
+		  		$("#upImgs").val(subImgName);
+		  	}
+		}});
+</script>

@@ -1,0 +1,400 @@
+<div class="row">
+<!-- 第一行显示模块 -->
+	<!-- COLUMN 1 -->
+	<div class="col-md-6" rootChar="leftCharts">
+		<div class="row">
+		  <div class="col-lg-6">
+			 <div class="dashbox panel panel-default">
+				<div class="panel-body">
+				   <div class="panel-left red"  style="padding-left:0;padding-right: 0 ">
+						<!-- <i class="fa fa-instagram fa-3x"></i> -->
+						<img alt="" width="" id="hedaImg" src="img/rsZxone.png" />
+				   </div>
+				   <div class="panel-right">
+
+						<div class="number" id="resumeNum"></div>
+						<div class="title">咨询人数</div>
+					<!-- <span class="label label-success">
+							26% <i class="fa fa-arrow-up"></i>
+						</span> -->
+				   </div>
+				</div>
+			 </div>
+		  </div>
+		  <div class="col-lg-6" >
+			 <div class="dashbox panel panel-default">
+				<div class="panel-body">
+				   <div class="panel-left blue"  style="padding-left:0;padding-right: 0 ">
+						<!-- <i class="fa fa-twitter fa-3x"></i> -->
+						<img alt="" width="" id="hedaImg" src="img/rsZxtwo.png" />
+				   </div>
+				   <div class="panel-right">
+						<div class="number" id="invitation"></div>
+						 <div class="title">咨询次数</div>
+					<!--<span class="label label-warning">
+							5% <i class="fa fa-arrow-down"></i>
+						</span> -->
+				   </div>
+				</div>
+			 </div>
+		  </div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="quick-pie panel panel-default">
+					<div class="panel-body" id="leftPicChar">
+							<div class="col-md-4 text-center">
+							<div id="pir_yl_1" class="piechart" data-percent="0">
+								<span class="percent"></span>
+							</div>
+							<a href="#" class="title">暂无</a>
+						</div>
+						<div class="col-md-4 text-center">
+							<div id="pir_yl_2" class="piechart" data-percent="0">
+								<span class="percent"></span>
+							</div>
+							<a href="#" class="title">暂无</i></a>
+						</div>
+						<div class="col-md-4 text-center">
+							<div id="pir_yl_3" class="piechart" data-percent="0">
+								<span class="percent"></span>
+							</div>
+							<a href="#" class="title">暂无</a>
+						</div>
+					</div> 
+				</div>
+			</div>
+	   </div>
+	</div>
+	<!-- /COLUMN 1 -->
+	
+	<!-- COLUMN 2 -->
+	<div class="col-md-6" rootChar="column"style="min-width: 325px">
+		<div class="box solid " >
+			<div class="box-title">
+				<h4><i class="fa fa-bar-chart-o"></i>条形统计</h4>
+				<div class="tools">
+<!-- 					<span class="label label-danger">
+						20% <i class="fa fa-arrow-up"></i>
+					</span> -->
+					<a href="javascript:;" class="reload">
+						<i class="fa fa-refresh"></i>
+					</a>
+					<a href="javascript:;" class="remove">
+						<i class="fa fa-times"></i>
+					</a>
+				</div>
+			</div>
+			<div class="box-body">
+				<div style="height:330px;overflow-x: auto;">
+					<div id="shadowOption" style="width:100%;height:90%;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /COLUMN 2 -->
+</div>
+<!-- 第二块统计图 自适应 -->
+<div class="row" rootChar="line">
+	<div class="col-md-12">
+		<!-- BOX -->
+		<div class="box border green">
+			<div class="box-title">
+				<h4>
+					<i class="glyphicon glyphicon-indent-left"></i>线性统计图
+					<!--<i class="fa fa-bars"></i> <span class="hidden-inline-mobile"></span>-->
+				</h4>
+			</div>
+			<div class="box-body">
+				<div class="tabbable header-tabs">
+					<!--<ul class="nav nav-tabs">
+						 <li class="active"><a href="#box_tab1" data-toggle="tab"><i class="fa fa-bar-chart-o"></i> <span class="hidden-inline-mobile">线性统计图</span></a></li>
+					 </ul>-->
+					 <div class="tab-content" style="margin-top:0">
+						 <div class="tab-pane fade in active" id="box_tab1">
+							<!-- TAB 1 -->
+							<div id="chart-dash" style="height:400px;overflow-x: auto" class="chart">
+								<div id="lineChar" style="width:100%;height:90%;min-width: 600px"></div>
+							</div>
+							<hr class="margin-bottom-0">
+						   <!-- TAB 1 -->
+						 </div>
+					 </div>
+				</div>
+			</div>
+		</div>
+		<!-- /BOX -->
+	</div>
+</div>
+
+
+<script src="/webJs/charUtil.js"></script>
+<script type="text/javascript">
+initCharRoot();
+function initCharRoot(){
+	var json={};
+	json['USER_ID']=urlObj.getJson().token.ID;
+	if(urlObj.getJson().token.IS_SUPER!=1){
+		var resuleJson=commAjaxPost(urlObj.setCharAction,json);
+		charRoot.lode();
+		charRoot.setUserRootChar(resuleJson);
+		charRoot.filterDom();
+		//char
+		if(charRoot.leftCharts){
+			leftCharTest(resuleJson);
+		}
+		if(charRoot.line){
+			redyLineOption(eCharUtil,resuleJson).lineEchar('lineChar');
+		}
+		if(charRoot.column){
+			var eCharUtil2=new ECharUtil();
+			redyShadowOption(eCharUtil2,resuleJson).shadowEchar('shadowOption');
+		}
+	}else{
+		//leftCharTest();
+		/////////////////////上面左侧功能模块
+		eCharUtil.lineEchar('lineChar');
+		var eCharUtil2=new ECharUtil();
+		eCharUtil2.shadowEchar('shadowOption');
+	}
+}
+
+function leftCharTest(resuleJson){
+		var leftChartsJson=urlObj.getJson();
+		leftChartsJson['USER_ID']=leftChartsJson.token.ID;
+		if(resuleJson != null && resuleJson != undefined && resuleJson != 'list is null'){
+			for(c in resuleJson){
+				if(resuleJson[c].TYPE=='leftCharts'){
+					leftChartsJson['ID']=resuleJson[c].ID;
+				}
+			}
+		}
+		var resuleLeftCharJson=commAjaxPost(urlObj.setCharUtileAction,leftChartsJson);
+		/*var resuleLeftCharJson=commAjaxPost(urlObj.leftCharsUrl,leftChartsJson);*/
+		var contentNumber=0;
+		var contentNumber2=0;
+		if(resuleLeftCharJson != null && resuleLeftCharJson != undefined && resuleLeftCharJson!='list is null'){
+			for(c in resuleLeftCharJson){
+				if(resuleLeftCharJson[c].NAME=='咨询人数'){
+					contentNumber=resuleLeftCharJson[c].number;
+				}
+				if(resuleLeftCharJson[c].NAME=='咨询次数'){
+					contentNumber2=resuleLeftCharJson[c].number;
+				}
+			}
+		}
+		$('#resumeNum').html(contentNumber);
+		$('#invitation').html(contentNumber2);
+		var index=0;									
+		if(resuleLeftCharJson != null && resuleLeftCharJson != undefined && resuleLeftCharJson != 'list is null'){
+			$('#leftPicChar').html("");
+			for(x in resuleLeftCharJson){
+				if(resuleLeftCharJson[x].NAME != '咨询次数' && resuleLeftCharJson[x].NAME != '咨询人数'){
+					var percent=0;
+					if(parseInt(contentNumber) != 0){
+						percent=(parseInt(resuleLeftCharJson[x].number)/parseInt(contentNumber))*100;
+					}
+					var setPercent=isNaN(percent)?0:percent;
+					var domChar='<div class="col-md-4 text-center">';
+						domChar+='<div id="dash_pie_'+index+'" class="piechart" data-percent="'+setPercent+'">';
+						domChar+='<span class="percent"></span>';												
+						domChar+='</div>';											
+						domChar+='<a href="#" class="title">'+resuleLeftCharJson[x].NAME+'('+resuleLeftCharJson[x].number+')</a>';					
+						domChar+='</div>';	
+					$('#leftPicChar').append(domChar);
+					index++;
+				}
+			}
+			for(var c=0;c<index;c++){
+					var strId='#dash_pie_'+c
+					var mathNumber=Math.ceil(Math.random()*ThemeArr.colors.length);
+					$(strId).easyPieChart({
+						easing: 'easeOutBounce',
+						onStep: function(from, to, percent) {
+							$(this.el).find('.percent').text(Math.round(percent)+"%");
+						},
+						lineWidth: 6,
+						barColor: ThemeArr.colors[mathNumber]
+					});
+					window.chart = $(strId).data('easyPieChart');
+			}
+		}										
+}
+
+/*
+dateArrDelay();//周显示
+dateArrtDelay(); //月显示
+Title();//年月
+TitleYears() //年
+*/
+function redyShadowOption(eCharUtil,resuleJson){
+	var dateJs=dateArr();
+	eCharUtil.shadowOption.xAxis.data=dateArrDelay();
+	eCharUtil.shadowOption.title={text:TitleYears() };
+	eCharUtil.shadowOption.legend.data=["咨询人数","咨询次数"];
+	var showChar=urlObj.getJson();
+		showChar['USER_ID']=showChar.token.ID;
+	if(resuleJson != null && resuleJson != undefined && resuleJson != 'list is null'){
+			for(s in resuleJson){
+				if(resuleJson[s].TYPE=='column'){
+					showChar['ID']=resuleJson[s].ID;
+				}
+			}
+	}
+	var data=commAjaxPost(urlObj.setCharUtileAction,showChar);
+	var setDataArr=[];
+	var setJson={};
+	var contetNumberArrs=[];
+	var distNumberArrs=[];
+	var optionNumberArrs=[];
+	if(data != null && data != '' && data != undefined){
+		for(m in dateJs){
+			var flag=true;
+			for(h in data){
+				if(dateJs[m] == data[h].date){
+					contetNumberArrs.push(data[h].contetNumber);
+					distNumberArrs.push(data[h].distNumber);
+					flag=false;
+				}
+			}
+			if(flag){
+				contetNumberArrs.push(0);
+				distNumberArrs.push(0);
+			}
+		}
+	}
+	setJson['name']='咨询人数';
+	setJson['type']='bar';
+	setJson['smooth']='smooth';
+	setJson['data']=contetNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	setJson['name']='咨询次数';
+	setJson['type']='bar';
+	setJson['smooth']='smooth';
+	setJson['data']=distNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	eCharUtil.shadowOption.series=setDataArr;
+	return eCharUtil;
+}
+function redyLineOption(eCharUtil,resuleJson){
+	var dateJs=dateArrt();
+	eCharUtil.lineOption.xAxis.data=dateArrtDelay();
+	eCharUtil.lineOption.title={text:Title()};
+	eCharUtil.lineOption.legend.data=["已签约","未签约","有意向","无意向"];
+	var showChar=urlObj.getJson();
+		showChar['USER_ID']=showChar.token.ID;
+	if(resuleJson != null && resuleJson != undefined && resuleJson != 'list is null'){
+			for(s in resuleJson){
+				if(resuleJson[s].TYPE=='line'){
+					showChar['ID']=resuleJson[s].ID;
+				}
+			}
+	}
+	var data=commAjaxPost(urlObj.setCharUtileAction,showChar);
+	var setDataArr=[];
+	var setJson={};
+	var contetNumberArrs=[];
+	var distNumberArrs=[];
+	var optionNumberArrs=[];
+	var select4=[];
+	if(data != null && data != '' && data != undefined){
+		for(m in dateJs){
+			var flag=true;
+			for(h in data){
+				if(dateJs[m] == data[h].date){
+					contetNumberArrs.push(data[h].A);
+					distNumberArrs.push(data[h].B);
+					optionNumberArrs.push(data[h].C);
+					select4.push(data[h].D);
+					flag=false;
+				}
+			}
+			if(flag){
+				contetNumberArrs.push(0);
+				distNumberArrs.push(0);
+				optionNumberArrs.push(0);
+				select4.push(0);
+			}
+		}
+	}
+	setJson['name']='已签约';
+	setJson['type']='line';
+	setJson['smooth']='smooth';
+	setJson['data']=contetNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	setJson['name']='未签约';
+	setJson['type']='line';
+	setJson['smooth']='smooth';
+	setJson['data']=distNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	setJson['name']='有意向';
+	setJson['type']='line';
+	setJson['smooth']='smooth';
+	setJson['data']=optionNumberArrs;
+	setDataArr.push(setJson);
+	setJson={}
+	setJson['name']='无意向';
+	setJson['type']='line';
+	setJson['smooth']='smooth';
+	setJson['data']=select4;
+	setDataArr.push(setJson);
+	setJson={}
+	eCharUtil.lineOption.series=setDataArr;
+	return eCharUtil;
+}
+	//月
+function dateArr(){
+	var dateArr=[];
+	for(var i=5;i>=0;i--){
+		if(i == 0){
+			var date = new Date();
+		}else{
+			var date = new Date(new Date().getTime() - i*86400000);
+		}
+		var year = date.getFullYear();
+		var month = date.getMonth() + 1;
+		var day = date.getDate();
+		if(month<10){
+			month='0'+month;
+		}
+		if(day<10){
+			day='0'+day;
+		}
+		var dateStr=(year + '-' + month + '-' + day);
+		dateArr.push(dateStr);
+	}
+	return dateArr;
+/*	var yesterdsay = new Date(new Date().getTime() - 86400000);
+	var year = yesterdsay.getFullYear();
+	var month = yesterdsay.getMonth() + 1;
+	var day = yesterdsay.getDate();
+	alert(year + '-' + month + '-' + day);*/
+}
+//天
+function dateArrt(){
+    var dateArrt=[];
+    for(var i=30;i>=0;i--){
+        if(i == 0){
+            var date = new Date();
+        }else{
+            var date = new Date(new Date().getTime() - i*86400000);
+        }
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        if(month<10){
+            month='0'+month;
+        }
+        if(day<10){
+            day='0'+day;
+        }
+        var dateStr=( year+'-'+month + '-' + day);
+        dateArrt.push(dateStr);
+    }
+    return dateArrt;
+}
+</script>

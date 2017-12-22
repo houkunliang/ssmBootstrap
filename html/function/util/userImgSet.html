@@ -1,0 +1,34 @@
+
+<div class="box-body big" style="width:85%;min-width:210px;max-width:1000px;">
+	<div class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">更换头像</label>
+			<div class="col-sm-6">
+				<input type="hidden" id="upImgs" form_sub="USER_HEADIMG">
+				<input type="file" multiple id="ssi-upload"/>为了确保图片的展示效果请选择(76*76)左右的图片
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	.j-dialog{
+		min-width: 250px;
+		max-width: 600px;
+		max-height: 550px;
+		overflow: auto;
+	}
+</style>
+<script>
+
+//上传插件使用
+$('#ssi-upload').ssi_uploader({url:urlObj.uplod,maxFileSize:1,allowed:['jpg','gif','txt','png','pdf'],data:{"upPath":"pictureResources/photos"},
+  onEachUpload:function(fileInfo){
+  	var img=$("#upImgs").val();
+  	if(img==''){
+  		$("#upImgs").val(fileInfo.msg);
+  	}else{
+  		var subImgName=fileInfo.msg+","+img;
+  		$("#upImgs").val(subImgName);
+  	}
+}});
+</script>

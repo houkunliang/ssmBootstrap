@@ -1,0 +1,92 @@
+  <script type="text/javascript" src="/function/role/private.js"></script>
+	<div class="box border red" style="width:93%;margin-left:1%">
+				<div class="box-title">
+					<h4><i class="fa fa-columns"></i><span class="hidden-inline-mobile">角色权限</span></h4>
+				</div>
+				<div class="box-body">
+					<div class="tabbable header-tabs">
+					  <ul class="nav nav-tabs">
+							 <li rootButton='add'>
+							 		<a href="#box_tab2" id="add" ><i class="fa fa-plus-circle"></i> <span class="hidden-inline-mobile">新增角色</span></a>
+							 </li>
+						 	<li class="active"><a href="#box_tab1" data-toggle="tab" ><i class="fa fa-refresh" style="cursor:pointer;"></i> <span class="hidden-inline-mobile">预览图</span></a></li>
+					  </ul>
+					  <div class="tab-content">
+						 <div class="tab-pane fade in active" id="box_tab1">
+							 	<div class="row">
+							        <div class="col-sm-8 col-md-8 col-xs-12"style="">
+							        <!--<h3>
+							        		<i class="fa fa-users fa-fw" ></i>
+							        		<span>角色</span>
+							        </h3>-->
+							            <div id="tools" class="btn-group">
+									    </div>
+												<table id="mytable-s"></table>
+							        </div>
+							        <div class="col-sm-4 col-md-4 col-xs-6" style="min-height:350px;max-height:600px;overflow-y:hidden;min-width: 220px;">
+							        		<div class="row">
+							        				<div class="col-md-12">
+							        						<!--<h3 class="tab-h2" style="position: relative;">
+												          	<i class="fa fa-question-circle" title="查看帮助" style="" id="help"></i>
+												          	<span class="">权限</span>-->
+												          	<!--<i class="fa fa-question" style="font-size: 14px; position: absolute;top: 10px;"></i>-->
+												          	<!--<span id="rootName" style="font-size: 16px;margin-left: 8px;"></span>-->
+												          	<!--<div id="helpCont" style="">
+												          			<font color="red">帮助：&nbsp;&nbsp;</font>
+												          			权限区域会展示的所有菜单模块菜单下面会有模块对应的操作权限，
+												          			点击授权情况会展示当前角色所拥有的权限，勾选或者反选对应的权限进行授权操作。
+												          			每个角色有对应的权限，合理分配权限以及用户给到对应的权限。
+												          	</div>
+												          </h3>-->
+							        				</div>
+							        		</div>
+							        		<div id="helpCont">
+						        					<h3 class="text-center" style="margin-top: 10px;">角色权限功能介绍</h3>
+										          <div id="helpConts" style="">
+									          			<font color="red">帮助：&nbsp;&nbsp;</font>
+									          			权限区域会展示的所有菜单模块菜单下面会有模块对应的操作权限，
+									          			点击授权情况会展示当前角色所拥有的权限，勾选或者反选对应的权限进行授权操作。
+									          			每个角色有对应的权限，合理分配权限以及用户给到对应的权限。
+									          	</div>
+							        		</div>						        			
+							       			<div class="row" id="rootCont">
+							       					<div class="col-md-7 col-sm-7">
+							       							<span id="rootName" class="pull-left"  style="font-size: 16px;padding: 16px 0px;"></span>
+							       					</div>
+							       					<div class="col-md-4 col-sm-4" id="rootOpt" style="padding: 0;margin-left:5%; min-height: 54px;min-width: 175px;"></div>
+							       			</div>
+							          	<!--<div class="text-right" style="padding: 10px 0;min-height: 54px;" id="rootOpt"></div>-->				          		
+							          <div id="tree" style="overflow-y:auto;max-height:493px;display: none;"></div>
+							        </div>
+							        <div class="col-sm-3" id="rootOpt"></div>
+							      </div>
+						 </div>
+						 <div class="tab-pane fade" id="box_tab2">
+							<p>Content #2</p>
+							<p>当前的盒子</p>
+						 </div>
+					  </div>
+				   </div>
+				</div>
+	</div>
+<style type="text/css">
+		#help{
+				cursor: pointer;
+		}
+		#helpConts{
+		    border: 1px dashed #ccc;
+		    padding: 20px;
+		    margin-top: 18px;
+		    color: #999;
+		    font-size: 15px;
+		}
+</style>
+<!--<script type="text/javascript">
+			$('#help').mouseover(function(e){ 
+				$("#helpCont").fadeIn(100);
+//				console.log(xx,yy);
+}).mouseout(function(){
+				$("#helpCont").fadeOut(200);
+	});
+
+</script>-->

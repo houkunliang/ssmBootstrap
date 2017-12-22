@@ -1,0 +1,53 @@
+<div id="contact-card" class="panel panel-default">
+  <div class="panel-heading">
+	<h2 class="panel-title">简历导入</h2>
+  </div>
+  <div class="panel-body">
+	<div id="card" class="row">
+		<div width="100%">
+			<table class="table table-hover" width="100%">
+				<tbody>
+				  <tr>					
+					<td class="sr">
+						<form enctype="multipart/form-data">
+		                     <input id="file-0a" class="file" name="file" type="file" multiple data-min-file-count="1">
+		                </form>
+					</td>
+					<script type="text/javascript">
+						$(function(){
+							var fileupload = urlObj.url+'/resume/importExcel';
+							$("#file-0a").fileinput({
+									uploadUrl: fileupload,
+					              	language: 'zh',
+							        allowedFileExtensions : ['xls','xlsx']
+						    });
+
+						    $('#file-0a').on('fileuploaderror', function(event, data, previewId, index) {
+						        var form = data.form, files = data.files, extra = data.extra,
+						                response = data.response, reader = data.reader;
+						        console.log(data);
+						        console.log('File upload error');
+						    });
+
+						    $('#file-0a').on('fileerror', function(event, data) {
+						        console.log(data.id);
+						        console.log(data.index);
+						        console.log(data.file);
+						        console.log(data.reader);
+						        console.log(data.files);
+						    });
+
+						    $('#file-0a').on('fileuploaded', function(event, data, previewId, index) {
+						        var form = data.form, files = data.files, extra = data.extra,
+						                response = data.response, reader = data.reader;
+						        console.log('File uploaded triggered');
+						    });
+						});
+					</script>
+				  </tr>
+				</tbody>
+			  </table>
+		</div>
+	</div>
+  </div>
+</div>

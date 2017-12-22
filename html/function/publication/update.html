@@ -1,0 +1,224 @@
+
+<div class="box-body big" style="width:100%;max-width:1300px;">
+	<input type="hidden" form_sub="ID">
+	<div class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">刊物名称</label>
+			<div class="col-sm-9">
+				<input class="form-control"  id="title_p"
+					hklfrom='{"isnull":"true","message":{"isnull":"名称不能为空"}}'
+					form_sub="NAME" type="text" placeholder="请输入刊物的名称">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">刊物类型</label>
+			<div class="col-sm-9">
+				<select name="country1" id="country_type" style="width: 100%;"  class="col-md-12 full-width-fix" form_sub="TYPE" placeholder="请选择机构">
+					<option value='0' selected="selected">文章</option>
+					<option value='1'>咨询</option>
+					<option value='2'>书</option>
+					<option value='3'>报</option>
+					<option value='4'>杂志</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">刊物周期</label>
+			<div class="col-sm-9">
+				<select name="country1" id="country_zq" style="width: 100%;"  class="col-md-12 full-width-fix" form_sub="CYCLE" placeholder="请选择机构">
+					<option value='0' selected="selected">日刊</option>
+					<option value='1'>周刊</option>
+					<option value='2'>月刊</option>
+					<option value='3'>年刊</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">封面上传</label>
+			<div class="col-sm-9">
+				<input id="file-project-cover-img" class="file" name="file" type="file" multiple data-min-file-count="1">
+				<input class="form-control" display id="COVER_IMG" form_sub="COVER_IMG" type="hidden"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">附件上传</label>
+			<div class="col-sm-9">
+				<input id="file-project-obj" class="file" name="file" type="file" multiple data-min-file-count="1">
+				<input class="form-control" display id="ATTACHMENT_URL" form_sub="ATTACHMENT_URL" type="hidden"/>
+				<input type="hidden" id="FILE_TYPE" form_sub="FILE_TYPE">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">电子文件上传调整及预览</label>
+			<div class="col-sm-9">
+				<textarea id="CONTENT" class="ckeditor"  placeholder="请输入发布信息内容"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">附件说明</label>
+			<div class="col-sm-9">
+				<textarea id="DESCRIPTION" class="ckeditor"></textarea>
+			</div>
+		</div>
+		<div id="file"></div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"></label>
+			<div class="col-sm-9">
+				<input type="button" onclick="subUpdate();" class="btn btn-pink" value="保存"/>
+				<input type="button" id="hidBt" onclick="wirtOpen();" style="display: none" class="btn btn-yellow" value="excel预览"/>
+				<input type="button" id="PDFBt" onclick="wirtOpen1();" style="display: none" class="btn btn-yellow" value="PDF预览"/>
+			</div>
+		</div>
+		<div id="divDisplay" style="display:none"></div>
+</div>
+<style>
+	.j-dialog{
+		min-width: 250px;
+		max-width: 900px;
+		max-height: 550px;
+		overflow: auto;
+	}
+</style>
+<script>
+
+var editor = CKEDITOR.replace('CONTENT', { height: '200px'});
+var editor1 = CKEDITOR.replace('DESCRIPTION', { height: '200px'});
+select2Init();
+
+var openJson;
+
+function wirtOpen(){
+	var str = $("#ATTACHMENT_URL").val();
+	var openHtml = str.substring(0,(str.lastIndexOf('.')+1))+"html";
+	window.open(urlObj.url+openHtml)
+}
+function wirtOpen1(){
+	var str = $("#ATTACHMENT_URL").val();
+	window.open(urlObj.url+str)
+}
+
+
+$('#file-project-cover-img').fileinput({
+	language: 'zh',
+	uploadUrl: urlObj.uplod+"?upPath="+urlObj.uplodPhotos+"&upType=fileinput",
+	maxFileCount: 1,
+	initialPreview: getCoverUrl(),
+	allowedFileExtensions: ['bmp','gif','jpg','jpeg','psd','png','svg','swf'],
+	dropZoneTitle: "请选择封面图片上传&hellip;<br/>仅允许图上传！",
+	browseClass: "btn btn-primary" //按钮样式
+}).on("fileuploaded", function(e, data) {
+	var res = data.response;
+	$('#COVER_IMG').val(res.path);
+})
+
+$('#file-project-obj').fileinput({
+	language: 'zh',
+	uploadUrl: urlObj.uplodWorde+"?upType=fileinput",
+	maxFileCount: 1,
+	allowedFileExtensions: ['doc','docx','xls','xlsx','pdf'],
+	maxFileSize:(1024*1024*100),
+	dropZoneTitle: "请选择word,excel,pdf进行上传&hellip;<br/>警告文件不得大于100M一张",
+	browseClass: "btn btn-primary" //按钮样式
+}).on("fileuploaded", function(e, data) {
+	var res = data.response;
+	$("#hidBt").hide("slow");
+	$("#PDFBt").hide("slow");
+	if(res.path != undefined && res.path != null && res.path != ''){
+		//word
+		interfaceHtml(getUrl(urlObj.url+res.path));
+		$('#ATTACHMENT_URL').val(res.pathSave);
+		$("#FILE_TYPE").val("0");
+	}else if (res.exPath != undefined && res.exPath != null && res.exPath != '') {
+		//excel
+		$('#ATTACHMENT_URL').val(res.exPathSave);
+		$("#FILE_TYPE").val("1");
+		$("#hidBt").show("slow");
+	}else if (res.pdfPathSave != undefined && res.pdfPathSave != null && res.pdfPathSave != '') {
+		//png
+		$('#ATTACHMENT_URL').val(res.pdfPathSave);
+		$("#FILE_TYPE").val("2");
+		$("#PDFBt").show("slow");
+	}
+})
+
+
+function interfaceHtml(html){
+	$("#divDisplay").html(html);
+	$("#divDisplay").find("img").each(function(index,element){
+		var strSrc = $(this)[0].src;
+		$(this).attr("alt","");
+		if(strSrc != undefined && strSrc != null && strSrc != ''){
+			var arr = strSrc.split('/');
+			$(this).attr("src",urlObj.wordImgUrl+"/"+arr[(arr.length-2)]+"/"+arr[(arr.length-1)]);
+		}
+	})
+	editor.setData($("#divDisplay").html());
+}
+
+
+function ecImg(id){
+	var imgNames = "";
+	$(id).find("img").each(function(){
+		var str = this.src;
+		str = str.substring(8,str.length);
+		//alert(str);
+		$("#file").html('<input type="file" id="upfile" name="upfile" value="'+str+'"/>');
+		imgNames += str+",";
+	})
+/*	if(imgNames != undefined && imgNames != null && imgNames != ''){
+		imgNames = imgNames.substring(0,imgNames.length);
+		console.log(subCkCopyImg(imgNames));
+	}*/
+}
+
+function getCoverUrl(){
+	if(UP_COVER_URL != undefined && UP_COVER_URL != null && UP_COVER_URL != ''){
+		return ['<img src="'+urlObj.url+UP_COVER_URL+'" height = "100%" />'];
+	}
+	return [];
+}
+
+function getFjUrl(){
+	if(ATTACHMENT_URL != undefined && ATTACHMENT_URL != null && ATTACHMENT_URL != ''){
+		return ['<span class="file-other-icon"><i class="glyphicon glyphicon-file"></i></span>'];
+	}
+	return [];
+}
+
+
+function subCkCopyImg(str){
+	var reslut = "";
+	$.ajax({
+		url: urlObj.ckCopyImg+"?files="+str,
+		type: "POST",
+		async: false,
+		dataType: "text",
+		success: function(text) {
+			reslut = text;
+		},
+		error: function() {
+			alert('服务器访问异常');
+		}
+	});
+	return	reslut;
+}
+
+//递归截取返回ARR
+function subStringWile(str){
+	var _str = str;
+	var _arr = arr;
+	var last = _str.indexOf("src");
+	var next = _str.indexOf("\"");
+	if(last >= 0){
+		var resule = _str.substring(last,next);
+
+	}
+	
+}
+
+function select2Init() {
+	//初始化加载select2插件
+	$("#country_type").select2({'width':'100%'});
+	$("#country_zq").select2({'width':'100%'});
+}
+</script>

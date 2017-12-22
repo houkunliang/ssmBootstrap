@@ -1,0 +1,226 @@
+
+<div class="box-body big" style="width:100%;max-width:1300px;">
+	<div class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">信息标题</label>
+			<div class="col-sm-9">
+				<input class="form-control"  id="title_p"
+					hklfrom='{"isnull":"true","message":{"isnull":"标题不能为空"}}'
+					form_sub="TITLE" type="text" placeholder="请输入发布信息的标题">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">所属机构</label>
+			<div class="col-sm-9">
+				<select name="country1" id="country_select4" style="width: 100%;"  class="col-md-12 full-width-fix" form_sub="DP_ID" placeholder="请选择机构">
+					<option value='0' disabled="disabled">机构展示</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">展示时间</label>
+			<div class="col-sm-9">
+				<input type="text" title="Tooltip on focus"
+					class="form-control tip-focus"
+					hklfrom='{"isnull":"true","message":{"isnull":"发布时间不能为空"}}'
+					form_sub="SUB_DATE" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="date_p" placeholder="信息的发布时间">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">封面上传</label>
+			<div class="col-sm-9">
+				<input id="file-project-cover" class="file" name="file" type="file" multiple data-min-file-count="1">
+				<input class="form-control" display id="COVER_URL" form_sub="COVER_URL" type="hidden"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">视频上传</label>
+			<div class="col-sm-9">
+				<input id="file-project" class="file" name="file" type="file" multiple data-min-file-count="1">
+				<input class="form-control" display id="VIDEO_URL" form_sub="VIDEO_URL" type="hidden"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">word上传</label>
+			<div class="col-sm-9">
+				<input id="file-project_word" class="file" name="file" type="file" multiple data-min-file-count="1">
+			</div>
+		</div> 
+		<div class="form-group">
+			<label class="col-sm-3 control-label">信息内容</label>
+			<div class="col-sm-9">
+				<textarea id="CONTENT" class="ckeditor"  placeholder="请输入发布信息内容"></textarea>
+			</div>
+		</div>
+		<div id="file"></div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"></label>
+			<div class="col-sm-9">
+				<input type="button" onclick="add();" class="btn btn-pink" value="发布"/>
+				<input type="button" onclick="wirtOpen();" class="btn btn-yellow" value="手机端格式预览"/>
+			</div>
+		</div>
+		<div id="divDisplay" style="display:none"></div>
+</div>
+<style>
+	.j-dialog{
+		min-width: 250px;
+		max-width: 900px;
+		max-height: 550px;
+		overflow: auto;
+	}
+</style>
+<script>
+
+var editor =CKEDITOR.replace('CONTENT', { height: '200px'});
+
+select2Init();
+/*
+CKEDITOR.instances['CONTENT'].on('instanceReady', function () {
+    this.on('afterPaste', function(){
+    	var text=editor.getData();
+    	//$('#divDisplay').html(text);
+    	ecImg('#divDisplay');
+    });
+})*/
+
+
+var openJson;
+function wirtOpen(){
+	openJson = {};
+	var myWindow=window.open('','_blank','width=750px,height=1344px')
+	var html = getUrl("/function/msg/cwbxw.html");
+	openJson['title_p'] = $('#title_p').val();
+	openJson['date_p'] =  $('#date_p').val();
+	openJson['video_p'] = $('#VIDEO_URL').val();
+	openJson['content_p'] = editor.getData();
+	myWindow.document.write(html);
+	myWindow.focus();
+}
+
+function add() {
+	var subJson = urlObj.getJson();
+	subJson['CONTENT'] = tounicode(editor.getData());  
+	var falg = commFromAjax(inserUrl, subJson);
+	if(falg == 1) {
+		alert('新增成功！');
+		$("#box_tab2").html(getUrl(addUrl));
+		$('#add').tab('show');
+		initTable('load');
+	} else {
+		alert('新增失败！');
+	}
+}
+
+$('#file-project').fileinput({
+	language: 'zh',
+	uploadUrl: urlObj.uplod+"?upPath="+urlObj.uplodVideo+"&upType=fileinput",
+	maxFileCount: 1,
+	//previewFileType:['video'],
+	allowedFileExtensions: ['Ogg','MPEG4','WebM','MP4'],
+	dropZoneTitle: "拖拽文件到这里 &hellip;<br/>最多能上传一个文件，仅允许视频文件上传！",
+	browseClass: "btn btn-primary" //按钮样式
+}).on("fileuploaded", function(e, data) {
+	var res = data.response;
+	//subUpdateDia("上传成功");
+	$('#VIDEO_URL').val(res.path);
+});
+
+$('#file-project-cover').fileinput({
+	language: 'zh',
+	uploadUrl: urlObj.uplod+"?upPath="+urlObj.uplodPhotos+"&upType=fileinput",
+	maxFileCount: 1,
+	allowedFileExtensions: ['bmp','gif','jpg','jpeg','psd','png','svg','swf'],
+	dropZoneTitle: "请选择封面图片上传&hellip;<br/>仅允许图上传！",
+	browseClass: "btn btn-primary" //按钮样式
+}).on("fileuploaded", function(e, data) {
+	var res = data.response;
+	$('#COVER_URL').val(res.path);
+})
+
+$('#file-project_word').fileinput({
+	language: 'zh',
+	uploadUrl: urlObj.uplodWorde+"?upType=fileinput",
+	maxFileCount: 1,
+	allowedFileExtensions: ['doc','docx'],
+	dropZoneTitle: "请选择word进行上传&hellip;<br/>警告word内置图片不得大于2M一张",
+	browseClass: "btn btn-primary" //按钮样式
+}).on("fileuploaded", function(e, data) {
+	var res = data.response;
+	interfaceHtml(getUrl(urlObj.url+res.path));
+})
+
+function interfaceHtml(html){
+	$("#divDisplay").html(html);
+	$("#divDisplay").find("img").each(function(index,element){
+		var strSrc = $(this)[0].src;
+		$(this).attr("alt","");
+		if(strSrc != undefined && strSrc != null && strSrc != ''){
+			var arr = strSrc.split('/');
+			$(this).attr("src",urlObj.wordImgUrl+"/"+arr[(arr.length-2)]+"/"+arr[(arr.length-1)]);
+		}
+	})
+	editor.setData($("#divDisplay").html());
+}
+
+
+function ecImg(id){
+	var imgNames = "";
+	$(id).find("img").each(function(){
+		var str = this.src;
+		str = str.substring(8,str.length);
+		//alert(str);
+		$("#file").html('<input type="file" id="upfile" name="upfile" value="'+str+'"/>');
+		imgNames += str+",";
+	})
+/*	if(imgNames != undefined && imgNames != null && imgNames != ''){
+		imgNames = imgNames.substring(0,imgNames.length);
+		console.log(subCkCopyImg(imgNames));
+	}*/
+}
+
+
+function subCkCopyImg(str){
+	var reslut = "";
+	$.ajax({
+		url: urlObj.ckCopyImg+"?files="+str,
+		type: "POST",
+		async: false,
+		dataType: "text",
+		success: function(text) {
+			reslut = text;
+		},
+		error: function() {
+			alert('服务器访问异常');
+		}
+	});
+	return	reslut;
+}
+
+//递归截取返回ARR
+function subStringWile(str){
+	var _str = str;
+	var _arr = arr;
+	var last = _str.indexOf("src");
+	var next = _str.indexOf("\"");
+	if(last >= 0){
+		var resule = _str.substring(last,next);
+
+	}
+	
+}
+
+function select2Init() {
+//	$("#country_select4").val(setArr).trigger("change");   //设置默认值		
+	//初始化加载select2插件
+	var subJson=urlObj.getJson();
+	var initSJSON = commAjaxPost(regionListUrl,subJson);
+	if(initSJSON == null || initSJSON == '' || initSJSON == undefined) {
+		console.log('检查输入正确的json格式：方法错误！（select2Init）');
+		return false;
+	} else {
+		selectTreeInitDisb(initSJSON,null,null,'REGION_ID','NAME','#country_select4',0);
+	}
+	$("#country_select4").select2tree();
+}
+</script>

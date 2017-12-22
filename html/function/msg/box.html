@@ -1,0 +1,81 @@
+<script type="text/javascript" src="/function/msg/private.js"></script>
+<!--<link rel="stylesheet" type="text/css" href="../../plugin/bootstrap-switch/bootstrap-switch.min.css"/>-->
+<div class="box border green" style="width:98%;margin-left:1%">
+	<div class="box-title">
+		<h4><i class="fa fa-columns"></i><span class="hidden-inline-mobile">信息管理</span></h4>
+	</div>
+	<div class="box-body">
+		<div class="tabbable header-tabs">
+			<ul class="nav nav-tabs">
+				<!--<li><a href="#box_tab4" data-toggle="tab"><i class="fa fa-bar-chart-o"></i> <span class="hidden-inline-mobile">用户统计</span></a></li> -->
+				<li rootButton='update' class="hidden">
+					<a href="#box_tab3" id="update"><i class="fa fa-wrench"></i> <span class="hidden-inline-mobile">信息修改</span></a>
+				</li>
+				<li rootButton='add'>
+					<a href="#box_tab2" id="add"><i class="fa fa-plus-circle"></i> <span class="hidden-inline-mobile">信息发布</span></a>
+				</li>
+				<li class="active">
+					<a href="#box_tab1" id="initTable" data-toggle="tab"><i class="fa fa-refresh" style="cursor:pointer;"></i> <span class="hidden-inline-mobile">信息预览</span></a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="box_tab1">	
+						<!--表格工具栏-->
+					<div class="clearfix"></div>
+					<div class="tableTool" style="position: static">
+						<div class="btn-group dropup pull-left TimeButton" style="z-index: 100;margin-top: 10px;">
+							<button type="button" class="btn" style="color: #fff;" id="tDate">发布时间筛选&nbsp;></button>
+							<button type="button" class="btn " style="color: #fff;" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+								<span class="caret"></span>
+							</button>
+							<span class="delayTime btn"></span>
+							<ul class="dropdown-menu"  id="myTimeButton">
+								<li>
+									<label class="btn btn-primary active" id="defaultTime">
+										<input type="radio" name="options"   autocomplete="off" value="true"> 默认
+									</label>
+								</li>
+								<li>
+									<label class="btn btn-primary" id="today" >
+										<input type="radio" name="options"   autocomplete="off" value="true"> 今天
+									</label>
+								</li>
+								<li>
+									<label class="btn btn-primary" id="tWeek">
+										<input type="radio" name="options"  autocomplete="off" checked value="default"> 本周
+									</label>
+								</li>
+								<li>
+									<label class="btn btn-primary" id="tMonth">
+										<input type="radio" name="options"  autocomplete="off" value="true" title="本月预约上门时间"> 本月
+									</label>
+								</li>
+							</ul>
+						</div>
+						<!--时间筛选插件-->
+						<div class="timeData text-left pull-left" style="margin-left: 2px;">
+							<input class="form-control wkInput "  placeholder="开始创建时间"  id="CREATE_DATE_STA" queryDt="CREATE_DATE" onclick="WdatePicker({startDate:'%y-%M-%d 00:00:00',dateFmt:'yyyy-MM-dd HH:mm', autoPickDate:true})"/>&nbsp;-&nbsp;
+							<input class="form-control wkInput "   placeholder="结束创建时间" id="CREATE_DATE_END" queryDt="CREATE_DATE" onclick="WdatePicker({startDate:'%y-%M-%d 23:59:59',minDate:'#F{$dp.$D(\'CREATE_DATE_STA\',{d:0})}',dateFmt:'yyyy-MM-dd HH:mm'})"/>
+						</div>
+					</div>
+					<div id="appenTools" style="	display:none"></div>
+					<table id="mytable-s"></table>
+				</div>
+				<div class="tab-pane fade" id="box_tab2">
+					<p>Content #2</p>
+					<p>当前的盒子</p>
+				</div>
+				<div class="tab-pane fade" id="box_tab3">
+					<div class="alert alert-info"><strong>Hello!</strong> I'm a cool tabbed box.</div>
+					<p>Content #3</p>
+					<p>三号盒子</p>
+				</div>
+				<!-- 						  <div class="tab-pane fade" id="box_tab4"> -->
+				<!-- 							<div class="alert alert-info"><strong>Hello!</strong> I'm a cool tabbed box.</div> -->
+				<!-- 							<p>Content #3</p> -->
+				<!-- 							<p>4号盒子</p> -->
+				<!-- 						 </div> -->
+			</div>
+		</div>
+	</div>
+</div>
