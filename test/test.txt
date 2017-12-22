@@ -1,1 +1,22 @@
-222222222222
+git 初次使用步骤
+
+1.创建用户名 以及 用户邮箱
+git config --global user.name "名字"
+git config --global user.email "邮箱地址"
+
+2.创建本地库
+git init
+注意会在这遇见 init 初始化错误的情况，主要是windows 用户没有对该文件夹授权导致的错误，so要开启文件的所有权限。
+
+3.生成密匙这步操作主要是针对于提交时每次输入密码的烦躁 所以 用git自带的密匙就不用加密了
+	ssh-keygen -t rsa -C “你注册的邮箱”
+	最后得到了两个文件：id_rsa和id_rsa.pub
+	添加密钥到ssh：ssh-add 文件名
+	需要之前输入密码。
+	在github上添加ssh密钥，这要添加的是“id_rsa.pub”里面的公钥。
+
+4.接下来是简单的提交操作
+第一步 git pull 更新服务器代码
+第二步 git add 添加提交的文件 参数(git add . 或者 git add +文件名)
+第三步 添加提交注释 git commit -m "里面写注释"
+第四部 git push 提交到线上资源库
