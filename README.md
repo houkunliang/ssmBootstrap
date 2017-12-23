@@ -11,7 +11,7 @@ html下的webJs文件下的[configUrl.js](https://github.com/houkunliang/ssmBoot
 
 ### 后台配置
 
-這里不细所了正常的配置
+這里不细说了正常的配置
 
 ```markdown
 
