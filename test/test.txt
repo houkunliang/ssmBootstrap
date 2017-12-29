@@ -21,6 +21,10 @@ git init
 第三步 添加提交注释 git commit -m "里面写注释"
 第四部 git push 提交到线上资源库
 
-常用 git 放弃本地修改 强制更新
+慎重 git 放弃本地修改 强制更新
 git fetch --all
 git reset --hard origin/master
+舍弃本地代码,远端版本覆盖本地版本(慎重)
+$:git fetch --all
+$:git reset --hard origin/master
+$:git fetch
